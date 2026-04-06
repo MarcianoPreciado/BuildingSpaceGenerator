@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backend"
+
+[project]
+name = "buildingspacegen"
+version = "0.1.0"
+description = "Procedural building generator for wireless sensor network simulation"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "shapely>=2.0",
+    "networkx>=3.0",
+    "pyyaml>=6.0",
+    "matplotlib>=3.7",
+    "fastapi>=0.100",
+    "uvicorn>=0.22",
+]
+
+[project.optional-dependencies]
+ifc = ["ifcopenshell>=0.7"]
+dev = ["pytest>=7.0", "httpx>=0.24"]
+
+[project.scripts]
+buildingspacegen = "buildingspacegen.cli.main:main"
+
+[tool.setuptools]
+packages = ["buildingspacegen"]

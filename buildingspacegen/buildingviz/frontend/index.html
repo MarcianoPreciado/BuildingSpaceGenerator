@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildingSpaceGenerator Visualizer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      display: flex;
+      height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    #sidebar {
+      width: 260px;
+      min-width: 260px;
+      background: #16213e;
+      padding: 16px;
+      overflow-y: auto;
+      border-right: 1px solid #0f3460;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    #sidebar h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e94560;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    #sidebar h2 {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a0a8b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: 12px;
+      color: #c0c8d8;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: #e94560;
+      height: 4px;
+    }
+    select, input[type=number] {
+      width: 100%;
+      padding: 6px;
+      background: #0f3460;
+      color: #eee;
+      border: 1px solid #e94560;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #ff6b7a;
+      box-shadow: 0 0 4px rgba(233, 69, 96, 0.5);
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #c0c8d8;
+    }
+    .checkbox-row input {
+      accent-color: #e94560;
+      cursor: pointer;
+    }
+    #legend {
+      font-size: 11px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+    .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      flex-shrink: 0;
+      border: 1px solid #666;
+    }
+    #canvas-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #1a1a2e;
+    }
+    canvas {
+      display: block;
+      cursor: grab;
+    }
+    canvas:active {
+      cursor: grabbing;
+    }
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(22, 33, 62, 0.98);
+      border: 1px solid #e94560;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 11px;
+      max-width: 220px;
+      display: none;
+      z-index: 100;
+      line-height: 1.5;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    #tooltip .tt-title {
+      font-weight: 600;
+      color: #e94560;
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+    #tooltip .tt-row {
+      color: #c0c8d8;
+    }
+    #stats {
+      font-size: 11px;
+      color: #a0a8b8;
+      border-top: 1px solid #0f3460;
+      padding-top: 8px;
+    }
+    button {
+      padding: 8px 12px;
+      background: #e94560;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #c73652;
+    }
+    button:active {
+      background: #a93050;
+    }
+    #stats-content {
+      font-size: 11px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h1>Building Visualizer</h1>
+
+    <div class="control-group">
+      <h2>Frequency Band</h2>
+      <select id="freq-select">
+        <option value="900000000">900 MHz</option>
+        <option value="2400000000">2.4 GHz</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <h2>Link Filter</h2>
+      <label>Min RX Power: <span id="min-power-val">-100</span> dBm</label>
+      <input type="range" id="min-power" min="-120" max="-30" value="-100" step="1">
+      <label>Max RX Power: <span id="max-power-val">-30</span> dBm</label>
+      <input type="range" id="max-power" min="-120" max="-30" value="-30" step="1">
+    </div>
+
+    <div class="control-group">
+      <h2>Display Options</h2>
+      <div class="checkbox-row"><input type="checkbox" id="show-viable" checked><label for="show-viable" style="margin:0;">Viable links only</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="show-sensors" checked><label for="show-sensors" style="margin:0;">Sensors</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="show-secondary" checked><label for="show-secondary" style="margin:0;">Sec Controllers</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="show-main" checked><label for="show-main" style="margin:0;">Main Controllers</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="show-links" checked><label for="show-links" style="margin:0;">Links</label></div>
+      <div class="checkbox-row"><input type="checkbox" id="show-labels"><label for="show-labels" style="margin:0;">Room labels</label></div>
+    </div>
+
+    <div class="control-group">
+      <h2>Generate Scene</h2>
+      <div id="gen-form">
+        <select id="gen-type">
+          <option value="medium_office">Medium Office</option>
+          <option value="large_office">Large Office</option>
+          <option value="warehouse">Warehouse</option>
+        </select>
+        <input type="number" id="gen-sqft" value="15000" placeholder="Total sqft" style="margin-top:4px;">
+        <input type="number" id="gen-seed" value="42" placeholder="Seed" style="margin-top:4px;">
+        <button id="gen-btn" style="margin-top:8px;">Generate</button>
+      </div>
+    </div>
+
+    <div id="stats" class="control-group">
+      <h2>Statistics</h2>
+      <div id="stats-content">Loading...</div>
+    </div>
+
+    <div id="legend" class="control-group">
+      <h2>Room Types</h2>
+      <div id="legend-rooms"></div>
+    </div>
+  </div>
+
+  <div id="canvas-container">
+    <canvas id="main-canvas"></canvas>
+    <div id="tooltip"></div>
+  </div>
+
+  <script src="/static/src/colormap.js"></script>
+  <script src="/static/src/floorplan.js"></script>
+  <script src="/static/src/devices.js"></script>
+  <script src="/static/src/links.js"></script>
+  <script src="/static/src/interaction.js"></script>
+  <script src="/static/src/filters.js"></script>
+  <script src="/static/src/main.js"></script>
+</body>
+</html>

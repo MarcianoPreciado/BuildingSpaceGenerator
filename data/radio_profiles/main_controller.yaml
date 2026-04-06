@@ -1,0 +1,6 @@
+name: "Main Controller"
+tx_power_dbm: 10.0
+tx_antenna_gain_dbi: 5.0
+rx_antenna_gain_dbi: 5.0
+rx_sensitivity_dbm: -105.0
+supported_frequencies_hz: [900000000.0, 2400000000.0]

@@ -1,0 +1,875 @@
+{
+  "building": {
+    "building_type": "medium_office",
+    "total_area_sqft": 15000.0,
+    "seed": 42,
+    "footprint": [[0, 0], [60, 0], [60, 40], [0, 40]],
+    "metadata": {},
+    "floors": [
+      {
+        "index": 0,
+        "elevation": 0.0,
+        "footprint": [[0, 0], [60, 0], [60, 40], [0, 40]],
+        "rooms": [
+          {
+            "id": "room_001",
+            "room_type": "open_office",
+            "polygon": [[2, 8], [25, 8], [25, 30], [2, 30]],
+            "area_sqft": 3987.0,
+            "area_sqm": 370.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_001", "wall_004", "wall_005", "wall_008"],
+            "door_ids": ["door_001"]
+          },
+          {
+            "id": "room_002",
+            "room_type": "private_office",
+            "polygon": [[25, 8], [35, 8], [35, 16], [25, 16]],
+            "area_sqft": 1076.0,
+            "area_sqm": 100.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_002", "wall_009", "wall_010", "wall_011"],
+            "door_ids": ["door_002"]
+          },
+          {
+            "id": "room_003",
+            "room_type": "private_office",
+            "polygon": [[25, 16], [35, 16], [35, 24], [25, 24]],
+            "area_sqft": 1076.0,
+            "area_sqm": 100.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_011", "wall_012", "wall_013", "wall_014"],
+            "door_ids": ["door_003"]
+          },
+          {
+            "id": "room_004",
+            "room_type": "conference",
+            "polygon": [[25, 24], [35, 24], [35, 30], [25, 30]],
+            "area_sqft": 1076.0,
+            "area_sqm": 100.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_005", "wall_014", "wall_015", "wall_016"],
+            "door_ids": ["door_004"]
+          },
+          {
+            "id": "room_005",
+            "room_type": "corridor",
+            "polygon": [[35, 2], [50, 2], [50, 8], [35, 8]],
+            "area_sqft": 1614.0,
+            "area_sqm": 150.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_003", "wall_017", "wall_018", "wall_019"],
+            "door_ids": []
+          },
+          {
+            "id": "room_006",
+            "room_type": "restroom",
+            "polygon": [[35, 8], [42, 8], [42, 14], [35, 14]],
+            "area_sqft": 752.0,
+            "area_sqm": 70.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_020", "wall_021", "wall_022", "wall_023"],
+            "door_ids": ["door_005"]
+          },
+          {
+            "id": "room_007",
+            "room_type": "kitchen_break",
+            "polygon": [[42, 8], [50, 8], [50, 14], [42, 14]],
+            "area_sqft": 860.0,
+            "area_sqm": 80.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_023", "wall_024", "wall_025", "wall_026"],
+            "door_ids": ["door_006"]
+          },
+          {
+            "id": "room_008",
+            "room_type": "mechanical",
+            "polygon": [[35, 14], [50, 14], [50, 20], [35, 20]],
+            "area_sqft": 1614.0,
+            "area_sqm": 150.0,
+            "ceiling_height": 3.0,
+            "wall_ids": ["wall_022", "wall_027", "wall_028", "wall_029"],
+            "door_ids": ["door_007"]
+          }
+        ],
+        "walls": [
+          {
+            "id": "wall_001",
+            "start": [2, 8],
+            "end": [25, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_001", "room_005"]
+          },
+          {
+            "id": "wall_002",
+            "start": [25, 8],
+            "end": [35, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_002", "room_005"]
+          },
+          {
+            "id": "wall_003",
+            "start": [35, 2],
+            "end": [50, 2],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_005", null]
+          },
+          {
+            "id": "wall_004",
+            "start": [2, 8],
+            "end": [2, 30],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_001", null]
+          },
+          {
+            "id": "wall_005",
+            "start": [25, 24],
+            "end": [25, 30],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_001", "room_004"]
+          },
+          {
+            "id": "wall_008",
+            "start": [25, 8],
+            "end": [25, 24],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_001", "room_002"]
+          },
+          {
+            "id": "wall_009",
+            "start": [35, 8],
+            "end": [35, 16],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_002", "room_006"]
+          },
+          {
+            "id": "wall_010",
+            "start": [25, 16],
+            "end": [35, 16],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_002", "room_003"]
+          },
+          {
+            "id": "wall_011",
+            "start": [25, 16],
+            "end": [25, 24],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_003", "room_001"]
+          },
+          {
+            "id": "wall_012",
+            "start": [35, 16],
+            "end": [35, 24],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_003", "room_008"]
+          },
+          {
+            "id": "wall_013",
+            "start": [25, 24],
+            "end": [35, 24],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_003", "room_004"]
+          },
+          {
+            "id": "wall_014",
+            "start": [35, 24],
+            "end": [35, 30],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_004", "room_008"]
+          },
+          {
+            "id": "wall_015",
+            "start": [25, 30],
+            "end": [35, 30],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_004", null]
+          },
+          {
+            "id": "wall_016",
+            "start": [35, 30],
+            "end": [35, 24],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_004", null]
+          },
+          {
+            "id": "wall_017",
+            "start": [50, 2],
+            "end": [50, 8],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_005", null]
+          },
+          {
+            "id": "wall_018",
+            "start": [50, 8],
+            "end": [35, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_005", "room_006"]
+          },
+          {
+            "id": "wall_019",
+            "start": [35, 2],
+            "end": [35, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_005", "room_006"]
+          },
+          {
+            "id": "wall_020",
+            "start": [35, 8],
+            "end": [42, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_006", "room_005"]
+          },
+          {
+            "id": "wall_021",
+            "start": [42, 8],
+            "end": [42, 14],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_006", "room_007"]
+          },
+          {
+            "id": "wall_022",
+            "start": [42, 14],
+            "end": [35, 14],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_006", "room_008"]
+          },
+          {
+            "id": "wall_023",
+            "start": [35, 14],
+            "end": [35, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_006", "room_005"]
+          },
+          {
+            "id": "wall_024",
+            "start": [42, 8],
+            "end": [50, 8],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_007", "room_005"]
+          },
+          {
+            "id": "wall_025",
+            "start": [50, 8],
+            "end": [50, 14],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_007", null]
+          },
+          {
+            "id": "wall_026",
+            "start": [50, 14],
+            "end": [42, 14],
+            "height": 3.0,
+            "materials": [{"name": "gypsum_double", "thickness_m": 0.026}],
+            "is_exterior": false,
+            "room_ids": ["room_007", "room_008"]
+          },
+          {
+            "id": "wall_027",
+            "start": [35, 20],
+            "end": [50, 20],
+            "height": 3.0,
+            "materials": [{"name": "concrete_block", "thickness_m": 0.15}],
+            "is_exterior": false,
+            "room_ids": ["room_008", null]
+          },
+          {
+            "id": "wall_028",
+            "start": [50, 20],
+            "end": [50, 14],
+            "height": 3.0,
+            "materials": [{"name": "reinforced_concrete", "thickness_m": 0.20}],
+            "is_exterior": true,
+            "room_ids": ["room_008", null]
+          },
+          {
+            "id": "wall_029",
+            "start": [50, 14],
+            "end": [35, 14],
+            "height": 3.0,
+            "materials": [{"name": "concrete_block", "thickness_m": 0.15}],
+            "is_exterior": false,
+            "room_ids": ["room_008", null]
+          }
+        ],
+        "doors": [
+          {
+            "id": "door_001",
+            "wall_id": "wall_001",
+            "position_along_wall": 0.5,
+            "width": 0.9,
+            "height": 2.1,
+            "material": {"name": "wood_door", "thickness_m": 0.045}
+          },
+          {
+            "id": "door_002",
+            "wall_id": "wall_002",
+            "position_along_wall": 0.5,
+            "width": 0.9,
+            "height": 2.1,
+            "material": {"name": "wood_door", "thickness_m": 0.045}
+          },
+          {
+            "id": "door_003",
+            "wall_id": "wall_010",
+            "position_along_wall": 0.5,
+            "width": 0.9,
+            "height": 2.1,
+            "material": {"name": "wood_door", "thickness_m": 0.045}
+          },
+          {
+            "id": "door_004",
+            "wall_id": "wall_005",
+            "position_along_wall": 0.5,
+            "width": 0.9,
+            "height": 2.1,
+            "material": {"name": "wood_door", "thickness_m": 0.045}
+          },
+          {
+            "id": "door_005",
+            "wall_id": "wall_020",
+            "position_along_wall": 0.5,
+            "width": 0.8,
+            "height": 2.0,
+            "material": {"name": "wood_door", "thickness_m": 0.045}
+          },
+          {
+            "id": "door_006",
+            "wall_id": "wall_024",
+            "position_along_wall": 0.5,
+            "width": 0.9,
+            "height": 2.1,
+            "material": {"name": "wood_door", "thickness_m": 0.045}
+          },
+          {
+            "id": "door_007",
+            "wall_id": "wall_029",
+            "position_along_wall": 0.5,
+            "width": 1.2,
+            "height": 2.4,
+            "material": {"name": "metal_fire_door", "thickness_m": 0.065}
+          }
+        ]
+      }
+    ]
+  },
+  "devices": [
+    {
+      "id": "dev_001",
+      "device_type": "main_controller",
+      "position": [13.5, 19.0, 2.5],
+      "room_id": "room_001",
+      "wall_id": "",
+      "radio_profile_name": "main_controller",
+      "metadata": {}
+    },
+    {
+      "id": "dev_002",
+      "device_type": "secondary_controller",
+      "position": [30.0, 12.0, 2.0],
+      "room_id": "room_002",
+      "wall_id": "wall_009",
+      "radio_profile_name": "secondary_controller",
+      "metadata": {}
+    },
+    {
+      "id": "dev_003",
+      "device_type": "secondary_controller",
+      "position": [40.0, 10.0, 2.0],
+      "room_id": "room_006",
+      "wall_id": "wall_021",
+      "radio_profile_name": "secondary_controller",
+      "metadata": {}
+    },
+    {
+      "id": "dev_004",
+      "device_type": "secondary_controller",
+      "position": [42.5, 17.0, 2.0],
+      "room_id": "room_008",
+      "wall_id": "wall_029",
+      "radio_profile_name": "secondary_controller",
+      "metadata": {}
+    },
+    {
+      "id": "dev_005",
+      "device_type": "sensor",
+      "position": [6.0, 12.0, 1.5],
+      "room_id": "room_001",
+      "wall_id": "wall_004",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_006",
+      "device_type": "sensor",
+      "position": [18.0, 12.0, 1.5],
+      "room_id": "room_001",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_007",
+      "device_type": "sensor",
+      "position": [18.0, 25.0, 1.5],
+      "room_id": "room_001",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_008",
+      "device_type": "sensor",
+      "position": [30.0, 20.0, 1.5],
+      "room_id": "room_003",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_009",
+      "device_type": "sensor",
+      "position": [30.0, 10.0, 1.5],
+      "room_id": "room_002",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_010",
+      "device_type": "sensor",
+      "position": [28.0, 27.0, 1.5],
+      "room_id": "room_004",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_011",
+      "device_type": "sensor",
+      "position": [38.0, 11.0, 1.5],
+      "room_id": "room_006",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_012",
+      "device_type": "sensor",
+      "position": [46.0, 11.0, 1.5],
+      "room_id": "room_007",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_013",
+      "device_type": "sensor",
+      "position": [42.5, 15.0, 1.5],
+      "room_id": "room_008",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_014",
+      "device_type": "sensor",
+      "position": [38.0, 5.0, 1.5],
+      "room_id": "room_005",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    },
+    {
+      "id": "dev_015",
+      "device_type": "sensor",
+      "position": [48.0, 5.0, 1.5],
+      "room_id": "room_005",
+      "wall_id": "",
+      "radio_profile_name": "gen1_sensor",
+      "metadata": {}
+    }
+  ],
+  "radio_profiles": {
+    "main_controller": {
+      "name": "Main Controller",
+      "tx_power_dbm": 10.0,
+      "tx_antenna_gain_dbi": 5.0,
+      "rx_antenna_gain_dbi": 5.0,
+      "rx_sensitivity_dbm": -105.0,
+      "supported_frequencies_hz": [900000000.0, 2400000000.0]
+    },
+    "secondary_controller": {
+      "name": "Secondary Controller",
+      "tx_power_dbm": 5.0,
+      "tx_antenna_gain_dbi": 3.0,
+      "rx_antenna_gain_dbi": 3.0,
+      "rx_sensitivity_dbm": -100.0,
+      "supported_frequencies_hz": [900000000.0, 2400000000.0]
+    },
+    "gen1_sensor": {
+      "name": "Gen 1 Sensor",
+      "tx_power_dbm": 0.0,
+      "tx_antenna_gain_dbi": 2.0,
+      "rx_antenna_gain_dbi": 2.0,
+      "rx_sensitivity_dbm": -95.0,
+      "supported_frequencies_hz": [900000000.0, 2400000000.0]
+    }
+  },
+  "links": [
+    {
+      "tx_device_id": "dev_001",
+      "rx_device_id": "dev_002",
+      "frequency_hz": 900000000.0,
+      "distance_m": 8.3,
+      "fspl_db": 52.2,
+      "wall_loss_db": 6.5,
+      "path_loss_db": 58.7,
+      "rx_power_dbm": -48.7,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 6.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 56.3
+    },
+    {
+      "tx_device_id": "dev_001",
+      "rx_device_id": "dev_003",
+      "frequency_hz": 900000000.0,
+      "distance_m": 13.5,
+      "fspl_db": 56.4,
+      "wall_loss_db": 12.0,
+      "path_loss_db": 68.4,
+      "rx_power_dbm": -58.4,
+      "walls_crossed": 2,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 6.5, "is_door": false}, {"wall_id": "wall_009", "material": "gypsum_double", "attenuation_db": 6.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 46.6
+    },
+    {
+      "tx_device_id": "dev_001",
+      "rx_device_id": "dev_004",
+      "frequency_hz": 900000000.0,
+      "distance_m": 16.2,
+      "fspl_db": 58.2,
+      "wall_loss_db": 18.5,
+      "path_loss_db": 76.7,
+      "rx_power_dbm": -66.7,
+      "walls_crossed": 3,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 6.5, "is_door": false}, {"wall_id": "wall_009", "material": "gypsum_double", "attenuation_db": 6.5, "is_door": false}, {"wall_id": "wall_012", "material": "gypsum_double", "attenuation_db": 5.5, "is_door": false}],
+      "link_viable": false,
+      "link_margin_db": -28.3
+    },
+    {
+      "tx_device_id": "dev_002",
+      "rx_device_id": "dev_005",
+      "frequency_hz": 900000000.0,
+      "distance_m": 9.1,
+      "fspl_db": 52.8,
+      "wall_loss_db": 8.0,
+      "path_loss_db": 60.8,
+      "rx_power_dbm": -55.8,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 8.0, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 39.2
+    },
+    {
+      "tx_device_id": "dev_002",
+      "rx_device_id": "dev_006",
+      "frequency_hz": 900000000.0,
+      "distance_m": 12.2,
+      "fspl_db": 55.2,
+      "wall_loss_db": 6.5,
+      "path_loss_db": 61.7,
+      "rx_power_dbm": -56.7,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 6.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 38.3
+    },
+    {
+      "tx_device_id": "dev_002",
+      "rx_device_id": "dev_008",
+      "frequency_hz": 900000000.0,
+      "distance_m": 10.4,
+      "fspl_db": 53.6,
+      "wall_loss_db": 5.5,
+      "path_loss_db": 59.1,
+      "rx_power_dbm": -54.1,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_010", "material": "gypsum_double", "attenuation_db": 5.5, "is_door": true}],
+      "link_viable": true,
+      "link_margin_db": 45.9
+    },
+    {
+      "tx_device_id": "dev_002",
+      "rx_device_id": "dev_009",
+      "frequency_hz": 900000000.0,
+      "distance_m": 2.0,
+      "fspl_db": 40.1,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 40.1,
+      "rx_power_dbm": -35.1,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 64.9
+    },
+    {
+      "tx_device_id": "dev_003",
+      "rx_device_id": "dev_011",
+      "frequency_hz": 900000000.0,
+      "distance_m": 1.8,
+      "fspl_db": 39.8,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 39.8,
+      "rx_power_dbm": -34.8,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 60.2
+    },
+    {
+      "tx_device_id": "dev_003",
+      "rx_device_id": "dev_012",
+      "frequency_hz": 900000000.0,
+      "distance_m": 6.0,
+      "fspl_db": 50.2,
+      "wall_loss_db": 5.5,
+      "path_loss_db": 55.7,
+      "rx_power_dbm": -50.7,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_021", "material": "gypsum_double", "attenuation_db": 5.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 44.3
+    },
+    {
+      "tx_device_id": "dev_003",
+      "rx_device_id": "dev_013",
+      "frequency_hz": 900000000.0,
+      "distance_m": 7.0,
+      "fspl_db": 50.9,
+      "wall_loss_db": 5.5,
+      "path_loss_db": 56.4,
+      "rx_power_dbm": -51.4,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_026", "material": "gypsum_double", "attenuation_db": 5.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 43.6
+    },
+    {
+      "tx_device_id": "dev_004",
+      "rx_device_id": "dev_013",
+      "frequency_hz": 900000000.0,
+      "distance_m": 1.5,
+      "fspl_db": 38.4,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 38.4,
+      "rx_power_dbm": -33.4,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 61.6
+    },
+    {
+      "tx_device_id": "dev_005",
+      "rx_device_id": "dev_006",
+      "frequency_hz": 900000000.0,
+      "distance_m": 12.0,
+      "fspl_db": 55.1,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 55.1,
+      "rx_power_dbm": -55.1,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 39.9
+    },
+    {
+      "tx_device_id": "dev_005",
+      "rx_device_id": "dev_007",
+      "frequency_hz": 900000000.0,
+      "distance_m": 13.2,
+      "fspl_db": 55.4,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 55.4,
+      "rx_power_dbm": -55.4,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 39.6
+    },
+    {
+      "tx_device_id": "dev_006",
+      "rx_device_id": "dev_007",
+      "frequency_hz": 900000000.0,
+      "distance_m": 13.0,
+      "fspl_db": 55.3,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 55.3,
+      "rx_power_dbm": -55.3,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 39.7
+    },
+    {
+      "tx_device_id": "dev_007",
+      "rx_device_id": "dev_010",
+      "frequency_hz": 900000000.0,
+      "distance_m": 4.0,
+      "fspl_db": 48.0,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 48.0,
+      "rx_power_dbm": -48.0,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 47.0
+    },
+    {
+      "tx_device_id": "dev_001",
+      "rx_device_id": "dev_002",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 8.3,
+      "fspl_db": 66.8,
+      "wall_loss_db": 14.5,
+      "path_loss_db": 81.3,
+      "rx_power_dbm": -71.3,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 14.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 33.7
+    },
+    {
+      "tx_device_id": "dev_001",
+      "rx_device_id": "dev_003",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 13.5,
+      "fspl_db": 71.0,
+      "wall_loss_db": 22.0,
+      "path_loss_db": 93.0,
+      "rx_power_dbm": -83.0,
+      "walls_crossed": 2,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 14.5, "is_door": false}, {"wall_id": "wall_009", "material": "gypsum_double", "attenuation_db": 7.5, "is_door": false}],
+      "link_viable": false,
+      "link_margin_db": -22.0
+    },
+    {
+      "tx_device_id": "dev_002",
+      "rx_device_id": "dev_005",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 9.1,
+      "fspl_db": 67.4,
+      "wall_loss_db": 14.5,
+      "path_loss_db": 81.9,
+      "rx_power_dbm": -71.9,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 14.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 23.1
+    },
+    {
+      "tx_device_id": "dev_002",
+      "rx_device_id": "dev_006",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 12.2,
+      "fspl_db": 69.8,
+      "wall_loss_db": 14.5,
+      "path_loss_db": 84.3,
+      "rx_power_dbm": -74.3,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_008", "material": "gypsum_double", "attenuation_db": 14.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 20.7
+    },
+    {
+      "tx_device_id": "dev_003",
+      "rx_device_id": "dev_011",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 1.8,
+      "fspl_db": 54.4,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 54.4,
+      "rx_power_dbm": -49.4,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 45.6
+    },
+    {
+      "tx_device_id": "dev_003",
+      "rx_device_id": "dev_012",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 6.0,
+      "fspl_db": 64.8,
+      "wall_loss_db": 14.5,
+      "path_loss_db": 79.3,
+      "rx_power_dbm": -69.3,
+      "walls_crossed": 1,
+      "wall_details": [{"wall_id": "wall_021", "material": "gypsum_double", "attenuation_db": 14.5, "is_door": false}],
+      "link_viable": true,
+      "link_margin_db": 25.7
+    },
+    {
+      "tx_device_id": "dev_005",
+      "rx_device_id": "dev_006",
+      "frequency_hz": 2400000000.0,
+      "distance_m": 12.0,
+      "fspl_db": 69.7,
+      "wall_loss_db": 0.0,
+      "path_loss_db": 69.7,
+      "rx_power_dbm": -69.7,
+      "walls_crossed": 0,
+      "wall_details": [],
+      "link_viable": true,
+      "link_margin_db": 25.3
+    }
+  ],
+  "simulation": null
+}

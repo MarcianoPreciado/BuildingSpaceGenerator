@@ -1,0 +1,39 @@
+building_type: warehouse
+description: "DOE Commercial Reference: Warehouse (~102,400 sqft, 1 floor)"
+
+footprint:
+  aspect_ratio_range: [1.5, 4.0]
+  shapes: ["rectangle"]
+
+floor:
+  ceiling_height_m: 8.0
+  corridor_width_m: 3.0
+
+room_program:
+  - room_type: warehouse_bay
+    area_fraction: 0.80
+    min_area_sqm: 500
+    max_area_sqm: 3000
+  - room_type: open_office
+    area_fraction: 0.08
+    min_area_sqm: 50
+    max_area_sqm: 200
+  - room_type: loading_dock
+    area_fraction: 0.07
+    min_area_sqm: 30
+    max_area_sqm: 100
+  - room_type: mechanical
+    area_fraction: 0.03
+    min_area_sqm: 20
+    max_area_sqm: 50
+  - room_type: storage
+    area_fraction: 0.02
+    min_area_sqm: 20
+    max_area_sqm: 50
+
+wall_construction:
+  exterior: reinforced_concrete
+  interior_default: concrete_block
+  overrides:
+    warehouse_bay: concrete_block
+    loading_dock: concrete_block

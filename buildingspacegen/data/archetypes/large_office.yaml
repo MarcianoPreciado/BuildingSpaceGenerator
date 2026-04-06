@@ -1,0 +1,65 @@
+building_type: large_office
+description: "DOE Commercial Reference: Large Office (~498,600 sqft, 12 floors)"
+
+footprint:
+  aspect_ratio_range: [1.5, 2.5]
+  shapes: ["rectangle"]
+
+floor:
+  ceiling_height_m: 3.0
+  corridor_width_m: 2.0
+
+room_program:
+  - room_type: open_office
+    area_fraction: 0.60
+    min_area_sqm: 50
+    max_area_sqm: 300
+  - room_type: private_office
+    area_fraction: 0.08
+    min_area_sqm: 10
+    max_area_sqm: 20
+  - room_type: conference
+    area_fraction: 0.12
+    min_area_sqm: 15
+    max_area_sqm: 60
+  - room_type: lobby
+    area_fraction: 0.02
+    min_area_sqm: 30
+    max_area_sqm: 100
+  - room_type: restroom
+    area_fraction: 0.04
+    min_area_sqm: 10
+    max_area_sqm: 40
+  - room_type: kitchen_break
+    area_fraction: 0.03
+    min_area_sqm: 20
+    max_area_sqm: 60
+  - room_type: mechanical
+    area_fraction: 0.04
+    min_area_sqm: 20
+    max_area_sqm: 50
+  - room_type: it_server
+    area_fraction: 0.04
+    min_area_sqm: 20
+    max_area_sqm: 50
+  - room_type: storage
+    area_fraction: 0.02
+    min_area_sqm: 10
+    max_area_sqm: 30
+  - room_type: stairwell
+    area_fraction: 0.005
+    min_area_sqm: 15
+    max_area_sqm: 25
+  - room_type: elevator
+    area_fraction: 0.005
+    min_area_sqm: 8
+    max_area_sqm: 12
+
+wall_construction:
+  exterior: reinforced_concrete
+  interior_default: gypsum_double
+  overrides:
+    it_server: concrete_block
+    mechanical: concrete_block
+    elevator: elevator_shaft
+    stairwell: reinforced_concrete
