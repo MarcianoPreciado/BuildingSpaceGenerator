@@ -3,17 +3,42 @@ import math
 from buildingspacegen.core.device import Device
 from buildingspacegen.core.model import Building
 from buildingspacegen.core.links import LinkResult
-from buildingspacegen.core.geometry import Point2D
 from .base import PathLossModel
 from ..geometry import find_intersected_walls
 
 
+_LIGHT_SPEED_M_PER_S = 299_792_458.0
+_REFERENCE_MISC_LOSS_DB = {
+    900_000_000.0: 12.0,
+    2_400_000_000.0: 12.0,
+}
+_PATH_LOSS_EXPONENT = {
+    900_000_000.0: 33.0,
+    2_400_000_000.0: 30.0,
+}
+
+
 class MultiWallPathLossModel(PathLossModel):
-    """Multi-wall path loss model combining free-space path loss and wall attenuation."""
+    """Multi-wall path loss model combining indoor baseline loss and wall attenuation."""
 
     def __init__(self, material_db):
         """Initialize with a material RF database."""
         self.material_db = material_db
+
+    @staticmethod
+    def _nearest_supported_frequency(frequency_hz: float, table: dict[float, float]) -> float:
+        """Return the nearest supported frequency in a lookup table."""
+        return min(table, key=lambda supported_freq: abs(supported_freq - frequency_hz))
+
+    def _path_loss_exponent(self, frequency_hz: float) -> float:
+        """Return the indoor path-loss exponent from the model spec."""
+        supported_freq = self._nearest_supported_frequency(frequency_hz, _PATH_LOSS_EXPONENT)
+        return _PATH_LOSS_EXPONENT[supported_freq]
+
+    def _misc_loss(self, frequency_hz: float) -> float:
+        """Return the distance-independent misc loss term L(d0)."""
+        supported_freq = self._nearest_supported_frequency(frequency_hz, _REFERENCE_MISC_LOSS_DB)
+        return _REFERENCE_MISC_LOSS_DB[supported_freq]
 
     def compute_link(
         self,
@@ -27,17 +52,21 @@ class MultiWallPathLossModel(PathLossModel):
         tx_pos_2d = tx_device.position.to_2d()
         rx_pos_2d = rx_device.position.to_2d()
 
-        # 3D distance (use z coordinates)
-        dx = tx_device.position.x - rx_device.position.x
-        dy = tx_device.position.y - rx_device.position.y
-        dz = tx_device.position.z - rx_device.position.z
-        distance_m = math.sqrt(dx*dx + dy*dy + dz*dz)
+        # Phase 1 uses 2D Euclidean distance in the floor plane.
+        distance_m = tx_pos_2d.distance_to(rx_pos_2d)
         if distance_m < 0.01:
             distance_m = 0.01  # avoid log(0)
 
-        # Free-space path loss (Friis formula)
-        # FSPL(dB) = 20*log10(d) + 20*log10(f) - 147.55
-        fspl_db = 20*math.log10(distance_m) + 20*math.log10(frequency_hz) - 147.55
+        # README indoor baseline:
+        # L_total = 20log10(f) + N_f log10(d) + 20log10(4π/c) + L(d0) + wall_loss
+        # We store the non-wall portion in fspl_db to preserve the existing LinkResult shape.
+        path_loss_exponent = self._path_loss_exponent(frequency_hz)
+        fspl_db = (
+            20.0 * math.log10(frequency_hz)
+            + path_loss_exponent * math.log10(distance_m)
+            + 20.0 * math.log10(4.0 * math.pi / _LIGHT_SPEED_M_PER_S)
+            + self._misc_loss(frequency_hz)
+        )
 
         # Find intersected walls
         intersected = find_intersected_walls(tx_pos_2d, rx_pos_2d, building)

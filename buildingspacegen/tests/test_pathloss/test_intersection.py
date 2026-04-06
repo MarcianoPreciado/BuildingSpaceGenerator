@@ -211,17 +211,17 @@ def test_no_intersection_parallel_ray_offset():
     assert len(interior_hits) == 0
 
 
-def test_crossing_multiple_interior_walls():
-    """Test ray crossing from one room through another."""
+def test_crossing_interior_wall():
+    """Test ray crossing the interior wall between rooms."""
     building = create_two_room_building()
 
-    # Long diagonal crossing multiple walls
+    # Long diagonal crosses the shared interior wall once.
     tx_pos = Point2D(2, 2)
     rx_pos = Point2D(18, 18)
 
     intersections = find_intersected_walls(tx_pos, rx_pos, building)
-    # Should have multiple intersections
-    assert len(intersections) > 1
+    assert len(intersections) == 1
+    assert intersections[0]['wall_id'] == 'wall_interior'
 
 
 def test_intersection_consistency():

@@ -112,17 +112,17 @@ def create_simple_radio_profile():
 
 
 def test_fspl_10m_2400mhz():
-    """Test free-space path loss at 10m, 2.4 GHz."""
+    """Test indoor baseline loss at 10m, 2.4 GHz."""
     db = MaterialRFDatabase.from_yaml(get_materials_path())
     model = MultiWallPathLossModel(db)
     building = create_simple_building()
     profile = create_simple_radio_profile()
 
-    # Create two devices 10m apart (no walls between them in simple building)
+    # Create two devices 10m apart inside the same room.
     tx_device = Device(
         id='tx',
         device_type=DeviceType.SENSOR,
-        position=Point3D(0, 0, 1.5),
+        position=Point3D(2, 2, 1.5),
         room_id='room_0',
         wall_id='wall_west',
         radio_profile=profile,
@@ -130,7 +130,7 @@ def test_fspl_10m_2400mhz():
     rx_device = Device(
         id='rx',
         device_type=DeviceType.SENSOR,
-        position=Point3D(10, 0, 1.5),
+        position=Point3D(12, 2, 1.5),
         room_id='room_0',
         wall_id='wall_west',
         radio_profile=profile,
@@ -138,22 +138,22 @@ def test_fspl_10m_2400mhz():
 
     link = model.compute_link(tx_device, rx_device, building, {}, 2400000000.0)
 
-    # Expected FSPL = 20*log10(10) + 20*log10(2.4e9) - 147.55
-    # = 20 + 187.6 - 147.55 = 60.05 dB
-    expected_fspl = 60.05
-    assert abs(link.fspl_db - expected_fspl) < 0.5, \
-        f"FSPL mismatch: expected {expected_fspl}, got {link.fspl_db}"
+    # Expected README baseline:
+    # 20*log10(2.4e9) + 30*log10(10) + 20*log10(4*pi/c) + 12
+    expected_base_loss = 82.05
+    assert abs(link.fspl_db - expected_base_loss) < 0.5, \
+        f"baseline loss mismatch: expected {expected_base_loss}, got {link.fspl_db}"
 
     # Wall loss should be 0 (no walls crossed)
     assert link.wall_loss_db == 0.0
     assert link.walls_crossed == 0
 
-    # Path loss should equal FSPL
+    # Path loss should equal the indoor baseline when no walls are crossed
     assert abs(link.path_loss_db - link.fspl_db) < 0.01
 
 
 def test_fspl_10m_900mhz():
-    """Test free-space path loss at 10m, 900 MHz."""
+    """Test indoor baseline loss at 10m, 900 MHz."""
     db = MaterialRFDatabase.from_yaml(get_materials_path())
     model = MultiWallPathLossModel(db)
     building = create_simple_building()
@@ -162,7 +162,7 @@ def test_fspl_10m_900mhz():
     tx_device = Device(
         id='tx',
         device_type=DeviceType.SENSOR,
-        position=Point3D(0, 0, 1.5),
+        position=Point3D(2, 2, 1.5),
         room_id='room_0',
         wall_id='wall_west',
         radio_profile=profile,
@@ -170,7 +170,7 @@ def test_fspl_10m_900mhz():
     rx_device = Device(
         id='rx',
         device_type=DeviceType.SENSOR,
-        position=Point3D(10, 0, 1.5),
+        position=Point3D(12, 2, 1.5),
         room_id='room_0',
         wall_id='wall_west',
         radio_profile=profile,
@@ -178,15 +178,13 @@ def test_fspl_10m_900mhz():
 
     link = model.compute_link(tx_device, rx_device, building, {}, 900000000.0)
 
-    # Expected FSPL = 20*log10(10) + 20*log10(900e6) - 147.55
-    # = 20 + 179.08 - 147.55 = 51.53 dB
-    expected_fspl = 51.53
-    assert abs(link.fspl_db - expected_fspl) < 0.5, \
-        f"FSPL mismatch: expected {expected_fspl}, got {link.fspl_db}"
+    expected_base_loss = 76.53
+    assert abs(link.fspl_db - expected_base_loss) < 0.5, \
+        f"baseline loss mismatch: expected {expected_base_loss}, got {link.fspl_db}"
 
 
 def test_distance_calculation():
-    """Test 3D distance calculation in link."""
+    """Test 2D distance calculation in link."""
     db = MaterialRFDatabase.from_yaml(get_materials_path())
     model = MultiWallPathLossModel(db)
     building = create_simple_building()
@@ -203,7 +201,7 @@ def test_distance_calculation():
     rx_device = Device(
         id='rx',
         device_type=DeviceType.SENSOR,
-        position=Point3D(3, 4, 0),  # 5m away (3-4-5 triangle)
+        position=Point3D(3, 4, 10),  # z should be ignored in Phase 1
         room_id='room_0',
         wall_id='wall_west',
         radio_profile=profile,
