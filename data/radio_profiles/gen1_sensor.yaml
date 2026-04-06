@@ -1,6 +1,6 @@
 name: "Gen 1 Sensor"
-tx_power_dbm: 0.0
-tx_antenna_gain_dbi: 2.0
-rx_antenna_gain_dbi: 2.0
+tx_power_dbm: 4.0
+tx_antenna_gain_dbi: 0.0
+rx_antenna_gain_dbi: 0.0
 rx_sensitivity_dbm: -95.0
-supported_frequencies_hz: [900000000.0, 2400000000.0]
+supported_frequencies_hz: [2400000000.0]
