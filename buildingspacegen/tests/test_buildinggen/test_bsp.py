@@ -1,7 +1,7 @@
 """Tests for BSP generator."""
 import time
 import pytest
-from buildingspacegen.core import BuildingType
+from buildingspacegen.core import BuildingType, RoomType
 from buildingspacegen.buildinggen import generate_building, load_archetype_directory
 from pathlib import Path
 
@@ -79,8 +79,16 @@ class TestBSPGenerator:
             seed=42,
         )
 
-        rooms1 = sorted([r.id for r in building1.all_rooms()])
-        rooms2 = sorted([r.id for r in building2.all_rooms()])
+        rooms1 = sorted(
+            (r.room_type.value, round(r.polygon.bounding_box().min_x, 3), round(r.polygon.bounding_box().min_y, 3),
+             round(r.polygon.bounding_box().max_x, 3), round(r.polygon.bounding_box().max_y, 3))
+            for r in building1.all_rooms()
+        )
+        rooms2 = sorted(
+            (r.room_type.value, round(r.polygon.bounding_box().min_x, 3), round(r.polygon.bounding_box().min_y, 3),
+             round(r.polygon.bounding_box().max_x, 3), round(r.polygon.bounding_box().max_y, 3))
+            for r in building2.all_rooms()
+        )
         assert rooms1 == rooms2
 
         walls1 = sorted([w.id for w in building1.all_walls()])
@@ -174,7 +182,85 @@ class TestBSPGenerator:
 
         room_ids = {room.id for room in building.all_rooms()}
         for wall in building.all_walls():
-            if wall.room_ids[0] != "exterior":
-                assert wall.room_ids[0] in room_ids
+            assert wall.room_ids[0] in room_ids
             if wall.room_ids[1] is not None:
                 assert wall.room_ids[1] in room_ids
+
+    def test_corridor_network_has_multiple_branches(self):
+        """Layouts should have a corridor network, not a single bisecting strip."""
+        building = generate_building(
+            building_type=BuildingType.MEDIUM_OFFICE,
+            total_sqft=25000,
+            num_floors=1,
+            seed=42,
+        )
+
+        corridors = [room for room in building.all_rooms() if room.room_type == RoomType.CORRIDOR]
+        assert len(corridors) >= 6
+
+        corridor_x = {round(room.polygon.centroid().x, 1) for room in corridors}
+        corridor_y = {round(room.polygon.centroid().y, 1) for room in corridors}
+        assert len(corridor_x) > 1
+        assert len(corridor_y) > 1
+
+    def test_rooms_access_corridors_directly(self):
+        """Non-corridor rooms should connect into circulation instead of daisy-chaining by doors."""
+        building = generate_building(
+            building_type=BuildingType.MEDIUM_OFFICE,
+            total_sqft=25000,
+            num_floors=1,
+            seed=42,
+        )
+
+        room_lookup = {room.id: room for room in building.all_rooms()}
+        door_lookup = {door.id: door for door in building.all_doors()}
+
+        for room in building.all_rooms():
+            if room.room_type == RoomType.CORRIDOR:
+                continue
+
+            corridor_door_count = 0
+            for door_id in room.door_ids:
+                wall = building.get_wall(door_lookup[door_id].wall_id)
+                adjacent_types = {
+                    room_lookup[room_id].room_type
+                    for room_id in wall.room_ids
+                    if room_id is not None
+                }
+                if RoomType.CORRIDOR in adjacent_types:
+                    corridor_door_count += 1
+
+            assert corridor_door_count >= 1, f"{room.id} lacks direct corridor access"
+
+    def test_room_types_are_mixed_across_floor(self):
+        """Open office and support spaces should span multiple zones of the floor plate."""
+        building = generate_building(
+            building_type=BuildingType.MEDIUM_OFFICE,
+            total_sqft=25000,
+            num_floors=1,
+            seed=42,
+        )
+
+        center = building.footprint.centroid()
+        support_types = {
+            RoomType.PRIVATE_OFFICE,
+            RoomType.CONFERENCE,
+            RoomType.RESTROOM,
+            RoomType.MECHANICAL,
+            RoomType.STORAGE,
+            RoomType.IT_SERVER,
+            RoomType.KITCHEN_BREAK,
+        }
+
+        open_office_quadrants = set()
+        support_quadrants = set()
+        for room in building.all_rooms():
+            centroid = room.polygon.centroid()
+            quadrant = ("E" if centroid.x >= center.x else "W") + ("N" if centroid.y >= center.y else "S")
+            if room.room_type == RoomType.OPEN_OFFICE:
+                open_office_quadrants.add(quadrant)
+            if room.room_type in support_types:
+                support_quadrants.add(quadrant)
+
+        assert len(open_office_quadrants) >= 3
+        assert len(support_quadrants) >= 3

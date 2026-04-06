@@ -35,9 +35,14 @@ def generate_building(
         ValueError: If invalid parameters
         KeyError: If building type not supported
     """
-    # Load archetype from registry
     registry = get_default_registry()
-    archetype = registry.get_by_enum(building_type)
+    try:
+        archetype = registry.get_by_enum(building_type)
+    except KeyError:
+        default_dir = Path(__file__).resolve().parents[1] / "data" / "archetypes"
+        if default_dir.exists():
+            registry.load_from_directory(str(default_dir))
+        archetype = registry.get_by_enum(building_type)
 
     # Apply overrides if provided
     if archetype_overrides:
