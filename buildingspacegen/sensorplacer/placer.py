@@ -160,7 +160,7 @@ def _find_wall_closest_to_point(building: Building, point: Point2D) -> tuple:
             best_t = t
             # Get the first room for this wall
             room_a = building.get_room(wall.room_ids[0])
-            best_room = room_a
+            best_room = _preferred_room_for_wall(building, wall)
 
     if best_wall is None:
         # Fallback: use first interior wall
@@ -168,7 +168,7 @@ def _find_wall_closest_to_point(building: Building, point: Point2D) -> tuple:
             if not wall.is_exterior:
                 best_wall = wall
                 best_t = 0.5
-                best_room = building.get_room(wall.room_ids[0])
+                best_room = _preferred_room_for_wall(building, wall)
                 break
 
     return best_wall, best_t, best_room
@@ -191,7 +191,7 @@ def _find_farthest_wall_position(
     # Sample candidate positions: midpoint of each room's walls
     candidates = []
     for room in building.all_rooms():
-        if room.room_type in [RoomType.ELEVATOR, RoomType.STAIRWELL]:
+        if room.room_type in [RoomType.CORRIDOR, RoomType.ELEVATOR, RoomType.STAIRWELL]:
             continue
         # Add midpoint of the room
         room_centroid = room.polygon.centroid()
@@ -221,10 +221,23 @@ def _find_farthest_wall_position(
             if not wall.is_exterior:
                 best_wall = wall
                 best_t = 0.5
-                best_room = building.get_room(wall.room_ids[0])
+                best_room = _preferred_room_for_wall(building, wall)
                 break
 
     return best_wall, best_t, best_room
+
+
+def _preferred_room_for_wall(building: Building, wall: WallSegment):
+    """Prefer an occupiable room over corridor space for wall-mounted devices."""
+    room_ids = [room_id for room_id in wall.room_ids if room_id is not None]
+    rooms = [building.get_room(room_id) for room_id in room_ids]
+
+    non_corridor = [room for room in rooms if room.room_type != RoomType.CORRIDOR]
+    if non_corridor:
+        return non_corridor[0]
+    if rooms:
+        return rooms[0]
+    return None
 
 
 def _kmeans(points: list[Point2D], k: int, rng: np.random.Generator) -> list[Point2D]:

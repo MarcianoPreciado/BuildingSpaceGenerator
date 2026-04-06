@@ -13,5 +13,5 @@ DEFAULT_RULES = PlacementRules(
     sensor_per_sqft=1/500,
     sensor_wall_height_m=1.5,
     sensor_min_spacing_m=2.0,
-    excluded_room_types=[RoomType.ELEVATOR, RoomType.STAIRWELL],
+    excluded_room_types=[RoomType.CORRIDOR, RoomType.ELEVATOR, RoomType.STAIRWELL],
 )
