@@ -96,7 +96,7 @@ class MultiWallPathLossModel(PathLossModel):
         rx_profile = rx_device.radio_profile
         rx_power_dbm = 0.0
 
-        link_viable = True
+        link_viable = False
         link_margin_db = 0.0
 
         return LinkResult(
