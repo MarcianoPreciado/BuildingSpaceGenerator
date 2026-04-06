@@ -202,7 +202,7 @@ def _radio_profile_from_dict(d: dict) -> RadioProfile:
 
 def _device_to_dict(device: Device) -> dict[str, Any]:
     """Serialize Device."""
-    return {
+    data = {
         "id": device.id,
         "device_type": device.device_type.value,
         "position": [device.position.x, device.position.y, device.position.z],
@@ -211,6 +211,13 @@ def _device_to_dict(device: Device) -> dict[str, Any]:
         "radio_profile_name": device.radio_profile.name,
         "metadata": device.metadata,
     }
+    if device.position_along_wall is not None:
+        data["position_along_wall"] = device.position_along_wall
+    if device.mounted_side is not None:
+        data["mounted_side"] = device.mounted_side
+    if device.offset_from_wall_m != 0.0:
+        data["offset_from_wall_m"] = device.offset_from_wall_m
+    return data
 
 
 def _device_from_dict(d: dict, radio_profiles_map: dict[str, RadioProfile]) -> Device:
@@ -225,6 +232,9 @@ def _device_from_dict(d: dict, radio_profiles_map: dict[str, RadioProfile]) -> D
         wall_id=d.get("wall_id", ""),
         radio_profile=radio_profiles_map[d["radio_profile_name"]],
         metadata=d.get("metadata", {}),
+        position_along_wall=d.get("position_along_wall"),
+        mounted_side=d.get("mounted_side"),
+        offset_from_wall_m=d.get("offset_from_wall_m", 0.0),
     )
 
 

@@ -1,9 +1,12 @@
 """Tests for sensor placement."""
+import numpy as np
 import pytest
 from buildingspacegen.buildinggen.api import generate_building
+from buildingspacegen.core.device import PlacementRules
 from buildingspacegen.core.enums import BuildingType, DeviceType, RoomType
 from buildingspacegen.sensorplacer.api import place_sensors
 from buildingspacegen.sensorplacer.rules import DEFAULT_RULES
+from buildingspacegen.sensorplacer.config import load_placement_rules
 
 
 def test_place_sensors_basic():
@@ -70,6 +73,8 @@ def test_determinism():
         assert d1.position.y == d2.position.y
         assert d1.position.z == d2.position.z
         assert d1.device_type == d2.device_type
+        assert d1.position_along_wall == d2.position_along_wall
+        assert d1.mounted_side == d2.mounted_side
 
 
 def test_device_heights():
@@ -147,5 +152,180 @@ def test_device_positions_valid():
         assert isinstance(pos.z, (int, float)) and not np.isnan(pos.z)
         assert pos.z >= 0
 
+def test_devices_have_wall_mount_metadata():
+    """Devices should carry explicit wall mount metadata."""
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=50000, seed=42)
+    placement = place_sensors(building)
 
-import numpy as np
+    for device in placement.devices:
+        assert device.position_along_wall is not None
+        assert device.mounted_side in {"left", "right"}
+        assert device.offset_from_wall_m > 0.0
+
+
+def test_devices_are_inside_owning_room_not_on_centerline():
+    """Wall-mounted points should sit inside the owning room, not on the wall centerline."""
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=50000, seed=42)
+    placement = place_sensors(building)
+
+    for device in placement.devices:
+        room = building.get_room(device.room_id)
+        wall = building.get_wall(device.wall_id)
+        wall_x = wall.start.x + device.position_along_wall * (wall.end.x - wall.start.x)
+        wall_y = wall.start.y + device.position_along_wall * (wall.end.y - wall.start.y)
+        assert room.polygon.contains(device.position.to_2d())
+        assert abs(device.position.x - wall_x) + abs(device.position.y - wall_y) > 0.01
+
+
+def test_sensors_do_not_mount_to_exterior_side():
+    """Exterior-wall mounts must remain on the room-facing side of the building envelope."""
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=50000, seed=42)
+    placement = place_sensors(building)
+
+    for sensor in placement.get_devices_by_type(DeviceType.SENSOR):
+        room = building.get_room(sensor.room_id)
+        wall = building.get_wall(sensor.wall_id)
+        if not wall.is_exterior:
+            continue
+        assert room.polygon.contains(sensor.position.to_2d())
+
+
+def test_every_non_excluded_room_has_sensor_inside_room():
+    """Each occupiable room should have at least one sensor truly inside its polygon."""
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=50000, seed=42)
+    placement = place_sensors(building, rules=DEFAULT_RULES)
+
+    for room in building.all_rooms():
+        if room.room_type in DEFAULT_RULES.excluded_room_types:
+            continue
+        sensors = [
+            device
+            for device in placement.get_devices_in_room(room.id)
+            if device.device_type == DeviceType.SENSOR
+        ]
+        assert sensors
+        assert all(room.polygon.contains(sensor.position.to_2d()) for sensor in sensors)
+
+
+def test_multiple_sensors_in_room_use_multiple_wall_positions():
+    """Rooms that need several sensors should not collapse them onto one identical wall position."""
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=50000, seed=42)
+    placement = place_sensors(building, rules=DEFAULT_RULES)
+
+    multi_sensor_rooms = []
+    for room in building.all_rooms():
+        if room.room_type in DEFAULT_RULES.excluded_room_types:
+            continue
+        sensors = [
+            device
+            for device in placement.get_devices_in_room(room.id)
+            if device.device_type == DeviceType.SENSOR
+        ]
+        if len(sensors) > 1:
+            multi_sensor_rooms.append((room, sensors))
+
+    assert multi_sensor_rooms
+    for _, sensors in multi_sensor_rooms:
+        unique_positions = {
+            (sensor.wall_id, round(sensor.position_along_wall, 4))
+            for sensor in sensors
+        }
+        assert len(unique_positions) > 1
+
+
+def test_yaml_defaults_are_loaded_when_rules_none(tmp_path, monkeypatch):
+    """place_sensors should source default densities from YAML when rules are omitted."""
+    rules_path = tmp_path / "placement_rules.yaml"
+    rules_path.write_text(
+        """
+defaults:
+  main_controller_per_sqft: 0.0
+  main_controller_wall_height_m: 2.0
+  main_controller_prefer_center: true
+  secondary_controller_per_sqft: 0.0
+  secondary_controller_wall_height_m: 2.0
+  sensor_min_per_room: 2
+  sensor_per_sqft: 0.0
+  sensor_wall_height_m: 1.5
+  sensor_min_spacing_m: 2.0
+  wall_mount_offset_m: 0.2
+  excluded_room_types:
+    - corridor
+    - elevator
+    - stairwell
+by_building_type:
+  medium_office: {}
+""".strip(),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("BUILDINGSPACEGEN_PLACEMENT_RULES_PATH", str(rules_path))
+
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=12000, seed=42)
+    placement = place_sensors(building)
+    loaded_rules = load_placement_rules(building.building_type)
+
+    assert getattr(loaded_rules, "wall_mount_offset_m") == 0.2
+    for room in building.all_rooms():
+        if room.room_type in loaded_rules.excluded_room_types:
+            continue
+        sensors = [
+            device
+            for device in placement.get_devices_in_room(room.id)
+            if device.device_type == DeviceType.SENSOR
+        ]
+        assert len(sensors) >= 2
+
+
+def test_explicit_rules_override_yaml(tmp_path, monkeypatch):
+    """Explicit rule objects should bypass YAML defaults."""
+    rules_path = tmp_path / "placement_rules.yaml"
+    rules_path.write_text(
+        """
+defaults:
+  main_controller_per_sqft: 0.0
+  main_controller_wall_height_m: 2.0
+  main_controller_prefer_center: true
+  secondary_controller_per_sqft: 0.0
+  secondary_controller_wall_height_m: 2.0
+  sensor_min_per_room: 4
+  sensor_per_sqft: 0.0
+  sensor_wall_height_m: 1.5
+  sensor_min_spacing_m: 2.0
+  wall_mount_offset_m: 0.2
+  excluded_room_types:
+    - corridor
+    - elevator
+    - stairwell
+by_building_type:
+  medium_office: {}
+""".strip(),
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("BUILDINGSPACEGEN_PLACEMENT_RULES_PATH", str(rules_path))
+
+    building = generate_building(BuildingType.MEDIUM_OFFICE, total_sqft=12000, seed=42)
+    explicit_rules = PlacementRules(
+        main_controller_per_sqft=0.0,
+        main_controller_wall_height_m=2.0,
+        main_controller_prefer_center=True,
+        secondary_controller_per_sqft=0.0,
+        secondary_controller_wall_height_m=2.0,
+        sensor_min_per_room=1,
+        sensor_per_sqft=0.0,
+        sensor_wall_height_m=1.5,
+        sensor_min_spacing_m=2.0,
+        excluded_room_types=DEFAULT_RULES.excluded_room_types,
+    )
+    setattr(explicit_rules, "wall_mount_offset_m", 0.05)
+    placement = place_sensors(building, rules=explicit_rules)
+
+    for room in building.all_rooms():
+        if room.room_type in explicit_rules.excluded_room_types:
+            continue
+        sensors = [
+            device
+            for device in placement.get_devices_in_room(room.id)
+            if device.device_type == DeviceType.SENSOR
+        ]
+        assert len(sensors) == 1
+        assert all(device.offset_from_wall_m == 0.05 for device in sensors)

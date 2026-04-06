@@ -239,3 +239,73 @@ def test_intersection_consistency():
 
     assert len(intersections_fwd) == len(intersections_rev)
     assert set(i['wall_id'] for i in intersections_fwd) == set(i['wall_id'] for i in intersections_rev)
+
+
+def test_mounted_device_does_not_count_owning_wall():
+    """Mounted-device endpoint shifting should avoid false positives on the source wall."""
+    building = create_two_room_building()
+
+    intersections = find_intersected_walls(
+        Point2D(10, 10),
+        Point2D(5, 10),
+        building,
+        tx_wall_id="wall_interior",
+        tx_mounted_side="left",
+        tx_offset_from_wall_m=0.12,
+    )
+
+    assert intersections == []
+
+
+def test_link_crossing_shared_wall_counts_once_with_mount_offsets():
+    """Cross-room mounted links should still count the shared wall exactly once."""
+    building = create_two_room_building()
+
+    intersections = find_intersected_walls(
+        Point2D(10, 10),
+        Point2D(10, 12),
+        building,
+        tx_wall_id="wall_interior",
+        tx_mounted_side="left",
+        tx_offset_from_wall_m=0.12,
+        rx_wall_id="wall_interior",
+        rx_mounted_side="right",
+        rx_offset_from_wall_m=0.12,
+    )
+
+    assert [entry["wall_id"] for entry in intersections] == ["wall_interior"]
+
+
+def test_two_devices_same_room_no_mount_wall_hit():
+    """Two devices mounted on the same room side should not hit the mounting wall."""
+    building = create_two_room_building()
+
+    intersections = find_intersected_walls(
+        Point2D(10, 5),
+        Point2D(10, 15),
+        building,
+        tx_wall_id="wall_interior",
+        tx_mounted_side="left",
+        tx_offset_from_wall_m=0.12,
+        rx_wall_id="wall_interior",
+        rx_mounted_side="left",
+        rx_offset_from_wall_m=0.12,
+    )
+
+    assert intersections == []
+
+
+def test_exterior_wall_mount_offset_stays_inside_building():
+    """Mount offsets for exterior walls should move inward rather than outside the shell."""
+    building = create_two_room_building()
+
+    intersections = find_intersected_walls(
+        Point2D(0, 10),
+        Point2D(5, 10),
+        building,
+        tx_wall_id="wall_left",
+        tx_mounted_side="right",
+        tx_offset_from_wall_m=0.12,
+    )
+
+    assert intersections == []

@@ -3,7 +3,22 @@ import time
 import pytest
 from buildingspacegen.core import BuildingType, RoomType
 from buildingspacegen.buildinggen import generate_building, load_archetype_directory
+from buildingspacegen.buildinggen.postprocess.door_placement import choose_door_position_along_wall
+from buildingspacegen.core.geometry import Point2D
+from buildingspacegen.core.model import WallSegment, Material
 from pathlib import Path
+import numpy as np
+
+
+def _room_aspect_ratio(room) -> float:
+    """Return the longer-to-shorter side ratio for a room bounding box."""
+    bbox = room.polygon.bounding_box()
+    width = bbox.width()
+    height = bbox.height()
+    shortest = min(width, height)
+    if shortest <= 1e-9:
+        return float("inf")
+    return max(width, height) / shortest
 
 
 class TestBSPGenerator:
@@ -63,6 +78,59 @@ class TestBSPGenerator:
         doors = list(building.all_doors())
         assert len(doors) > 0
 
+    def test_doors_respect_wall_end_clearance_or_center_fallback(self):
+        """Doors should be randomized within legal spans or fall back to center."""
+        building = generate_building(
+            building_type=BuildingType.MEDIUM_OFFICE,
+            total_sqft=25000,
+            num_floors=1,
+            seed=42,
+        )
+
+        for door in building.all_doors():
+            wall = building.get_wall(door.wall_id)
+            wall_length = ((wall.end.x - wall.start.x) ** 2 + (wall.end.y - wall.start.y) ** 2) ** 0.5
+            if wall_length >= 2.0 * door.width:
+                min_t = door.width / wall_length
+                max_t = 1.0 - min_t
+                assert min_t <= door.position_along_wall <= max_t
+            else:
+                assert door.position_along_wall == 0.5
+
+    def test_door_position_helper_is_deterministic_for_same_seed(self):
+        """The helper should produce stable output for the same RNG seed."""
+        wall = WallSegment(
+            id="wall_001",
+            start=Point2D(0.0, 0.0),
+            end=Point2D(10.0, 0.0),
+            height=3.0,
+            materials=[Material("gypsum_double", 0.026)],
+            is_exterior=False,
+            room_ids=("room_001", "room_002"),
+        )
+
+        pos1 = choose_door_position_along_wall(wall, 0.9, np.random.default_rng(123))
+        pos2 = choose_door_position_along_wall(wall, 0.9, np.random.default_rng(123))
+
+        assert pos1 == pos2
+        assert 0.09 <= pos1 <= 0.91
+
+    def test_door_position_helper_uses_center_fallback_for_short_walls(self):
+        """Short walls should fall back to centered placement."""
+        wall = WallSegment(
+            id="wall_001",
+            start=Point2D(0.0, 0.0),
+            end=Point2D(1.0, 0.0),
+            height=3.0,
+            materials=[Material("gypsum_double", 0.026)],
+            is_exterior=False,
+            room_ids=("room_001", "room_002"),
+        )
+
+        pos = choose_door_position_along_wall(wall, 0.9, np.random.default_rng(123))
+
+        assert pos == 0.5
+
     def test_determinism(self):
         """Test that same seed produces identical building."""
         building1 = generate_building(
@@ -95,6 +163,10 @@ class TestBSPGenerator:
         walls2 = sorted([w.id for w in building2.all_walls()])
         assert walls1 == walls2
 
+        doors1 = sorted((d.id, d.wall_id, round(d.position_along_wall, 6)) for d in building1.all_doors())
+        doors2 = sorted((d.id, d.wall_id, round(d.position_along_wall, 6)) for d in building2.all_doors())
+        assert doors1 == doors2
+
     def test_different_seed_different_result(self):
         """Test that different seeds produce different buildings."""
         building1 = generate_building(
@@ -115,6 +187,10 @@ class TestBSPGenerator:
         rooms2_count = len(list(building2.all_rooms()))
         # They might have same count but different layout
         assert rooms1_count > 0 and rooms2_count > 0
+
+        doors1 = [(d.wall_id, round(d.position_along_wall, 6)) for d in building1.all_doors()]
+        doors2 = [(d.wall_id, round(d.position_along_wall, 6)) for d in building2.all_doors()]
+        assert doors1 != doors2
 
     def test_performance(self):
         """Test that generation is reasonably fast."""
@@ -264,3 +340,24 @@ class TestBSPGenerator:
 
         assert len(open_office_quadrants) >= 3
         assert len(support_quadrants) >= 3
+
+    def test_non_corridor_rooms_stay_near_two_to_one_across_seed_sweep(self):
+        """Representative seed sweeps should mostly avoid corridor-like non-corridor rooms."""
+        ratios = []
+        for seed in range(12):
+            building = generate_building(
+                building_type=BuildingType.MEDIUM_OFFICE,
+                total_sqft=25000,
+                num_floors=1,
+                seed=seed,
+            )
+            ratios.extend(
+                _room_aspect_ratio(room)
+                for room in building.all_rooms()
+                if room.room_type != RoomType.CORRIDOR
+        )
+
+        assert ratios
+        outliers = [ratio for ratio in ratios if ratio > 2.0]
+        assert len(outliers) <= max(4, int(len(ratios) * 0.15))
+        assert max(ratios) <= 3.6

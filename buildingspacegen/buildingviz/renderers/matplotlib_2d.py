@@ -1,15 +1,14 @@
 """Matplotlib 2D renderer for BuildingSpaceGenerator floor plans."""
 from typing import Optional
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 from matplotlib.patches import Polygon as MplPolygon
 from matplotlib.cm import get_cmap
-import numpy as np
 
 from buildingspacegen.core.model import Building
 from buildingspacegen.core.device import DevicePlacement
 from buildingspacegen.core.links import PathLossGraph
 from buildingspacegen.core.enums import RoomType, DeviceType, WallMaterial
+from buildingspacegen.buildingviz.renderers.glyphs import draw_door, draw_devices
 
 
 # Color palette for room types
@@ -76,6 +75,7 @@ def render_building_2d(
     fig, ax = plt.subplots(figsize=figsize)
     ax.set_aspect('equal')
     ax.set_facecolor('#F5F5F5')
+    wall_lookup = {wall.id: wall for wall in building.all_walls()}
 
     for floor in building.floors:
         # Draw room polygons with fills
@@ -125,15 +125,7 @@ def render_building_2d(
         # Draw doors as small circles
         for door in floor.doors:
             wall = next((w for w in floor.walls if w.id == door.wall_id), None)
-            if wall:
-                dx = wall.end.x - wall.start.x
-                dy = wall.end.y - wall.start.y
-                door_x = wall.start.x + dx * door.position_along_wall
-                door_y = wall.start.y + dy * door.position_along_wall
-                ax.plot(
-                    door_x, door_y, 'o',
-                    color='#A1887F', markersize=6, zorder=4
-                )
+            draw_door(ax, wall, door)
 
     # Draw links as lines with color gradient
     if links and frequency_hz:
@@ -165,24 +157,7 @@ def render_building_2d(
             DeviceType.SECONDARY_CONTROLLER: ('s', 8, '#4FC3F7'),
             DeviceType.SENSOR: ('o', 6, '#81C784'),
         }
-
-        for dtype, (marker, size, color) in device_markers.items():
-            devs = devices.get_devices_by_type(dtype)
-            if devs:
-                xs = [d.position.x for d in devs]
-                ys = [d.position.y for d in devs]
-                ax.scatter(
-                    xs, ys, marker=marker, s=size**2,
-                    c=color, zorder=5, label=dtype.value.replace('_', ' ').title(),
-                    edgecolors='white', linewidths=1
-                )
-
-                if show_device_labels:
-                    for d in devs:
-                        ax.annotate(
-                            d.id, (d.position.x, d.position.y),
-                            fontsize=5, ha='center'
-                        )
+        draw_devices(ax, devices.devices, device_markers, show_device_labels, wall_lookup=wall_lookup)
 
     # Build legend
     legend_elements = []

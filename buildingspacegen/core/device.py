@@ -28,6 +28,9 @@ class Device:
     wall_id: str  # Empty string if not wall-mounted
     radio_profile: RadioProfile
     metadata: dict = field(default_factory=dict)
+    position_along_wall: Optional[float] = None
+    mounted_side: Optional[str] = None
+    offset_from_wall_m: float = 0.0
 
 
 @dataclass

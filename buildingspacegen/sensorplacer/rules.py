@@ -2,6 +2,8 @@
 from buildingspacegen.core.device import PlacementRules
 from buildingspacegen.core.enums import RoomType
 
+DEFAULT_WALL_MOUNT_OFFSET_M = 0.12
+
 
 DEFAULT_RULES = PlacementRules(
     main_controller_per_sqft=1/25000,
@@ -15,3 +17,9 @@ DEFAULT_RULES = PlacementRules(
     sensor_min_spacing_m=2.0,
     excluded_room_types=[RoomType.CORRIDOR, RoomType.ELEVATOR, RoomType.STAIRWELL],
 )
+setattr(DEFAULT_RULES, "wall_mount_offset_m", DEFAULT_WALL_MOUNT_OFFSET_M)
+
+
+def get_wall_mount_offset(rules: PlacementRules) -> float:
+    """Return the configured wall-mount inset, falling back to the project default."""
+    return float(getattr(rules, "wall_mount_offset_m", DEFAULT_WALL_MOUNT_OFFSET_M))

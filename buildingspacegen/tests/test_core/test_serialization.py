@@ -2,7 +2,8 @@
 import json
 from buildingspacegen.core import (
     Building, Floor, Room, WallSegment, Door, Material, Point2D, Polygon2D,
-    BuildingType, RoomType, WallMaterial,
+    BuildingType, RoomType, WallMaterial, Point3D,
+    Device, DevicePlacement, RadioProfile, PlacementRules, DeviceType,
     serialize_building_scene, deserialize_building_scene,
     building_to_dict, building_from_dict,
 )
@@ -135,3 +136,92 @@ class TestSerialization:
         assert abs(room.area_sqm - 100.0) < 0.1
         # ~1076.4 sqft
         assert abs(room.area_sqft - 1076.4) < 1.0
+
+    def test_device_mount_fields_round_trip(self):
+        building = create_simple_building()
+        profile = RadioProfile(
+            name="test_profile",
+            tx_power_dbm=10.0,
+            tx_antenna_gain_dbi=1.0,
+            rx_antenna_gain_dbi=1.0,
+            rx_sensitivity_dbm=-100.0,
+            supported_frequencies_hz=[900e6],
+        )
+        placement = DevicePlacement(
+            building_seed=building.seed,
+            devices=[
+                Device(
+                    id="dev_001",
+                    device_type=DeviceType.SENSOR,
+                    position=Point3D(0.12, 5.0, 1.5),
+                    room_id="room_001",
+                    wall_id="wall_001",
+                    radio_profile=profile,
+                    position_along_wall=0.5,
+                    mounted_side="left",
+                    offset_from_wall_m=0.12,
+                )
+            ],
+            placement_rules=PlacementRules(
+                main_controller_per_sqft=0.0,
+                main_controller_wall_height_m=2.0,
+                main_controller_prefer_center=True,
+                secondary_controller_per_sqft=0.0,
+                secondary_controller_wall_height_m=2.0,
+                sensor_min_per_room=1,
+                sensor_per_sqft=0.0,
+                sensor_wall_height_m=1.5,
+                sensor_min_spacing_m=2.0,
+            ),
+        )
+
+        scene = serialize_building_scene(
+            building,
+            devices=placement,
+            radio_profiles={profile.name: profile},
+        )
+        restored_building, restored_devices, _ = deserialize_building_scene(scene)
+
+        assert restored_building.seed == building.seed
+        assert restored_devices is not None
+        restored = restored_devices.devices[0]
+        assert restored.position_along_wall == 0.5
+        assert restored.mounted_side == "left"
+        assert restored.offset_from_wall_m == 0.12
+
+    def test_device_mount_fields_backward_compatible(self):
+        building = create_simple_building()
+        scene = {
+            "building": building_to_dict(building),
+            "devices": [
+                {
+                    "id": "dev_001",
+                    "device_type": "sensor",
+                    "position": [1.0, 2.0, 1.5],
+                    "room_id": "room_001",
+                    "wall_id": "wall_001",
+                    "radio_profile_name": "test_profile",
+                    "metadata": {},
+                }
+            ],
+            "radio_profiles": {
+                "test_profile": {
+                    "name": "test_profile",
+                    "tx_power_dbm": 10.0,
+                    "tx_antenna_gain_dbi": 1.0,
+                    "rx_antenna_gain_dbi": 1.0,
+                    "rx_sensitivity_dbm": -100.0,
+                    "supported_frequencies_hz": [900e6],
+                }
+            },
+            "links": None,
+            "simulation": None,
+        }
+
+        _, restored_devices, _ = deserialize_building_scene(scene)
+
+        assert restored_devices is not None
+        restored = restored_devices.devices[0]
+        assert restored.position_along_wall is None
+        assert restored.mounted_side is None
+        assert restored.offset_from_wall_m == 0.0

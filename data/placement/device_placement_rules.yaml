@@ -1,0 +1,20 @@
+defaults:
+  main_controller_per_sqft: 0.00008
+  main_controller_wall_height_m: 2.0
+  main_controller_prefer_center: true
+  secondary_controller_per_sqft: 0.00033
+  secondary_controller_wall_height_m: 2.0
+  sensor_min_per_room: 1
+  sensor_per_sqft: 0.00147
+  sensor_wall_height_m: 1.5
+  sensor_min_spacing_m: 2.0
+  wall_mount_offset_m: 0.12
+  excluded_room_types:
+    - corridor
+    - elevator
+    - stairwell
+
+by_building_type:
+  medium_office: {}
+  large_office: {}
+  warehouse: {}

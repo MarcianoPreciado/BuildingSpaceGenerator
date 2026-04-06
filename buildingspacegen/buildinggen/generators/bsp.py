@@ -22,6 +22,19 @@ try:
     )
     from buildinggen.archetypes import Archetype, RoomProgram
     from buildinggen.generators.base import BuildingGenerator
+    from buildinggen.postprocess.door_placement import generate_doors
+    from buildinggen.generators.layout_constraints import (
+        bounded_slice_length as layout_bounded_slice_length,
+        bounded_split_length as layout_bounded_split_length,
+        front_side as layout_front_side,
+        frontage_side as layout_frontage_side,
+        merge_thin_parcels as layout_merge_thin_parcels,
+        slice_rect as layout_slice_rect,
+        rebalance_small_trailing_rooms as layout_rebalance_small_trailing_rooms,
+        rebalance_thin_rooms as layout_rebalance_thin_rooms,
+        room_score as layout_room_score,
+        is_outer_parcel as layout_is_outer_parcel,
+    )
 except ImportError:
     from ...core import (
         Building,
@@ -38,6 +51,19 @@ except ImportError:
     )
     from ..archetypes import Archetype, RoomProgram
     from .base import BuildingGenerator
+    from ..postprocess.door_placement import generate_doors
+    from .layout_constraints import (
+        bounded_slice_length as layout_bounded_slice_length,
+        bounded_split_length as layout_bounded_split_length,
+        front_side as layout_front_side,
+        frontage_side as layout_frontage_side,
+        merge_thin_parcels as layout_merge_thin_parcels,
+        slice_rect as layout_slice_rect,
+        rebalance_small_trailing_rooms as layout_rebalance_small_trailing_rooms,
+        rebalance_thin_rooms as layout_rebalance_thin_rooms,
+        room_score as layout_room_score,
+        is_outer_parcel as layout_is_outer_parcel,
+    )
 
 
 EPS = 1e-6
@@ -221,7 +247,7 @@ class BSPGenerator(BuildingGenerator):
             parcels=parcels,
         )
         walls = self._generate_walls(rooms, footprint, floor_idx, archetype)
-        doors = self._generate_doors(rooms, walls, floor_idx)
+        doors = self._generate_doors(rooms, walls, floor_idx, rng)
 
         for room in rooms:
             room.wall_ids = [wall.id for wall in walls if room.id in wall.room_ids]
@@ -337,6 +363,7 @@ class BSPGenerator(BuildingGenerator):
                 )
             )
 
+        parcels = layout_merge_thin_parcels(parcels)
         return corridor_rects, parcels
 
     def _corridor_sides_for_rect(
@@ -408,6 +435,7 @@ class BSPGenerator(BuildingGenerator):
                     ) - 0.15 * len(parcel.assigned_rooms),
                 )
                 self._append_slice(best, room_type, room_program[room_type], remaining_targets[room_type], rng)
+                layout_rebalance_thin_rooms(best, room_program)
                 remaining_targets[room_type] = 0.0
 
     def _fill_parcel(
@@ -451,8 +479,13 @@ class BSPGenerator(BuildingGenerator):
             if room_type in {RoomType.OPEN_OFFICE, RoomType.WAREHOUSE_BAY}:
                 desired_area = max(desired_area, remaining_length * depth * rng.uniform(0.35, 0.60))
 
-            slice_length = max(min_frontage, desired_area / max(depth, 1.0))
-            slice_length = min(slice_length, remaining_length)
+            slice_length = layout_bounded_slice_length(
+                parcel.rect,
+                frontage_side,
+                desired_area,
+                remaining_length,
+                min_frontage=min_frontage,
+            )
             if remaining_length - slice_length < min_frontage:
                 slice_length = remaining_length
 
@@ -471,6 +504,7 @@ class BSPGenerator(BuildingGenerator):
             parcel.assigned_rooms.append((fallback_type, room_rect))
 
         self._rebalance_small_trailing_rooms(parcel, room_program)
+        layout_rebalance_thin_rooms(parcel, room_program)
 
     def _append_slice(
         self,
@@ -492,13 +526,13 @@ class BSPGenerator(BuildingGenerator):
 
         frontage_side = self._frontage_side(parcel)
         along_x = frontage_side in ("north", "south")
-        split_ratio = min(0.5, max(0.25, remaining_target / max(rect.area(), 1.0)))
+        split_length = layout_bounded_split_length(rect, frontage_side, remaining_target)
         if along_x:
-            split = rect.min_x + rect.width() * split_ratio
+            split = rect.min_x + split_length
             left = _Rect(rect.min_x, rect.min_y, split, rect.max_y)
             right = _Rect(split, rect.min_y, rect.max_x, rect.max_y)
         else:
-            split = rect.min_y + rect.height() * split_ratio
+            split = rect.min_y + split_length
             left = _Rect(rect.min_x, rect.min_y, rect.max_x, split)
             right = _Rect(rect.min_x, split, rect.max_x, rect.max_y)
 
@@ -515,6 +549,8 @@ class BSPGenerator(BuildingGenerator):
         bounds: _Rect,
         front_side: str,
     ) -> RoomType:
+        if self._rect_aspect_ratio(parcel.rect) > 2.5:
+            return RoomType.CORRIDOR
         if building_type == BuildingType.WAREHOUSE and "south" in parcel.perimeter_sides:
             return RoomType.LOADING_DOCK
         if self._is_outer_parcel(parcel, bounds):
@@ -522,41 +558,15 @@ class BSPGenerator(BuildingGenerator):
         return RoomType.CONFERENCE
 
     def _frontage_side(self, parcel: _Parcel) -> str:
-        if parcel.corridor_sides:
-            return max(
-                parcel.corridor_sides,
-                key=lambda side: parcel.rect.width() if side in ("north", "south") else parcel.rect.height(),
-            )
-        if parcel.perimeter_sides:
-            return parcel.perimeter_sides[0]
-        return "south"
+        return layout_frontage_side(parcel)
 
     def _slice_rect(self, rect: _Rect, frontage_side: str, cursor: float, slice_length: float) -> _Rect:
-        if frontage_side in ("north", "south"):
-            return _Rect(cursor, rect.min_y, min(rect.max_x, cursor + slice_length), rect.max_y)
-        return _Rect(rect.min_x, cursor, rect.max_x, min(rect.max_y, cursor + slice_length))
+        return layout_slice_rect(rect, frontage_side, cursor, slice_length)
 
     def _rebalance_small_trailing_rooms(
         self, parcel: _Parcel, room_program: dict[RoomType, RoomProgram]
     ) -> None:
-        if len(parcel.assigned_rooms) < 2:
-            return
-
-        room_type, rect = parcel.assigned_rooms[-1]
-        program = room_program.get(room_type)
-        if program is None or rect.area() >= program.min_area_sqm * 0.8:
-            return
-
-        prev_type, prev_rect = parcel.assigned_rooms[-2]
-        if abs(prev_rect.max_x - rect.min_x) < EPS and abs(prev_rect.min_y - rect.min_y) < EPS and abs(prev_rect.max_y - rect.max_y) < EPS:
-            merged = _Rect(prev_rect.min_x, prev_rect.min_y, rect.max_x, rect.max_y)
-        elif abs(prev_rect.max_y - rect.min_y) < EPS and abs(prev_rect.min_x - rect.min_x) < EPS and abs(prev_rect.max_x - rect.max_x) < EPS:
-            merged = _Rect(prev_rect.min_x, prev_rect.min_y, rect.max_x, rect.max_y)
-        else:
-            return
-
-        parcel.assigned_rooms[-2] = (prev_type, merged)
-        parcel.assigned_rooms.pop()
+        layout_rebalance_small_trailing_rooms(parcel, room_program)
 
     def _room_score(
         self,
@@ -566,35 +576,7 @@ class BSPGenerator(BuildingGenerator):
         front_side: str,
         building_type: BuildingType,
     ) -> float:
-        center = parcel.rect.center()
-        bounds_center = bounds.center()
-        dx = abs(center.x - bounds_center.x) / max(bounds.width(), 1.0)
-        dy = abs(center.y - bounds_center.y) / max(bounds.height(), 1.0)
-        centrality = 1.0 - min(1.0, np.sqrt(dx * dx + dy * dy) * 1.8)
-        edge_exposure = len(parcel.perimeter_sides) / 4.0
-        corridor_access = len(parcel.corridor_sides) / 4.0
-        frontness = self._frontness(parcel.rect, bounds, front_side)
-        parcel_area = parcel.rect.area()
-        large_parcel = min(parcel_area / max(bounds.area(), 1.0) * 8.0, 1.0)
-
-        if room_type == RoomType.OPEN_OFFICE:
-            return 0.45 * edge_exposure + 0.25 * (1.0 - centrality) + 0.20 * corridor_access + 0.15 * large_parcel
-        if room_type == RoomType.WAREHOUSE_BAY:
-            return 0.60 * (1.0 - frontness) + 0.20 * edge_exposure + 0.25 * large_parcel
-        if room_type == RoomType.PRIVATE_OFFICE:
-            return 0.35 * edge_exposure + 0.30 * corridor_access + 0.20 * centrality
-        if room_type == RoomType.CONFERENCE:
-            return 0.35 * centrality + 0.20 * edge_exposure + 0.25 * corridor_access + 0.15 * frontness
-        if room_type == RoomType.LOBBY:
-            return 0.55 * frontness + 0.25 * edge_exposure + 0.20 * centrality
-        if room_type == RoomType.LOADING_DOCK:
-            return 0.60 * frontness + 0.25 * edge_exposure + 0.15 * corridor_access
-        if room_type in {RoomType.RESTROOM, RoomType.MECHANICAL, RoomType.IT_SERVER, RoomType.STAIRWELL, RoomType.ELEVATOR, RoomType.STORAGE}:
-            return 0.50 * centrality + 0.30 * corridor_access + 0.10 * (1.0 - edge_exposure)
-        if room_type == RoomType.KITCHEN_BREAK:
-            return 0.35 * centrality + 0.25 * edge_exposure + 0.25 * corridor_access
-
-        return 0.25 * corridor_access + 0.20 * edge_exposure + 0.20 * centrality
+        return layout_room_score(room_type, parcel, bounds, front_side, building_type)
 
     def _frontness(self, rect: _Rect, bounds: _Rect, front_side: str) -> float:
         if front_side == "south":
@@ -606,13 +588,18 @@ class BSPGenerator(BuildingGenerator):
         return (rect.center().x - bounds.min_x) / max(bounds.width(), 1.0)
 
     def _front_side(self, bounds: _Rect) -> str:
-        return "south" if bounds.width() >= bounds.height() else "west"
+        return layout_front_side(bounds)
 
     def _is_outer_parcel(self, parcel: _Parcel, bounds: _Rect) -> bool:
-        return bool(parcel.perimeter_sides) or (
-            abs(parcel.rect.center().x - bounds.center().x) / max(bounds.width(), 1.0)
-            + abs(parcel.rect.center().y - bounds.center().y) / max(bounds.height(), 1.0)
-        ) > 0.35
+        return layout_is_outer_parcel(parcel, bounds)
+
+    def _rect_aspect_ratio(self, rect: _Rect) -> float:
+        width = rect.width()
+        height = rect.height()
+        shortest = min(width, height)
+        if shortest <= EPS:
+            return float("inf")
+        return max(width, height) / shortest
 
     def _build_rooms_from_layout(
         self,
@@ -719,38 +706,13 @@ class BSPGenerator(BuildingGenerator):
         return walls
 
     def _generate_doors(
-        self, rooms: list[Room], walls: list[WallSegment], floor_idx: int
+        self,
+        rooms: list[Room],
+        walls: list[WallSegment],
+        floor_idx: int,
+        rng: np.random.Generator,
     ) -> list[Door]:
-        room_lookup = {room.id: room for room in rooms}
-        doors: list[Door] = []
-        counter = 0
-
-        for wall in walls:
-            if wall.is_exterior or wall.room_ids[1] is None:
-                continue
-
-            room_a = room_lookup[wall.room_ids[0]]
-            room_b = room_lookup[wall.room_ids[1]]
-            if room_a.room_type == RoomType.CORRIDOR and room_b.room_type == RoomType.CORRIDOR:
-                continue
-            if room_a.room_type != RoomType.CORRIDOR and room_b.room_type != RoomType.CORRIDOR:
-                continue
-
-            secure_types = {RoomType.MECHANICAL, RoomType.STAIRWELL, RoomType.IT_SERVER}
-            material_name = "metal_fire_door" if {room_a.room_type, room_b.room_type} & secure_types else "wood_door"
-            doors.append(
-                Door(
-                    id=f"door_{floor_idx:03d}_{counter:03d}",
-                    wall_id=wall.id,
-                    position_along_wall=0.5,
-                    width=0.9,
-                    height=2.1,
-                    material=Material(material_name, self._get_material_thickness(material_name)),
-                )
-            )
-            counter += 1
-
-        return doors
+        return generate_doors(rooms, walls, floor_idx, rng)
 
     def _find_shared_edge(
         self, poly_a: Polygon2D, poly_b: Polygon2D

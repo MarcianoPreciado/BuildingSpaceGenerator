@@ -4,7 +4,7 @@ from buildingspacegen.core.model import Building
 from buildingspacegen.core.device import DevicePlacement, PlacementRules, RadioProfile
 from buildingspacegen.core.enums import DeviceType
 from .placer import place_devices
-from .rules import DEFAULT_RULES
+from .config import load_placement_rules
 
 
 def place_sensors(
@@ -24,7 +24,7 @@ def place_sensors(
         DevicePlacement with all placed devices
     """
     if rules is None:
-        rules = DEFAULT_RULES
+        rules = load_placement_rules(building.building_type)
     if radio_profiles is None:
         # Use default profiles from data/radio_profiles/
         from buildingspacegen.pathloss.radio import RadioProfileRegistry

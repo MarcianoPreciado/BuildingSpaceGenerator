@@ -1,6 +1,6 @@
 """Tests for matplotlib 2D renderer."""
-import pytest
 import matplotlib.pyplot as plt
+from matplotlib.patches import Arc, Circle, RegularPolygon
 
 from buildingspacegen.core.geometry import Point2D, Polygon2D
 from buildingspacegen.core.model import Building, Floor
@@ -279,6 +279,371 @@ def test_render_building_with_links():
         save_path=None
     )
     assert fig is not None
+    plt.close(fig)
+
+
+def test_render_building_with_door_arc():
+    """Test that doors render as a swing arc instead of a point."""
+    from buildingspacegen.core.model import Room, Floor, WallSegment, Door, Material
+
+    footprint = Polygon2D([
+        Point2D(0, 0), Point2D(20, 0), Point2D(20, 20), Point2D(0, 20)
+    ])
+
+    room_poly = Polygon2D([
+        Point2D(1, 1), Point2D(19, 1), Point2D(19, 19), Point2D(1, 19)
+    ])
+
+    room = Room(
+        id="room_001",
+        room_type=RoomType.OPEN_OFFICE,
+        polygon=room_poly,
+        floor_index=0,
+        wall_ids=["wall_001"],
+        door_ids=["door_001"],
+        ceiling_height=3.0,
+    )
+
+    wall = WallSegment(
+        id="wall_001",
+        start=Point2D(0, 0),
+        end=Point2D(20, 0),
+        height=3.0,
+        materials=[Material(name="gypsum_double", thickness_m=0.026)],
+        is_exterior=True,
+        room_ids=("room_001", None),
+    )
+
+    door = Door(
+        id="door_001",
+        wall_id="wall_001",
+        position_along_wall=0.5,
+        width=0.9,
+        height=2.1,
+        material=Material(name="wood_door", thickness_m=0.045),
+    )
+
+    floor = Floor(
+        index=0,
+        elevation=0.0,
+        footprint=footprint,
+        rooms=[room],
+        walls=[wall],
+        doors=[door],
+    )
+
+    building = Building(
+        building_type=BuildingType.MEDIUM_OFFICE,
+        floors=[floor],
+        footprint=footprint,
+        total_area_sqft=1000,
+        seed=42,
+    )
+
+    fig = render_building_2d(building, save_path=None)
+    ax = fig.axes[0]
+    assert any(isinstance(patch, Arc) for patch in ax.patches)
+    plt.close(fig)
+
+
+def test_render_wall_mounted_devices_with_wall_lookup():
+    """Test that wall-mounted devices render as patches with wall context."""
+    from buildingspacegen.core.model import Room, Floor, WallSegment, Material
+    from buildingspacegen.core.device import Device, DevicePlacement, PlacementRules, RadioProfile
+    from buildingspacegen.core.geometry import Point3D
+    from buildingspacegen.core.enums import DeviceType
+
+    footprint = Polygon2D([
+        Point2D(0, 0), Point2D(20, 0), Point2D(20, 20), Point2D(0, 20)
+    ])
+
+    room_poly = Polygon2D([
+        Point2D(1, 1), Point2D(19, 1), Point2D(19, 19), Point2D(1, 19)
+    ])
+
+    room = Room(
+        id="room_001",
+        room_type=RoomType.OPEN_OFFICE,
+        polygon=room_poly,
+        floor_index=0,
+        wall_ids=["wall_001"],
+        door_ids=[],
+        ceiling_height=3.0,
+    )
+
+    wall = WallSegment(
+        id="wall_001",
+        start=Point2D(0, 0),
+        end=Point2D(20, 0),
+        height=3.0,
+        materials=[Material(name="gypsum_double", thickness_m=0.026)],
+        is_exterior=True,
+        room_ids=("room_001", None),
+    )
+
+    floor = Floor(
+        index=0,
+        elevation=0.0,
+        footprint=footprint,
+        rooms=[room],
+        walls=[wall],
+        doors=[],
+    )
+
+    building = Building(
+        building_type=BuildingType.MEDIUM_OFFICE,
+        floors=[floor],
+        footprint=footprint,
+        total_area_sqft=1000,
+        seed=42,
+    )
+
+    profile = RadioProfile(
+        name="test_profile",
+        tx_power_dbm=10.0,
+        tx_antenna_gain_dbi=5.0,
+        rx_antenna_gain_dbi=5.0,
+        rx_sensitivity_dbm=-100.0,
+        supported_frequencies_hz=[900e6, 2.4e9],
+    )
+
+    devices = DevicePlacement(
+        building_seed=42,
+        devices=[
+            Device(
+                id="dev_001",
+                device_type=DeviceType.MAIN_CONTROLLER,
+                position=Point3D(10.0, 0.0, 2.5),
+                room_id="room_001",
+                wall_id="wall_001",
+                radio_profile=profile,
+                position_along_wall=0.5,
+                mounted_side="left",
+                offset_from_wall_m=0.15,
+            ),
+            Device(
+                id="dev_002",
+                device_type=DeviceType.SENSOR,
+                position=Point3D(5.0, 0.0, 1.5),
+                room_id="room_001",
+                wall_id="wall_001",
+                radio_profile=profile,
+                position_along_wall=0.25,
+                mounted_side="left",
+                offset_from_wall_m=0.15,
+            ),
+        ],
+        placement_rules=PlacementRules(
+            main_controller_per_sqft=0.0,
+            main_controller_wall_height_m=2.5,
+            main_controller_prefer_center=True,
+            secondary_controller_per_sqft=0.0,
+            secondary_controller_wall_height_m=2.0,
+            sensor_min_per_room=1,
+            sensor_per_sqft=0.0,
+            sensor_wall_height_m=1.5,
+            sensor_min_spacing_m=3.0,
+        ),
+    )
+
+    fig = render_building_2d(building, devices=devices, save_path=None)
+    ax = fig.axes[0]
+    assert sum(isinstance(patch, Circle) for patch in ax.patches) >= 1
+    assert sum(isinstance(patch, RegularPolygon) for patch in ax.patches) >= 1
+    plt.close(fig)
+
+
+def test_render_devices_without_mount_metadata_backward_compatible():
+    """Test that legacy device scenes still render without mount metadata."""
+    from buildingspacegen.core.model import Room, Floor
+    from buildingspacegen.core.device import Device, DevicePlacement, PlacementRules, RadioProfile
+    from buildingspacegen.core.geometry import Point3D
+    from buildingspacegen.core.enums import DeviceType
+
+    footprint = Polygon2D([
+        Point2D(0, 0), Point2D(20, 0), Point2D(20, 20), Point2D(0, 20)
+    ])
+
+    room_poly = Polygon2D([
+        Point2D(2, 2), Point2D(18, 2), Point2D(18, 18), Point2D(2, 18)
+    ])
+
+    room = Room(
+        id="room_001",
+        room_type=RoomType.OPEN_OFFICE,
+        polygon=room_poly,
+        floor_index=0,
+        wall_ids=[],
+        door_ids=[],
+        ceiling_height=3.0,
+    )
+
+    floor = Floor(
+        index=0,
+        elevation=0.0,
+        footprint=footprint,
+        rooms=[room],
+        walls=[],
+        doors=[],
+    )
+
+    building = Building(
+        building_type=BuildingType.MEDIUM_OFFICE,
+        floors=[floor],
+        footprint=footprint,
+        total_area_sqft=1000,
+        seed=42,
+    )
+
+    profile = RadioProfile(
+        name="test_profile",
+        tx_power_dbm=10.0,
+        tx_antenna_gain_dbi=5.0,
+        rx_antenna_gain_dbi=5.0,
+        rx_sensitivity_dbm=-100.0,
+        supported_frequencies_hz=[900e6, 2.4e9],
+    )
+
+    devices = DevicePlacement(
+        building_seed=42,
+        devices=[
+            Device(
+                id="dev_001",
+                device_type=DeviceType.MAIN_CONTROLLER,
+                position=Point3D(10.0, 10.0, 2.5),
+                room_id="room_001",
+                wall_id="",
+                radio_profile=profile,
+            ),
+            Device(
+                id="dev_002",
+                device_type=DeviceType.SENSOR,
+                position=Point3D(5.0, 5.0, 1.5),
+                room_id="room_001",
+                wall_id="",
+                radio_profile=profile,
+            ),
+        ],
+        placement_rules=PlacementRules(
+            main_controller_per_sqft=0.0,
+            main_controller_wall_height_m=2.5,
+            main_controller_prefer_center=True,
+            secondary_controller_per_sqft=0.0,
+            secondary_controller_wall_height_m=2.0,
+            sensor_min_per_room=1,
+            sensor_per_sqft=0.0,
+            sensor_wall_height_m=1.5,
+            sensor_min_spacing_m=3.0,
+        ),
+    )
+
+    fig = render_building_2d(building, devices=devices, save_path=None)
+    ax = fig.axes[0]
+    assert len(ax.patches) >= 3
+    plt.close(fig)
+
+
+def test_render_mixed_old_and_new_device_metadata():
+    """Test that scenes can mix legacy and wall-mounted device metadata."""
+    from buildingspacegen.core.model import Room, Floor, WallSegment, Material
+    from buildingspacegen.core.device import Device, DevicePlacement, PlacementRules, RadioProfile
+    from buildingspacegen.core.geometry import Point3D
+    from buildingspacegen.core.enums import DeviceType
+
+    footprint = Polygon2D([
+        Point2D(0, 0), Point2D(20, 0), Point2D(20, 20), Point2D(0, 20)
+    ])
+
+    room_poly = Polygon2D([
+        Point2D(1, 1), Point2D(19, 1), Point2D(19, 19), Point2D(1, 19)
+    ])
+
+    room = Room(
+        id="room_001",
+        room_type=RoomType.OPEN_OFFICE,
+        polygon=room_poly,
+        floor_index=0,
+        wall_ids=["wall_001"],
+        door_ids=[],
+        ceiling_height=3.0,
+    )
+
+    wall = WallSegment(
+        id="wall_001",
+        start=Point2D(0, 0),
+        end=Point2D(20, 0),
+        height=3.0,
+        materials=[Material(name="gypsum_double", thickness_m=0.026)],
+        is_exterior=True,
+        room_ids=("room_001", None),
+    )
+
+    floor = Floor(
+        index=0,
+        elevation=0.0,
+        footprint=footprint,
+        rooms=[room],
+        walls=[wall],
+        doors=[],
+    )
+
+    building = Building(
+        building_type=BuildingType.MEDIUM_OFFICE,
+        floors=[floor],
+        footprint=footprint,
+        total_area_sqft=1000,
+        seed=42,
+    )
+
+    profile = RadioProfile(
+        name="test_profile",
+        tx_power_dbm=10.0,
+        tx_antenna_gain_dbi=5.0,
+        rx_antenna_gain_dbi=5.0,
+        rx_sensitivity_dbm=-100.0,
+        supported_frequencies_hz=[900e6, 2.4e9],
+    )
+
+    devices = DevicePlacement(
+        building_seed=42,
+        devices=[
+            Device(
+                id="dev_001",
+                device_type=DeviceType.MAIN_CONTROLLER,
+                position=Point3D(10.0, 0.0, 2.5),
+                room_id="room_001",
+                wall_id="wall_001",
+                radio_profile=profile,
+                position_along_wall=0.5,
+                mounted_side="left",
+                offset_from_wall_m=0.15,
+            ),
+            Device(
+                id="dev_002",
+                device_type=DeviceType.SENSOR,
+                position=Point3D(5.0, 5.0, 1.5),
+                room_id="room_001",
+                wall_id="",
+                radio_profile=profile,
+            ),
+        ],
+        placement_rules=PlacementRules(
+            main_controller_per_sqft=0.0,
+            main_controller_wall_height_m=2.5,
+            main_controller_prefer_center=True,
+            secondary_controller_per_sqft=0.0,
+            secondary_controller_wall_height_m=2.0,
+            sensor_min_per_room=1,
+            sensor_per_sqft=0.0,
+            sensor_wall_height_m=1.5,
+            sensor_min_spacing_m=3.0,
+        ),
+    )
+
+    fig = render_building_2d(building, devices=devices, save_path=None)
+    ax = fig.axes[0]
+    assert any(isinstance(patch, RegularPolygon) for patch in ax.patches)
+    assert any(isinstance(patch, Circle) for patch in ax.patches)
     plt.close(fig)
 
 
