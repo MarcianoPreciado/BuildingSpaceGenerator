@@ -9,6 +9,7 @@ Procedural building floor plan generator for wireless sensor network simulation.
 - `architecture.md` — Full system architecture (5 subsystems, data model, algorithms, module structure)
 - `open-source-survey.md` — Survey of 60+ open-source projects across 6 categories
 - `architectural-review-brief.md` — Architectural review summary with resolved decisions and development tracks
+- `track-specs.md` — Parallel dispatch specs for Tracks A/B/C/D with shared interface contracts, JSON schema, and per-track task breakdowns
 
 ## Architecture (APPROVED 2026-04-05)
 Five subsystems: Building Generator (`buildinggen`), Sensor Placer (`sensorplacer`), Path Loss Engine (`pathloss`), Protocol Simulator (`protosim`), Visualizer (`buildingviz`).
