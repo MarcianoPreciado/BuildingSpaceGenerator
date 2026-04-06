@@ -27,9 +27,11 @@ def find_intersected_walls(
 
     for wall in building.all_walls():
         wall_seg = LineSegment2D(wall.start, wall.end)
-        if not ray.intersects(wall_seg):
-            continue
-
+        # Use intersection_point directly rather than calling intersects() first.
+        # The CCW-based intersects() uses a strict inequality that silently misses
+        # rays that pass exactly through a wall endpoint (e.g. at a T-junction or
+        # room corner).  intersection_point() uses the parametric form with
+        # inclusive bounds (0 <= t, u <= 1) and handles these cases correctly.
         intersection = ray.intersection_point(wall_seg)
         if intersection is None:
             continue

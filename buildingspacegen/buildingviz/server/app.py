@@ -120,7 +120,7 @@ async def generate_scene(req: GenerateRequest, background_tasks: BackgroundTasks
     try:
         # Try to import the pipeline
         from buildingspacegen.buildinggen.api import generate_building
-        from buildingspacegen.sensorplacer.api import place_devices
+        from buildingspacegen.sensorplacer.api import place_sensors as place_devices
         from buildingspacegen.pathloss.api import compute_path_loss
         from buildingspacegen.core.serialization import serialize_building_scene
         from buildingspacegen.core.enums import BuildingType

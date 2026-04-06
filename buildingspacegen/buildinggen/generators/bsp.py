@@ -311,71 +311,90 @@ class BSPGenerator(BuildingGenerator):
         corridor_width: float,
         rng: np.random.Generator,
     ) -> list[tuple[_RoomSpec, Polygon2D]]:
-        """Insert corridor strip."""
+        """Insert corridor strip.
+
+        Rooms are clipped against the corridor band using their bounding boxes.
+        Any room that overlaps the corridor is split into at most two rectangular
+        fragments (one on each side). This replaces the previous vertex-filtering
+        approach, which dropped rooms whose bbox straddled the corridor midline
+        (producing large voids in the floor plan).
+        """
         if not rooms_with_polys:
             return rooms_with_polys
 
-        # Find longest axis
         bbox = footprint.bounding_box()
         if bbox.width() > bbox.height():
-            # Insert vertical corridor
+            # Vertical corridor running the full depth at the horizontal midpoint
             corridor_x = bbox.min_x + bbox.width() * 0.5
             corridor_min_x = corridor_x - corridor_width / 2
             corridor_max_x = corridor_x + corridor_width / 2
 
-            # Trim rooms that overlap with corridor
             result = []
             for spec, poly in rooms_with_polys:
-                poly_bbox = poly.bounding_box()
-                if poly_bbox.max_x <= corridor_min_x or poly_bbox.min_x >= corridor_max_x:
-                    result.append((spec, poly))
-                else:
-                    # Trim polygon (simplified)
-                    if poly_bbox.min_x < corridor_min_x:
-                        poly_verts = [v for v in poly.vertices if v.x < corridor_min_x]
-                        if len(poly_verts) >= 3:
-                            result.append((spec, Polygon2D(poly_verts)))
-                    if poly_bbox.max_x > corridor_max_x:
-                        poly_verts = [v for v in poly.vertices if v.x > corridor_max_x]
-                        if len(poly_verts) >= 3:
-                            result.append((spec, Polygon2D(poly_verts)))
+                rb = poly.bounding_box()
+                # Left fragment: portion of room west of corridor
+                if rb.min_x < corridor_min_x:
+                    clipped_max_x = min(rb.max_x, corridor_min_x)
+                    result.append((spec, Polygon2D([
+                        Point2D(rb.min_x, rb.min_y),
+                        Point2D(clipped_max_x, rb.min_y),
+                        Point2D(clipped_max_x, rb.max_y),
+                        Point2D(rb.min_x, rb.max_y),
+                    ])))
+                # Right fragment: portion of room east of corridor
+                if rb.max_x > corridor_max_x:
+                    clipped_min_x = max(rb.min_x, corridor_max_x)
+                    result.append((spec, Polygon2D([
+                        Point2D(clipped_min_x, rb.min_y),
+                        Point2D(rb.max_x, rb.min_y),
+                        Point2D(rb.max_x, rb.max_y),
+                        Point2D(clipped_min_x, rb.max_y),
+                    ])))
+                # Rooms entirely inside the corridor band are absorbed (dropped)
 
-            # Add corridor
-            corridor_verts = [
+            # Add corridor strip
+            result.append((_RoomSpec(RoomType.CORRIDOR, 0), Polygon2D([
                 Point2D(corridor_min_x, bbox.min_y),
                 Point2D(corridor_max_x, bbox.min_y),
                 Point2D(corridor_max_x, bbox.max_y),
                 Point2D(corridor_min_x, bbox.max_y),
-            ]
-            result.append((_RoomSpec(RoomType.CORRIDOR, 0), Polygon2D(corridor_verts)))
+            ])))
         else:
-            # Insert horizontal corridor
+            # Horizontal corridor running the full width at the vertical midpoint
             corridor_y = bbox.min_y + bbox.height() * 0.5
             corridor_min_y = corridor_y - corridor_width / 2
             corridor_max_y = corridor_y + corridor_width / 2
 
             result = []
             for spec, poly in rooms_with_polys:
-                poly_bbox = poly.bounding_box()
-                if poly_bbox.max_y <= corridor_min_y or poly_bbox.min_y >= corridor_max_y:
-                    result.append((spec, poly))
-                else:
-                    if poly_bbox.min_y < corridor_min_y:
-                        poly_verts = [v for v in poly.vertices if v.y < corridor_min_y]
-                        if len(poly_verts) >= 3:
-                            result.append((spec, Polygon2D(poly_verts)))
-                    if poly_bbox.max_y > corridor_max_y:
-                        poly_verts = [v for v in poly.vertices if v.y > corridor_max_y]
-                        if len(poly_verts) >= 3:
-                            result.append((spec, Polygon2D(poly_verts)))
+                rb = poly.bounding_box()
+                # Bottom fragment: portion of room south of corridor
+                if rb.min_y < corridor_min_y:
+                    clipped_max_y = min(rb.max_y, corridor_min_y)
+                    result.append((spec, Polygon2D([
+                        Point2D(rb.min_x, rb.min_y),
+                        Point2D(rb.max_x, rb.min_y),
+                        Point2D(rb.max_x, clipped_max_y),
+                        Point2D(rb.min_x, clipped_max_y),
+                    ])))
+                # Top fragment: portion of room north of corridor
+                if rb.max_y > corridor_max_y:
+                    clipped_min_y = max(rb.min_y, corridor_max_y)
+                    result.append((spec, Polygon2D([
+                        Point2D(rb.min_x, clipped_min_y),
+                        Point2D(rb.max_x, clipped_min_y),
+                        Point2D(rb.max_x, rb.max_y),
+                        Point2D(rb.min_x, rb.max_y),
+                    ])))
+                # Rooms entirely inside the corridor band are absorbed (dropped)
 
-            corridor_verts = [
+            # Add corridor strip
+            result.append((_RoomSpec(RoomType.CORRIDOR, 0), Polygon2D([
                 Point2D(bbox.min_x, corridor_min_y),
                 Point2D(bbox.max_x, corridor_min_y),
                 Point2D(bbox.max_x, corridor_max_y),
                 Point2D(bbox.min_x, corridor_max_y),
-            ]
-            result.append((_RoomSpec(RoomType.CORRIDOR, 0), Polygon2D(corridor_verts)))
+            ])))
 
         return result
 
@@ -444,25 +463,65 @@ class BSPGenerator(BuildingGenerator):
         return walls
 
     def _find_shared_edge(self, poly_a: Polygon2D, poly_b: Polygon2D) -> Optional[tuple[Point2D, Point2D]]:
-        """Find shared edge between two polygons (simplified)."""
-        edges_a = poly_a.edges()
-        edges_b = poly_b.edges()
+        """Find shared edge between two polygons.
 
-        for ea in edges_a:
-            for eb in edges_b:
-                # Check if edges are collinear and overlap
-                if self._edges_collinear_and_overlap(ea, eb):
-                    return (ea.start, ea.end)
+        Returns the overlapping segment (which may be shorter than either full
+        edge when a room edge only partially borders a corridor or another room).
+        """
+        for ea in poly_a.edges():
+            for eb in poly_b.edges():
+                overlap = self._compute_edge_overlap(ea, eb)
+                if overlap is not None:
+                    return overlap
+        return None
+
+    def _compute_edge_overlap(self, e1, e2) -> Optional[tuple[Point2D, Point2D]]:
+        """Return the overlapping sub-segment of two collinear axis-aligned edges.
+
+        Handles the case where one edge is shorter than the other (e.g. a room
+        edge that only partially borders a corridor strip).  Returns None when
+        the edges are not collinear or their projections do not overlap.
+        """
+        EPS = 1e-6    # geometric collinearity tolerance (metres)
+        TOLS = 0.05   # spatial tolerance for coincident lines (5 cm)
+
+        is_h1 = abs(e1.start.y - e1.end.y) < EPS
+        is_h2 = abs(e2.start.y - e2.end.y) < EPS
+        is_v1 = abs(e1.start.x - e1.end.x) < EPS
+        is_v2 = abs(e2.start.x - e2.end.x) < EPS
+
+        # Both horizontal
+        if is_h1 and is_h2:
+            if abs(e1.start.y - e2.start.y) > TOLS:
+                return None
+            ov_min = max(min(e1.start.x, e1.end.x), min(e2.start.x, e2.end.x))
+            ov_max = min(max(e1.start.x, e1.end.x), max(e2.start.x, e2.end.x))
+            if ov_max - ov_min < TOLS:
+                return None
+            y = (e1.start.y + e2.start.y) / 2.0
+            return (Point2D(ov_min, y), Point2D(ov_max, y))
+
+        # Both vertical
+        if is_v1 and is_v2:
+            if abs(e1.start.x - e2.start.x) > TOLS:
+                return None
+            ov_min = max(min(e1.start.y, e1.end.y), min(e2.start.y, e2.end.y))
+            ov_max = min(max(e1.start.y, e1.end.y), max(e2.start.y, e2.end.y))
+            if ov_max - ov_min < TOLS:
+                return None
+            x = (e1.start.x + e2.start.x) / 2.0
+            return (Point2D(x, ov_min), Point2D(x, ov_max))
+
+        # Non-axis-aligned fallback: exact endpoint proximity (original logic)
+        if e1.start.distance_to(e2.start) < 0.1 and e1.end.distance_to(e2.end) < 0.1:
+            return (e1.start, e1.end)
+        if e1.start.distance_to(e2.end) < 0.1 and e1.end.distance_to(e2.start) < 0.1:
+            return (e1.start, e1.end)
         return None
 
     def _edges_collinear_and_overlap(self, e1, e2) -> bool:
-        """Check if edges are collinear and overlap."""
-        # Simplified: check if endpoints are very close
-        if e1.start.distance_to(e2.start) < 0.1 and e1.end.distance_to(e2.end) < 0.1:
-            return True
-        if e1.start.distance_to(e2.end) < 0.1 and e1.end.distance_to(e2.start) < 0.1:
-            return True
-        return False
+        """Check if edges are collinear and overlap (delegates to _compute_edge_overlap)."""
+        return self._compute_edge_overlap(e1, e2) is not None
 
     def _get_wall_material(
         self, room_type_a: RoomType, room_type_b: RoomType, archetype: Optional[Archetype]
