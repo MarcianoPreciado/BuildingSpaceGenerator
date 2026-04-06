@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import json
 import os
-from typing import Optional
+from typing import Optional, Union
 
 app = FastAPI(title="BuildingSpaceGenerator Visualizer", version="1.0.0")
 
@@ -20,6 +20,27 @@ class GenerateRequest(BaseModel):
     total_sqft: float
     seed: int
     frequencies_hz: list[float]
+
+
+def _normalize_links_payload(links_data: Optional[Union[dict, list]], freq: Optional[float] = None) -> dict:
+    """Return frontend-compatible links payload from either supported scene shape."""
+    if links_data is None:
+        return {"entries": [], "frequency_hz": freq}
+
+    if isinstance(links_data, dict):
+        entries = links_data.get("entries", [])
+    elif isinstance(links_data, list):
+        entries = links_data
+    else:
+        raise TypeError(f"Unsupported links payload type: {type(links_data).__name__}")
+
+    if freq is not None:
+        entries = [
+            link for link in entries
+            if link.get("frequency_hz") == freq
+        ]
+
+    return {"entries": entries, "frequency_hz": freq}
 
 
 def get_scene() -> dict:
@@ -97,19 +118,7 @@ async def get_links(freq: Optional[float] = None):
     try:
         scene = get_scene()
         links_data = scene.get("links")
-
-        if links_data is None:
-            return {"entries": [], "frequency_hz": freq}
-
-        # Filter by frequency if specified
-        if freq is not None:
-            filtered = [
-                link for link in links_data
-                if link.get("frequency_hz") == freq
-            ]
-            return {"entries": filtered, "frequency_hz": freq}
-
-        return links_data
+        return _normalize_links_payload(links_data, freq)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -155,12 +164,10 @@ async def generate_scene(req: GenerateRequest, background_tasks: BackgroundTasks
         # Serialize to JSON
         scene = serialize_building_scene(building, devices, links, radio_profiles)
 
-        # Convert links from list to dict format expected by frontend
-        if scene.get("links"):
-            scene["links"] = {
-                "entries": scene["links"],
-                "frequency_hz": req.frequencies_hz[0] if req.frequencies_hz else None
-            }
+        scene["links"] = _normalize_links_payload(
+            scene.get("links"),
+            req.frequencies_hz[0] if req.frequencies_hz else None,
+        )
 
         # Store in memory
         set_scene(scene)
