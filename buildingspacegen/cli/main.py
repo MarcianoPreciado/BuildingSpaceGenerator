@@ -14,7 +14,6 @@ import json
 import os
 import sys
 
-
 def cmd_generate(args):
     """Generate a building and save JSON."""
     from buildingspacegen.pipeline import PipelineConfig, run_pipeline
@@ -129,6 +128,71 @@ def cmd_visualize(args):
     print(f"Starting visualizer at http://localhost:{args.port}")
     uvicorn.run(app, host="0.0.0.0", port=args.port)
 
+from buildingspacegen.pipeline import PipelineResult
+from buildingspacegen.core.enums import DeviceType
+from buildingspacegen.core.links import PathLossGraph
+def run_single_simulation(result: PipelineResult) -> PipelineResult:
+    controllers = [device for device in result.placement.devices if device.device_type == DeviceType.MAIN_CONTROLLER or device.device_type == DeviceType.SECONDARY_CONTROLLER]
+    graph_2400 = result.path_loss_graphs[2400000000.0]
+    graph_900 = result.path_loss_graphs[900000000.0]
+
+    new_graph = PathLossGraph()
+    for controller in controllers:
+        print(controller.id)
+        neighbor_ids = graph_2400.get_device_neighbors(controller.id, 2400000000.0)
+        print(neighbor_ids)
+        for neighbor_id in neighbor_ids:
+            link = graph_2400.get_link(controller.id, neighbor_id, 2400000000.0)
+            tx_power_dBm = 4
+            sensor_ant_gain_dBi = 0
+            controller_ant_gain_dBi = 0
+            min_RSSI_dBm = -85
+            RSSI_dBm = tx_power_dBm + sensor_ant_gain_dBi + controller_ant_gain_dBi - link.path_loss_db
+            if RSSI_dBm >= min_RSSI_dBm:
+                link.link_viable = True
+                link.link_margin_db = RSSI_dBm - min_RSSI_dBm
+                link.rx_power_dbm = RSSI_dBm
+                new_graph.add_link(link)
+        print("--------------------------------")
+    new_path_loss_graphs = {2400000000.0: new_graph, 900000000.0: PathLossGraph()}
+    return PipelineResult(
+        building=result.building,
+        placement=result.placement,
+        path_loss_graphs=new_path_loss_graphs,
+        config=result.config,
+    )
+
+def cmd_simulate(args):
+    """Generate a building and start the interactive visualizer."""
+    from buildingspacegen.pipeline import PipelineConfig, run_pipeline
+    from buildingspacegen.core.enums import BuildingType
+    from buildingspacegen.buildingviz.server.app import set_scene
+
+    try:
+        import uvicorn
+    except ImportError:
+        print("Error: uvicorn is required for visualize command. Install with: pip install uvicorn")
+        sys.exit(1)
+
+    config = PipelineConfig(
+        building_type=BuildingType(args.type),
+        total_sqft=args.sqft,
+        seed=args.seed,
+        frequencies_hz=[900e6, 2.4e9],
+    )
+    result = run_pipeline(config)
+    # result is a PipelineResult
+    result = run_single_simulation(result)
+    # need to change result's PipelineResult.path_loss_graphs.graph to represent chosen output
+    scene = result.to_json()
+
+    # Inject scene into the server
+    set_scene(scene)
+
+    from buildingspacegen.buildingviz.server.app import app
+    print(f"Starting visualizer at http://localhost:{args.port}")
+    uvicorn.run(app, host="0.0.0.0", port=args.port)
+
 
 def cmd_view(args):
     """Load an existing JSON file and start the visualizer."""
@@ -193,6 +257,14 @@ def main():
     p_viz.add_argument('--seed', type=int, default=42)
     p_viz.add_argument('--port', type=int, default=8000)
     p_viz.set_defaults(func=cmd_visualize)
+
+    # simulate
+    p_sim = subparsers.add_parser('simulate', help='Run Single Monte simulation')
+    p_sim.add_argument('--type', required=True, choices=['medium_office', 'large_office', 'warehouse'])
+    p_sim.add_argument('--sqft', type=float, required=True)
+    p_sim.add_argument('--seed', type=int, default=42)
+    p_sim.add_argument('--port', type=int, default=8001)
+    p_sim.set_defaults(func=cmd_simulate)
 
     # view
     p_view = subparsers.add_parser('view', help='View existing JSON in browser')
