@@ -132,35 +132,46 @@ from buildingspacegen.pipeline import PipelineResult
 from buildingspacegen.core.enums import DeviceType
 from buildingspacegen.core.links import PathLossGraph
 def run_single_simulation(result: PipelineResult) -> PipelineResult:
-    controllers = [device for device in result.placement.devices if device.device_type == DeviceType.MAIN_CONTROLLER or device.device_type == DeviceType.SECONDARY_CONTROLLER]
+    """ Simulate a single run on the pipeline result using the 2.4GHz band and legacy sensor parameters.
+        Star networks are the only ones that are viable. Sensors push blindly and controllers within range will receive. 
+        Viability definition: 80% reception rate which on average is at -93dBm in our experimentation. """
+    controllers = [device.id for device in result.placement.devices if device.device_type == DeviceType.MAIN_CONTROLLER or device.device_type == DeviceType.SECONDARY_CONTROLLER]
     graph_2400 = result.path_loss_graphs[2400000000.0]
-    graph_900 = result.path_loss_graphs[900000000.0]
+    links_2400 = []
+    for link in graph_2400.all_links:
+        device_a_id = link.tx_device_id
+        device_b_id = link.rx_device_id
+        frequency_hz = link.frequency_hz
 
-    new_graph = PathLossGraph()
-    for controller in controllers:
-        print(controller.id)
-        neighbor_ids = graph_2400.get_device_neighbors(controller.id, 2400000000.0)
-        print(neighbor_ids)
-        for neighbor_id in neighbor_ids:
-            link = graph_2400.get_link(controller.id, neighbor_id, 2400000000.0)
+        if (device_a_id in controllers or device_b_id in controllers) and frequency_hz == 2400000000.0:
+            controller_id = device_a_id if device_a_id in controllers else device_b_id
+            sensor_id = device_b_id if device_b_id in controllers else device_a_id
+            print(link)
+            
+            # Paint the link
             tx_power_dBm = 4
             sensor_ant_gain_dBi = 0
             controller_ant_gain_dBi = 0
-            min_RSSI_dBm = -85
+            min_RSSI_dBm = -93 # on average 80% reception. This is quite gracious
             RSSI_dBm = tx_power_dBm + sensor_ant_gain_dBi + controller_ant_gain_dBi - link.path_loss_db
             if RSSI_dBm >= min_RSSI_dBm:
+                print(f"Link {link.tx_device_id} -> {link.rx_device_id} is viable")
                 link.link_viable = True
                 link.link_margin_db = RSSI_dBm - min_RSSI_dBm
-                link.rx_power_dbm = RSSI_dBm
-                new_graph.add_link(link)
-        print("--------------------------------")
-    new_path_loss_graphs = {2400000000.0: new_graph, 900000000.0: PathLossGraph()}
+            link.rx_power_dbm = RSSI_dBm
+        links_2400.append(link)
+              
+    new_graph = PathLossGraph()
+    for link in links_2400:
+        new_graph.add_link(link)
     return PipelineResult(
         building=result.building,
         placement=result.placement,
-        path_loss_graphs=new_path_loss_graphs,
+        path_loss_graphs={2400000000.0: new_graph, 900000000.0: PathLossGraph()},
         config=result.config,
     )
+
+        
 
 def cmd_simulate(args):
     """Generate a building and start the interactive visualizer."""
