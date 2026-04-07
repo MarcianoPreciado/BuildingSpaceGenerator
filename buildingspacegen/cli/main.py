@@ -136,38 +136,58 @@ def run_single_simulation(result: PipelineResult) -> PipelineResult:
         Star networks are the only ones that are viable. Sensors push blindly and controllers within range will receive. 
         Viability definition: 80% reception rate which on average is at -93dBm in our experimentation. """
     controllers = [device.id for device in result.placement.devices if device.device_type == DeviceType.MAIN_CONTROLLER or device.device_type == DeviceType.SECONDARY_CONTROLLER]
-    graph_2400 = result.path_loss_graphs[2400000000.0]
-    links_2400 = []
-    for link in graph_2400.all_links:
-        device_a_id = link.tx_device_id
-        device_b_id = link.rx_device_id
-        frequency_hz = link.frequency_hz
 
-        if (device_a_id in controllers or device_b_id in controllers) and frequency_hz == 2400000000.0:
-            controller_id = device_a_id if device_a_id in controllers else device_b_id
-            sensor_id = device_b_id if device_b_id in controllers else device_a_id
-            print(link)
-            
-            # Paint the link
-            tx_power_dBm = 4
-            sensor_ant_gain_dBi = 0
-            controller_ant_gain_dBi = 0
-            min_RSSI_dBm = -93 # on average 80% reception. This is quite gracious
-            RSSI_dBm = tx_power_dBm + sensor_ant_gain_dBi + controller_ant_gain_dBi - link.path_loss_db
-            if RSSI_dBm >= min_RSSI_dBm:
-                print(f"Link {link.tx_device_id} -> {link.rx_device_id} is viable")
-                link.link_viable = True
-                link.link_margin_db = RSSI_dBm - min_RSSI_dBm
-            link.rx_power_dbm = RSSI_dBm
-        links_2400.append(link)
-              
-    new_graph = PathLossGraph()
-    for link in links_2400:
-        new_graph.add_link(link)
+    # Process each frequency graph and produce a new PathLossGraph per frequency
+    new_graphs = {}
+    min_RSSI_dBm = -93  # on average 80% reception. This is quite gracious
+
+    for freq, graph in result.path_loss_graphs.items():
+        processed_links = []
+        for link in graph.all_links:
+            # sanity: only consider links matching this frequency
+            if getattr(link, 'frequency_hz', None) is not None and link.frequency_hz != freq:
+                processed_links.append(link)
+                continue
+
+            device_a_id = link.tx_device_id
+            device_b_id = link.rx_device_id
+
+            # only star links (sensor <-> controller) are considered for viability
+            if (device_a_id in controllers) or (device_b_id in controllers):
+                # set radio parameters by frequency
+                if freq == 2400000000.0 or freq == 2.4e9:
+                    tx_power_dBm = 4
+                    sensor_ant_gain_dBi = 0
+                    controller_ant_gain_dBi = 0
+                elif freq == 900000000.0 or freq == 900e6:
+                    tx_power_dBm = 10
+                    sensor_ant_gain_dBi = 0
+                    controller_ant_gain_dBi = 0
+                else:
+                    # sensible defaults for unknown bands
+                    tx_power_dBm = 4
+                    sensor_ant_gain_dBi = 0
+                    controller_ant_gain_dBi = 0
+
+                RSSI_dBm = tx_power_dBm + sensor_ant_gain_dBi + controller_ant_gain_dBi - link.path_loss_db
+                if RSSI_dBm >= min_RSSI_dBm:
+                    if freq == 2400000000.0 or freq == 2.4e9:
+                        print(f"Link {device_a_id} <-> {device_b_id} @ 2.4GHz: RSSI = {RSSI_dBm:.1f} dBm (viable)")
+                    link.link_viable = True
+                    link.link_margin_db = RSSI_dBm - min_RSSI_dBm
+                link.rx_power_dbm = RSSI_dBm
+
+            processed_links.append(link)
+
+        new_graph = PathLossGraph()
+        for l in processed_links:
+            new_graph.add_link(l)
+        new_graphs[freq] = new_graph
+
     return PipelineResult(
         building=result.building,
         placement=result.placement,
-        path_loss_graphs={2400000000.0: new_graph, 900000000.0: PathLossGraph()},
+        path_loss_graphs=new_graphs,
         config=result.config,
     )
 
