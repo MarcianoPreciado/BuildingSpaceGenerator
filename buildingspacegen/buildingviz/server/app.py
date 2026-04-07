@@ -164,10 +164,7 @@ async def generate_scene(req: GenerateRequest, background_tasks: BackgroundTasks
         # Serialize to JSON
         scene = serialize_building_scene(building, devices, links, radio_profiles)
 
-        scene["links"] = _normalize_links_payload(
-            scene.get("links"),
-            req.frequencies_hz[0] if req.frequencies_hz else None,
-        )
+        scene["links"] = _normalize_links_payload(scene.get("links"))
 
         # Store in memory
         set_scene(scene)
@@ -179,6 +176,8 @@ async def generate_scene(req: GenerateRequest, background_tasks: BackgroundTasks
             status_code=503,
             detail="Pipeline modules not available. Make sure buildinggen, sensorplacer, and pathloss are installed."
         )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
 

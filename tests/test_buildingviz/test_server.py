@@ -101,6 +101,29 @@ def test_get_links_with_generated_scene_shape(client):
     assert data["entries"][0]["frequency_hz"] == 2400000000.0
 
 
+def test_get_links_filters_serialized_multiband_scene(client):
+    """Frequency filtering works when scene links are stored as a plain serialized list."""
+    set_scene(
+        {
+            "building": {"building_type": "medium_office", "total_area_sqft": 1000, "seed": 1, "floors": []},
+            "devices": [],
+            "radio_profiles": {},
+            "links": [
+                {"tx_device_id": "a", "rx_device_id": "b", "frequency_hz": 900000000.0, "link_viable": True, "rx_power_dbm": -70.0},
+                {"tx_device_id": "a", "rx_device_id": "c", "frequency_hz": 2400000000.0, "link_viable": False, "rx_power_dbm": -12.0},
+            ],
+        }
+    )
+
+    resp = client.get("/api/links?freq=900000000")
+
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["frequency_hz"] == 900000000
+    assert len(data["entries"]) == 1
+    assert data["entries"][0]["frequency_hz"] == 900000000.0
+
+
 def test_generate_endpoint_invalid_building_type(client):
     """Test POST /api/generate with invalid building type."""
     resp = client.post(

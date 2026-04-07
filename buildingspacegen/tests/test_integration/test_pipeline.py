@@ -27,6 +27,10 @@ def test_pipeline_json_output():
     assert "radio_profiles" in scene
     assert scene["building"]["building_type"] == "medium_office"
     assert len(scene["devices"]) > 0
+    assert scene["links"] is not None
+
+    frequencies = {link["frequency_hz"] for link in scene["links"]}
+    assert frequencies == {900000000.0, 2400000000.0}
 
 
 def test_pipeline_device_count_reasonable():

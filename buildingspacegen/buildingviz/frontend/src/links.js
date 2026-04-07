@@ -6,8 +6,8 @@ const Links = (() => {
   let _scene = null;
   let _showLinks = true;
   let _viableOnly = true;
-  let _minPower = -100;
-  let _maxPower = -30;
+  let _minPower = -120;
+  let _maxPower = 0;
   let _highlightDeviceId = null;
 
   function setScene(scene) { _scene = scene; }

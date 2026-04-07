@@ -72,6 +72,51 @@ const Filters = (() => {
     _onRedraw();
   }
 
+  function syncPowerRange(scene, resetValues = false) {
+    const entries = scene && scene.links ? (scene.links.entries || []) : [];
+    const minInput = document.getElementById('min-power');
+    const maxInput = document.getElementById('max-power');
+    const minLabel = document.getElementById('min-power-val');
+    const maxLabel = document.getElementById('max-power-val');
+
+    if (!minInput || !maxInput || !minLabel || !maxLabel) return;
+
+    let minBound = -120;
+    let maxBound = 30;
+
+    if (entries.length > 0) {
+      const values = entries
+        .map(link => link.rx_power_dbm)
+        .filter(value => Number.isFinite(value));
+
+      if (values.length > 0) {
+        minBound = Math.floor(Math.min(...values, -120));
+        maxBound = Math.ceil(Math.max(...values, 30));
+      }
+    }
+
+    minInput.min = String(minBound);
+    minInput.max = String(maxBound);
+    maxInput.min = String(minBound);
+    maxInput.max = String(maxBound);
+
+    if (resetValues) {
+      minInput.value = String(minBound);
+      maxInput.value = String(maxBound);
+    } else {
+      minInput.value = String(Math.max(minBound, Math.min(maxBound, parseFloat(minInput.value))));
+      maxInput.value = String(Math.max(minBound, Math.min(maxBound, parseFloat(maxInput.value))));
+      if (parseFloat(minInput.value) > parseFloat(maxInput.value)) {
+        minInput.value = String(minBound);
+        maxInput.value = String(maxBound);
+      }
+    }
+
+    minLabel.textContent = minInput.value;
+    maxLabel.textContent = maxInput.value;
+    Links.setPowerRange(parseFloat(minInput.value), parseFloat(maxInput.value));
+  }
+
   function buildLegend(scene) {
     if (!scene || !scene.building) return;
 
@@ -118,5 +163,5 @@ const Filters = (() => {
     }
   }
 
-  return { init, buildLegend, updateStats };
+  return { init, buildLegend, updateStats, syncPowerRange };
 })();

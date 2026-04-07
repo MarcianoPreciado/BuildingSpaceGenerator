@@ -36,14 +36,17 @@ class PipelineResult:
     path_loss_graphs: dict          # freq (float) → PathLossGraph
     config: PipelineConfig
 
+    def merged_links(self) -> PathLossGraph:
+        """Combine all per-frequency graphs into a single graph."""
+        merged = PathLossGraph()
+        for graph in self.path_loss_graphs.values():
+            for link in graph.all_links:
+                merged.add_link(link)
+        return merged
+
     def to_json(self) -> dict:
         """Serialize to P.3 JSON schema."""
         from buildingspacegen.core.serialization import serialize_building_scene
-        # Combine all link graphs (include first frequency by default)
-        links = None
-        for freq, graph in self.path_loss_graphs.items():
-            links = graph
-            break
         radio_profiles = {}
         for device in self.placement.devices:
             rp = device.radio_profile
@@ -51,7 +54,7 @@ class PipelineResult:
         return serialize_building_scene(
             building=self.building,
             devices=self.placement,
-            links=links,
+            links=self.merged_links(),
             radio_profiles=radio_profiles,
         )
 

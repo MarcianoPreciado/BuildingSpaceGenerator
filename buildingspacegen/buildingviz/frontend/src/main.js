@@ -44,6 +44,7 @@ window.App = (() => {
     Links.setScene(scene);
     Interaction.setScene(scene);
     Interaction.fitToScene(canvas.width, canvas.height);
+    Filters.syncPowerRange(scene, true);
     Filters.buildLegend(scene);
     Filters.updateStats(scene);
     redraw();
@@ -115,6 +116,8 @@ window.App = (() => {
         if (_scene) {
           _scene.links = links;
           Links.setScene(_scene);
+          Filters.syncPowerRange(_scene, true);
+          Filters.updateStats(_scene);
         }
       }
     } catch (e) {
