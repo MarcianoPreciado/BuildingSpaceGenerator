@@ -3,19 +3,19 @@ materials:
     description: "Single layer 13mm drywall"
     bands:
       2400000000:
-        mean_attenuation_db: 3.0
+        mean_attenuation_db: 1.5
         sigma_attenuation_db: 0.33
       900000000:
-        mean_attenuation_db: 2.0
+        mean_attenuation_db: 0.8
         sigma_attenuation_db: 0.33
   gypsum_double:
     description: "Double drywall partition 26mm+air"
     bands:
       2400000000:
-        mean_attenuation_db: 5.5
+        mean_attenuation_db: 3.0
         sigma_attenuation_db: 0.50
       900000000:
-        mean_attenuation_db: 4.0
+        mean_attenuation_db: 1.8
         sigma_attenuation_db: 0.33
   concrete_block:
     description: "200mm CMU block"
@@ -24,34 +24,34 @@ materials:
         mean_attenuation_db: 12.5
         sigma_attenuation_db: 0.83
       900000000:
-        mean_attenuation_db: 10.0
+        mean_attenuation_db: 12.0
         sigma_attenuation_db: 0.67
   reinforced_concrete:
     description: "200mm reinforced concrete"
     bands:
       2400000000:
-        mean_attenuation_db: 20.0
+        mean_attenuation_db: 31.0
         sigma_attenuation_db: 1.67
       900000000:
-        mean_attenuation_db: 16.0
+        mean_attenuation_db: 27.0
         sigma_attenuation_db: 1.33
   brick:
     description: "100mm brick"
     bands:
       2400000000:
-        mean_attenuation_db: 8.0
+        mean_attenuation_db: 9.0
         sigma_attenuation_db: 0.67
       900000000:
-        mean_attenuation_db: 6.0
+        mean_attenuation_db: 7.0
         sigma_attenuation_db: 0.67
   glass_standard:
     description: "6mm standard glass"
     bands:
       2400000000:
-        mean_attenuation_db: 3.0
+        mean_attenuation_db: 1.0
         sigma_attenuation_db: 0.33
       900000000:
-        mean_attenuation_db: 1.5
+        mean_attenuation_db: 0.8
         sigma_attenuation_db: 0.17
   glass_low_e:
     description: "6mm low-E coated glass"

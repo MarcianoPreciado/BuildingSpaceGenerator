@@ -10,11 +10,11 @@ from ..geometry import find_intersected_walls
 _LIGHT_SPEED_M_PER_S = 299_792_458.0
 _REFERENCE_MISC_LOSS_DB = {
     900_000_000.0: 12.0,
-    2_400_000_000.0: 12.0,
+    2_400_000_000.0: -5.0,
 }
 _PATH_LOSS_EXPONENT = {
-    900_000_000.0: 33.0,
-    2_400_000_000.0: 30.0,
+    900_000_000.0: 20.0,
+    2_400_000_000.0: 20.0,
 }
 
 

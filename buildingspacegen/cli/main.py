@@ -148,15 +148,15 @@ def run_single_simulation(result: PipelineResult) -> PipelineResult:
     radio_settings = {
         2400000000.0: {
             "tx_power_dBm": 4,                # 2.4 GHz legacy
-            "sensor_ant_gain_dBi": 0,
-            "controller_ant_gain_dBi": 0,
-            "min_RSSI_dBm": -89,
+            "sensor_ant_gain_dBi": -11,
+            "controller_ant_gain_dBi": 10,
+            "min_RSSI_dBm": -60, # Where we hit the knee of the curve
         },
         900000000.0: {
-            "tx_power_dBm": 10,               # Example value; adjust as needed for 900 MHz
-            "sensor_ant_gain_dBi": 2,
-            "controller_ant_gain_dBi": 2,
-            "min_RSSI_dBm": -89,             # Example threshold for 900 MHz; adjust accordingly
+            "tx_power_dBm": 4,
+            "sensor_ant_gain_dBi": -5,
+            "controller_ant_gain_dBi": 0,
+            "min_RSSI_dBm": -85,             # Where we hit the knee of the curve
         },
     }
 
