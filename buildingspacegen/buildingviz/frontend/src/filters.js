@@ -96,7 +96,17 @@ const Filters = (() => {
     }
   }
 
-  function updateStats(scene) {
+  function _fmtDist(val) {
+    return (val !== null && val !== undefined) ? val.toFixed(1) + ' m' : 'N/A';
+  }
+
+  function _bandLabel(freqHz) {
+    if (freqHz >= 2e9) return '2.4 GHz';
+    if (freqHz >= 800e6) return '900 MHz';
+    return (freqHz / 1e6).toFixed(0) + ' MHz';
+  }
+
+  async function updateStats(scene) {
     if (!scene) return;
 
     const devices = scene.devices || [];
@@ -107,14 +117,53 @@ const Filters = (() => {
     const s = devices.filter(d => d.device_type === 'sensor').length;
 
     const content = document.getElementById('stats-content');
-    if (content) {
-      content.innerHTML = `
-        <div><strong>Devices:</strong> ${devices.length} (${mc} MC, ${sc} SC, ${s} S)</div>
-        <div><strong>Links:</strong> ${viable}/${links.length} viable</div>
-        <div><strong>Building:</strong> ${scene.building ? scene.building.building_type : 'N/A'}</div>
-        <div><strong>Area:</strong> ${scene.building ? scene.building.total_area_sqft.toFixed(0) : 'N/A'} sqft</div>
-        <div><strong>Seed:</strong> ${scene.building ? scene.building.seed : 'N/A'}</div>
-      `;
+    if (!content) return;
+
+    // Render base stats immediately
+    content.innerHTML = `
+      <div><strong>Devices:</strong> ${devices.length} (${mc} MC, ${sc} SC, ${s} S)</div>
+      <div><strong>Links:</strong> ${viable}/${links.length} viable</div>
+      <div><strong>Building:</strong> ${scene.building ? scene.building.building_type : 'N/A'}</div>
+      <div><strong>Area:</strong> ${scene.building ? scene.building.total_area_sqft.toFixed(0) : 'N/A'} sqft</div>
+      <div><strong>Seed:</strong> ${scene.building ? scene.building.seed : 'N/A'}</div>
+      <div id="rf-stats-placeholder" style="color:#666;margin-top:4px;">Loading RF stats...</div>
+    `;
+
+    // Fetch per-frequency stats from backend and append
+    try {
+      const res = await fetch('/api/stats');
+      if (!res.ok) {
+        const placeholder = document.getElementById('rf-stats-placeholder');
+        if (placeholder) placeholder.remove();
+        return;
+      }
+      const stats = await res.json();
+      const placeholder = document.getElementById('rf-stats-placeholder');
+      if (!placeholder) return;
+
+      const freqs = Object.keys(stats).map(Number).sort();
+      if (freqs.length === 0) {
+        placeholder.remove();
+        return;
+      }
+
+      let html = '';
+      for (const freq of freqs) {
+        const band = _bandLabel(freq);
+        const bs = stats[freq];
+        html += `
+          <div style="margin-top:6px;border-top:1px solid #0f3460;padding-top:4px;">
+            <strong>${band}</strong>
+            <div>Connected sensors: ${bs.sensors_with_viable_connection}/${bs.total_sensors}</div>
+            <div>Range @ 97% viable: ${_fmtDist(bs.distance_97pct_m)}</div>
+            <div>Range @ 70% viable: ${_fmtDist(bs.distance_70pct_m)}</div>
+          </div>
+        `;
+      }
+      placeholder.outerHTML = html;
+    } catch (_) {
+      const placeholder = document.getElementById('rf-stats-placeholder');
+      if (placeholder) placeholder.remove();
     }
   }
 

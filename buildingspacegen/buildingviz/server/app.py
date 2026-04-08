@@ -183,6 +183,88 @@ async def generate_scene(req: GenerateRequest, background_tasks: BackgroundTasks
         raise HTTPException(status_code=500, detail=f"Generation failed: {str(e)}")
 
 
+def _compute_link_stats(scene: dict) -> dict:
+    """Compute per-frequency link statistics from a scene dict.
+
+    For each frequency band present in the links, computes:
+    - sensors_with_viable_connection: sensors that have >= 1 viable link
+    - total_sensors: total sensor count in scene
+    - distance_97pct_m: distance where cumulative viability rate first drops to 97%
+    - distance_70pct_m: distance where cumulative viability rate first drops to 70%
+
+    Viability survival function S(d):
+      S(d) = (# viable links with distance <= d) / (# total links with distance <= d)
+    Starts near 100% at short range and decreases as farther non-viable links accumulate.
+    """
+    links_data = scene.get("links")
+    if isinstance(links_data, dict):
+        all_links = links_data.get("entries", [])
+    elif isinstance(links_data, list):
+        all_links = links_data
+    else:
+        all_links = []
+
+    if not all_links:
+        return {}
+
+    devices = scene.get("devices") or []
+    sensor_ids = {d["id"] for d in devices if d.get("device_type") == "sensor"}
+
+    # Group links by frequency
+    freq_links: dict = {}
+    for link in all_links:
+        freq = link.get("frequency_hz")
+        if freq is not None:
+            freq_links.setdefault(freq, []).append(link)
+
+    result = {}
+    for freq, links in freq_links.items():
+        viable = [l for l in links if l.get("link_viable")]
+
+        # Sensors with at least one viable connection
+        sensors_connected: set = set()
+        for l in viable:
+            if l.get("tx_device_id") in sensor_ids:
+                sensors_connected.add(l["tx_device_id"])
+            if l.get("rx_device_id") in sensor_ids:
+                sensors_connected.add(l["rx_device_id"])
+
+        # Walk links sorted by distance, tracking cumulative viability rate
+        sorted_links = sorted(links, key=lambda l: l.get("distance_m", 0))
+        dist_97: Optional[float] = None
+        dist_70: Optional[float] = None
+        viable_count = 0
+
+        for i, link in enumerate(sorted_links):
+            if link.get("link_viable"):
+                viable_count += 1
+            rate = viable_count / (i + 1)
+            d = link.get("distance_m", 0)
+            if dist_97 is None and rate <= 0.97:
+                dist_97 = d
+            if dist_70 is None and rate <= 0.70:
+                dist_70 = d
+
+        result[int(freq)] = {
+            "sensors_with_viable_connection": len(sensors_connected),
+            "total_sensors": len(sensor_ids),
+            "distance_97pct_m": round(dist_97, 1) if dist_97 is not None else None,
+            "distance_70pct_m": round(dist_70, 1) if dist_70 is not None else None,
+        }
+
+    return result
+
+
+@app.get("/api/stats")
+async def get_stats():
+    """Return per-frequency link statistics for the current scene."""
+    try:
+        scene = get_scene()
+        return _compute_link_stats(scene)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # Mount static files (frontend)
 frontend_dir = os.path.join(
     os.path.dirname(__file__), "..", "frontend"
