@@ -44,7 +44,8 @@ const Devices = (() => {
         ctx.closePath();
       }
 
-      ctx.fillStyle = isSelected ? '#FFD700' : shape.fill;
+      const fill = ColorMap.deviceFill(device, shape.fill, _scene);
+      ctx.fillStyle = isSelected ? '#FFD700' : fill;
       ctx.fill();
       ctx.strokeStyle = shape.stroke;
       ctx.lineWidth = (isSelected ? 2.5 : 1.2) / transform.scale;

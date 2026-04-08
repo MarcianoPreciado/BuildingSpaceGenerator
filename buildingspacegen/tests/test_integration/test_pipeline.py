@@ -52,6 +52,23 @@ def test_pipeline_graph_has_links():
         assert len(graph.all_links) > 0
 
 
+def test_pipeline_marks_sensor_controller_connectivity():
+    config = PipelineConfig(building_type=BuildingType.MEDIUM_OFFICE, total_sqft=15000, seed=42)
+    result = run_pipeline(config)
+
+    sensors = [
+        device for device in result.placement.devices
+        if device.device_type.value == "sensor"
+    ]
+
+    assert sensors
+    for sensor in sensors:
+        assert "has_viable_controller_link" in sensor.metadata
+        assert "viable_controller_link_frequencies_hz" in sensor.metadata
+        assert isinstance(sensor.metadata["has_viable_controller_link"], bool)
+        assert isinstance(sensor.metadata["viable_controller_link_frequencies_hz"], list)
+
+
 def test_pipeline_save_load_json(tmp_path):
     config = PipelineConfig(building_type=BuildingType.MEDIUM_OFFICE, total_sqft=10000, seed=42)
     result = run_pipeline(config)

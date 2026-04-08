@@ -48,6 +48,16 @@ def _device_metadata_value(device: Device, name: str, default=None):
     return default
 
 
+def _sensor_facecolor(device: Device, default: str) -> str:
+    if device.device_type != DeviceType.SENSOR:
+        return default
+
+    has_viable_controller_link = _device_metadata_value(device, "has_viable_controller_link")
+    if has_viable_controller_link is False:
+        return "#ef4444"
+    return default
+
+
 def _normalize_side(side: object) -> str | None:
     if side is None:
         return None
@@ -264,7 +274,10 @@ def draw_devices(
     """Draw devices as patches with wall-aware placement when possible."""
     for device in devices:
         style = default_device_style(device.device_type)
-        style["facecolor"] = device_markers.get(device.device_type, ("o", 0, style["facecolor"]))[2]
+        style["facecolor"] = _sensor_facecolor(
+            device,
+            device_markers.get(device.device_type, ("o", 0, style["facecolor"]))[2],
+        )
         center = _resolve_device_anchor(device, wall_lookup)
         wall = wall_lookup.get(device.wall_id) if wall_lookup and getattr(device, "wall_id", "") else None
 

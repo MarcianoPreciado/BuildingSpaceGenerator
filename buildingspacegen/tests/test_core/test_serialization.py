@@ -225,3 +225,54 @@ class TestSerialization:
         assert restored.position_along_wall is None
         assert restored.mounted_side is None
         assert restored.offset_from_wall_m == 0.0
+
+    def test_device_metadata_round_trip(self):
+        building = create_simple_building()
+        profile = RadioProfile(
+            name="test_profile",
+            tx_power_dbm=10.0,
+            tx_antenna_gain_dbi=1.0,
+            rx_antenna_gain_dbi=1.0,
+            rx_sensitivity_dbm=-100.0,
+            supported_frequencies_hz=[900e6, 2.4e9],
+        )
+        placement = DevicePlacement(
+            building_seed=building.seed,
+            devices=[
+                Device(
+                    id="dev_001",
+                    device_type=DeviceType.SENSOR,
+                    position=Point3D(1.0, 2.0, 1.5),
+                    room_id="room_001",
+                    wall_id="",
+                    radio_profile=profile,
+                    metadata={
+                        "has_viable_controller_link": False,
+                        "viable_controller_link_frequencies_hz": [],
+                    },
+                )
+            ],
+            placement_rules=PlacementRules(
+                main_controller_per_sqft=0.0,
+                main_controller_wall_height_m=2.0,
+                main_controller_prefer_center=True,
+                secondary_controller_per_sqft=0.0,
+                secondary_controller_wall_height_m=2.0,
+                sensor_min_per_room=1,
+                sensor_per_sqft=0.0,
+                sensor_wall_height_m=1.5,
+                sensor_min_spacing_m=2.0,
+            ),
+        )
+
+        scene = serialize_building_scene(
+            building,
+            devices=placement,
+            radio_profiles={profile.name: profile},
+        )
+        _, restored_devices, _ = deserialize_building_scene(scene)
+
+        assert restored_devices is not None
+        restored = restored_devices.devices[0]
+        assert restored.metadata["has_viable_controller_link"] is False
+        assert restored.metadata["viable_controller_link_frequencies_hz"] == []

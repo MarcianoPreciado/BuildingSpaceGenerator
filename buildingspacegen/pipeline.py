@@ -36,6 +36,44 @@ class PipelineResult:
     path_loss_graphs: dict          # freq (float) → PathLossGraph
     config: PipelineConfig
 
+    def annotate_sensor_connectivity(self) -> None:
+        """Mark each sensor with controller-link viability across all available bands."""
+        controller_ids = {
+            device.id
+            for device in self.placement.devices
+            if device.device_type in {
+                DeviceType.MAIN_CONTROLLER,
+                DeviceType.SECONDARY_CONTROLLER,
+            }
+        }
+
+        viable_frequencies_by_sensor: dict[str, set[float]] = {
+            device.id: set()
+            for device in self.placement.devices
+            if device.device_type == DeviceType.SENSOR
+        }
+
+        for graph in self.path_loss_graphs.values():
+            for link in graph.all_links:
+                if not link.link_viable:
+                    continue
+
+                if link.tx_device_id in controller_ids and link.rx_device_id in viable_frequencies_by_sensor:
+                    viable_frequencies_by_sensor[link.rx_device_id].add(link.frequency_hz)
+
+                if link.rx_device_id in controller_ids and link.tx_device_id in viable_frequencies_by_sensor:
+                    viable_frequencies_by_sensor[link.tx_device_id].add(link.frequency_hz)
+
+        for device in self.placement.devices:
+            if device.device_type != DeviceType.SENSOR:
+                continue
+
+            metadata = dict(device.metadata)
+            viable_frequencies = sorted(viable_frequencies_by_sensor.get(device.id, set()))
+            metadata["has_viable_controller_link"] = bool(viable_frequencies)
+            metadata["viable_controller_link_frequencies_hz"] = viable_frequencies
+            device.metadata = metadata
+
     def merged_links(self) -> PathLossGraph:
         """Combine all per-frequency graphs into a single graph."""
         merged = PathLossGraph()
@@ -47,6 +85,7 @@ class PipelineResult:
     def to_json(self) -> dict:
         """Serialize to P.3 JSON schema."""
         from buildingspacegen.core.serialization import serialize_building_scene
+        self.annotate_sensor_connectivity()
         radio_profiles = {}
         for device in self.placement.devices:
             rp = device.radio_profile
@@ -162,12 +201,14 @@ def run_pipeline(config: PipelineConfig) -> PipelineResult:
         seed=config.seed,
     )
 
-    return PipelineResult(
+    result = PipelineResult(
         building=building,
         placement=placement,
         path_loss_graphs=path_loss_graphs,
         config=config,
     )
+    result.annotate_sensor_connectivity()
+    return result
 
 
 # ============================================================================

@@ -14,6 +14,21 @@ import json
 import os
 import sys
 
+SIMULATION_RADIO_SETTINGS = {
+    2400000000.0: {
+        "tx_power_dbm": 4.0,
+        "sensor_tx_antenna_gain_dbi": -11.0,
+        "controller_rx_antenna_gain_dbi": 0.0,
+        "min_rssi_dbm": -75.0,
+    },
+    900000000.0: {
+        "tx_power_dbm": 4.0,
+        "sensor_tx_antenna_gain_dbi": -5.0,
+        "controller_rx_antenna_gain_dbi": 0.0,
+        "min_rssi_dbm": -85.0,
+    },
+}
+
 def cmd_generate(args):
     """Generate a building and save JSON."""
     from buildingspacegen.pipeline import PipelineConfig, run_pipeline
@@ -131,6 +146,7 @@ def cmd_visualize(args):
 from buildingspacegen.pipeline import PipelineResult
 from buildingspacegen.core.enums import DeviceType
 from buildingspacegen.core.links import PathLossGraph
+
 def run_single_simulation(result: PipelineResult) -> PipelineResult:
     """
     Simulate a single run on the pipeline result for both 900 MHz and 2.4 GHz networks,
@@ -138,73 +154,83 @@ def run_single_simulation(result: PipelineResult) -> PipelineResult:
     Star networks are the only ones that are viable. Sensors push blindly and controllers within range will receive.
     Viability definition: 80% reception rate which on average is at band-specific minimum RSSI in our experimentation.
     """
-    controllers = [
+    controllers = {
         device.id
         for device in result.placement.devices
         if device.device_type == DeviceType.MAIN_CONTROLLER or device.device_type == DeviceType.SECONDARY_CONTROLLER
-    ]
-
-    # Radio parameters for each frequency (extend as needed)
-    radio_settings = {
-        2400000000.0: {
-            "tx_power_dBm": 4,                # 2.4 GHz legacy
-            "sensor_ant_gain_dBi": -11,
-            "controller_ant_gain_dBi": 10,
-            "min_RSSI_dBm": -60, # Where we hit the knee of the curve
-        },
-        900000000.0: {
-            "tx_power_dBm": 4,
-            "sensor_ant_gain_dBi": -5,
-            "controller_ant_gain_dBi": 0,
-            "min_RSSI_dBm": -85,             # Where we hit the knee of the curve
-        },
+    }
+    sensors = {
+        device.id
+        for device in result.placement.devices
+        if device.device_type == DeviceType.SENSOR
     }
 
     out_graphs = {}
 
-    for freq_hz, settings in radio_settings.items():
+    for freq_hz, settings in SIMULATION_RADIO_SETTINGS.items():
         graph = result.path_loss_graphs.get(freq_hz)
         if graph is None:
             out_graphs[freq_hz] = PathLossGraph()
             continue
 
-        processed_links = []
+        best_link_by_sensor = {}
         for link in graph.all_links:
             device_a_id = link.tx_device_id
             device_b_id = link.rx_device_id
             frequency_hz = link.frequency_hz
 
-            if (device_a_id in controllers or device_b_id in controllers) and frequency_hz == freq_hz:
-                controller_id = device_a_id if device_a_id in controllers else device_b_id
-                sensor_id = device_b_id if device_a_id in controllers else device_a_id
-                # Uncomment for debug:
-                # print(link)
+            if frequency_hz != freq_hz:
+                continue
 
-                # Paint the link with frequency-specific radio parameters
-                tx_power_dBm = settings["tx_power_dBm"]
-                sensor_ant_gain_dBi = settings["sensor_ant_gain_dBi"]
-                controller_ant_gain_dBi = settings["controller_ant_gain_dBi"]
-                min_RSSI_dBm = settings["min_RSSI_dBm"]
+            is_controller_link = (
+                (device_a_id in controllers and device_b_id in sensors)
+                or (device_b_id in controllers and device_a_id in sensors)
+            )
+            if not is_controller_link:
+                continue
 
-                RSSI_dBm = tx_power_dBm + sensor_ant_gain_dBi + controller_ant_gain_dBi - link.path_loss_db
-                if RSSI_dBm >= min_RSSI_dBm:
-                    # Uncomment for debug:
-                    # print(f"Link {link.tx_device_id} -> {link.rx_device_id} is viable ({freq_hz/1e6:.0f} MHz)")
-                    link.link_viable = True
-                    link.link_margin_db = RSSI_dBm - min_RSSI_dBm
-                link.rx_power_dbm = RSSI_dBm
-                processed_links.append(link)
+            sensor_id = device_b_id if device_a_id in controllers else device_a_id
+
+            tx_power_dbm = settings["tx_power_dbm"]
+            sensor_tx_gain_dbi = settings["sensor_tx_antenna_gain_dbi"]
+            controller_rx_gain_dbi = settings["controller_rx_antenna_gain_dbi"]
+            min_rssi_dbm = settings["min_rssi_dbm"]
+
+            RSSI_dBm = tx_power_dbm + sensor_tx_gain_dbi + controller_rx_gain_dbi - link.path_loss_db
+            link.rx_power_dbm = RSSI_dBm
+            link.link_viable = RSSI_dBm >= min_rssi_dbm
+            link.link_margin_db = RSSI_dBm - min_rssi_dbm
+
+            current_best = best_link_by_sensor.get(sensor_id)
+            if current_best is None or link.rx_power_dbm > current_best.rx_power_dbm:
+                best_link_by_sensor[sensor_id] = link
+
         new_graph = PathLossGraph()
-        for link in processed_links:
+        for link in best_link_by_sensor.values():
             new_graph.add_link(link)
         out_graphs[freq_hz] = new_graph
 
-    return PipelineResult(
+    simulated = PipelineResult(
         building=result.building,
         placement=result.placement,
         path_loss_graphs=out_graphs,
         config=result.config,
     )
+    simulated.annotate_sensor_connectivity()
+    return simulated
+
+
+def build_simulation_scene(result: PipelineResult) -> dict:
+    """Serialize a simulated result with band-specific radio assumptions."""
+    scene = result.to_json()
+    scene["simulation"] = {
+        "mode": "single_run",
+        "per_frequency": {
+            str(int(freq_hz)): settings
+            for freq_hz, settings in SIMULATION_RADIO_SETTINGS.items()
+        },
+    }
+    return scene
 
         
 
@@ -227,10 +253,8 @@ def cmd_simulate(args):
         frequencies_hz=[900e6, 2.4e9],
     )
     result = run_pipeline(config)
-    # result is a PipelineResult
     result = run_single_simulation(result)
-    # need to change result's PipelineResult.path_loss_graphs.graph to represent chosen output
-    scene = result.to_json()
+    scene = build_simulation_scene(result)
 
     # Inject scene into the server
     set_scene(scene)

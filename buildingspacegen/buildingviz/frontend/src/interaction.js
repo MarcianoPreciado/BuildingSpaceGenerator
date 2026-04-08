@@ -127,17 +127,90 @@ const Interaction = (() => {
     _onRedraw();
   }
 
+  function _currentFrequency() {
+    return _scene && _scene.links ? _scene.links.frequency_hz : null;
+  }
+
+  function _deviceById(deviceId) {
+    if (!_scene || !_scene.devices) return null;
+    return _scene.devices.find(device => device.id === deviceId) || null;
+  }
+
+  function _isController(device) {
+    return device && (
+      device.device_type === 'main_controller' ||
+      device.device_type === 'secondary_controller'
+    );
+  }
+
+  function _bestControllerLink(device) {
+    if (!_scene || !_scene.links || device.device_type !== 'sensor') return null;
+
+    const entries = Array.isArray(_scene.links.entries) ? _scene.links.entries : [];
+    let best = null;
+
+    for (const link of entries) {
+      const includesSensor = link.tx_device_id === device.id || link.rx_device_id === device.id;
+      if (!includesSensor) continue;
+
+      const peerId = link.tx_device_id === device.id ? link.rx_device_id : link.tx_device_id;
+      const peerDevice = _deviceById(peerId);
+      if (!_isController(peerDevice)) continue;
+
+      if (best === null || link.rx_power_dbm > best.link.rx_power_dbm) {
+        best = { link, peerDevice };
+      }
+    }
+
+    return best;
+  }
+
+  function _simulationSettingsForFrequency(freq) {
+    if (!Number.isFinite(freq) || !_scene || !_scene.simulation || !_scene.simulation.per_frequency) {
+      return null;
+    }
+    return _scene.simulation.per_frequency[String(Math.trunc(freq))] || null;
+  }
+
   function _showDeviceTooltip(device, cx, cy) {
     const profile = _scene && _scene.radio_profiles && _scene.radio_profiles[device.radio_profile_name];
     const freqs = profile
       ? profile.supported_frequencies_hz.map(f => `${(f / 1e6).toFixed(0)} MHz`).join(', ')
       : 'N/A';
+    const currentFreq = _currentFrequency();
+    const bestControllerLink = _bestControllerLink(device);
+    const simulationSettings = _simulationSettingsForFrequency(currentFreq);
 
     _tooltip.style.display = 'block';
     _tooltip.style.left = (cx + 12) + 'px';
     _tooltip.style.top = (cy - 10) + 'px';
 
     const devTypeLabel = device.device_type.replace(/_/g, ' ').toUpperCase();
+    const controllerLinkRow = device.device_type === 'sensor'
+      ? (() => {
+          if (!bestControllerLink) {
+            return '<div class="tt-row"><strong>Controller Link:</strong> No current-band controller link</div>';
+          }
+          const { link, peerDevice } = bestControllerLink;
+          const status = link.link_viable ? 'Viable' : 'Not viable';
+          const rxPower = Number.isFinite(link.rx_power_dbm) ? `${link.rx_power_dbm.toFixed(1)} dBm` : 'N/A';
+          const margin = Number.isFinite(link.link_margin_db) ? `${link.link_margin_db.toFixed(1)} dB` : 'N/A';
+          return `
+            <div class="tt-row"><strong>Controller Link:</strong> ${status}</div>
+            <div class="tt-row"><strong>Controller:</strong> ${peerDevice ? peerDevice.id : 'Unknown'}</div>
+            <div class="tt-row"><strong>RX Power:</strong> ${rxPower}</div>
+            <div class="tt-row"><strong>Margin:</strong> ${margin}</div>
+          `;
+        })()
+      : '';
+    const simulationRow = simulationSettings
+      ? `
+        <div class="tt-row"><strong>Sim TX:</strong> ${simulationSettings.tx_power_dbm.toFixed(1)} dBm</div>
+        <div class="tt-row"><strong>Sensor TX Gain:</strong> ${simulationSettings.sensor_tx_antenna_gain_dbi.toFixed(1)} dBi</div>
+        <div class="tt-row"><strong>Controller RX Gain:</strong> ${simulationSettings.controller_rx_antenna_gain_dbi.toFixed(1)} dBi</div>
+        <div class="tt-row"><strong>Min RSSI:</strong> ${simulationSettings.min_rssi_dbm.toFixed(1)} dBm</div>
+      `
+      : '';
     _tooltip.innerHTML = `
       <div class="tt-title">${devTypeLabel}</div>
       <div class="tt-row"><strong>ID:</strong> ${device.id}</div>
@@ -145,7 +218,10 @@ const Interaction = (() => {
       <div class="tt-row"><strong>Pos:</strong> (${device.position[0].toFixed(1)}, ${device.position[1].toFixed(1)}, ${device.position[2].toFixed(1)}m)</div>
       <div class="tt-row"><strong>Profile:</strong> ${device.radio_profile_name}</div>
       <div class="tt-row"><strong>Freqs:</strong> ${freqs}</div>
-      ${profile ? `<div class="tt-row"><strong>TX:</strong> ${profile.tx_power_dbm} dBm | <strong>RX:</strong> ${profile.rx_sensitivity_dbm} dBm</div>` : ''}
+      ${Number.isFinite(currentFreq) ? `<div class="tt-row"><strong>Current Band:</strong> ${(currentFreq / 1e6).toFixed(0)} MHz</div>` : ''}
+      ${controllerLinkRow}
+      ${simulationRow}
+      ${profile ? `<div class="tt-row"><strong>Profile TX:</strong> ${profile.tx_power_dbm} dBm | <strong>Profile RX Sens:</strong> ${profile.rx_sensitivity_dbm} dBm</div>` : ''}
     `;
   }
 

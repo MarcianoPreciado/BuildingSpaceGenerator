@@ -96,6 +96,39 @@ const ColorMap = (() => {
     return shapes[deviceType] || { type: 'circle', size: 6, fill: '#aaa', stroke: '#fff' };
   }
 
+  function deviceFill(device, defaultFill, scene) {
+    if (device.device_type !== 'sensor') return defaultFill;
+
+    const metadata = device.metadata || {};
+    const currentFrequency = scene && scene.links ? scene.links.frequency_hz : null;
+
+    if (Number.isFinite(currentFrequency) && Array.isArray(metadata.viable_controller_link_frequencies_hz)) {
+      return metadata.viable_controller_link_frequencies_hz.includes(currentFrequency)
+        ? defaultFill
+        : '#ef4444';
+    }
+
+    if (metadata.has_viable_controller_link === false) {
+      return '#ef4444';
+    }
+
+    if (scene && scene.links && Array.isArray(scene.links.entries) && Array.isArray(scene.devices)) {
+      const deviceMap = Object.fromEntries(scene.devices.map(entry => [entry.id, entry]));
+      const controllerLinks = scene.links.entries.filter(link => {
+        if (link.tx_device_id !== device.id && link.rx_device_id !== device.id) return false;
+        const peerId = link.tx_device_id === device.id ? link.rx_device_id : link.tx_device_id;
+        const peer = deviceMap[peerId];
+        return peer && (peer.device_type === 'main_controller' || peer.device_type === 'secondary_controller');
+      });
+
+      if (controllerLinks.length > 0) {
+        return controllerLinks.some(link => link.link_viable) ? defaultFill : '#ef4444';
+      }
+    }
+
+    return defaultFill;
+  }
+
   return {
     rxPowerToColor,
     roomTypeToFillColor,
@@ -103,6 +136,7 @@ const ColorMap = (() => {
     materialToColor,
     materialToLineWidth,
     deviceTypeToShape,
+    deviceFill,
     ROOM_COLORS,
   };
 })();

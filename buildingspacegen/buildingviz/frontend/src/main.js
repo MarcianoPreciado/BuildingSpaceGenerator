@@ -92,6 +92,10 @@ window.App = (() => {
 
       if (res.ok) {
         const scene = await res.json();
+        const linksRes = await fetch(`/api/links?freq=${_currentFreq}`);
+        if (linksRes.ok) {
+          scene.links = await linksRes.json();
+        }
         loadScene(scene);
       } else {
         const error = await res.text();
@@ -116,6 +120,8 @@ window.App = (() => {
         if (_scene) {
           _scene.links = links;
           Links.setScene(_scene);
+          Devices.setScene(_scene);
+          Interaction.setScene(_scene);
           Filters.syncPowerRange(_scene, true);
           Filters.updateStats(_scene);
         }

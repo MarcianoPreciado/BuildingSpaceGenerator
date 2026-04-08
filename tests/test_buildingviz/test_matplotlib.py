@@ -1,5 +1,6 @@
 """Tests for matplotlib 2D renderer."""
 import matplotlib.pyplot as plt
+from matplotlib.colors import to_hex
 from matplotlib.patches import Arc, Circle, RegularPolygon
 
 from buildingspacegen.core.geometry import Point2D, Polygon2D
@@ -540,6 +541,90 @@ def test_render_devices_without_mount_metadata_backward_compatible():
     fig = render_building_2d(building, devices=devices, save_path=None)
     ax = fig.axes[0]
     assert len(ax.patches) >= 3
+    plt.close(fig)
+
+
+def test_render_disconnected_sensor_in_red():
+    """Disconnected sensors should render red instead of the default green."""
+    from buildingspacegen.core.model import Room, Floor
+    from buildingspacegen.core.device import Device, DevicePlacement, PlacementRules, RadioProfile
+    from buildingspacegen.core.geometry import Point3D
+    from buildingspacegen.core.enums import DeviceType
+
+    footprint = Polygon2D([
+        Point2D(0, 0), Point2D(20, 0), Point2D(20, 20), Point2D(0, 20)
+    ])
+
+    room_poly = Polygon2D([
+        Point2D(2, 2), Point2D(18, 2), Point2D(18, 18), Point2D(2, 18)
+    ])
+
+    room = Room(
+        id="room_001",
+        room_type=RoomType.OPEN_OFFICE,
+        polygon=room_poly,
+        floor_index=0,
+        wall_ids=[],
+        door_ids=[],
+        ceiling_height=3.0,
+    )
+
+    floor = Floor(
+        index=0,
+        elevation=0.0,
+        footprint=footprint,
+        rooms=[room],
+        walls=[],
+        doors=[],
+    )
+
+    building = Building(
+        building_type=BuildingType.MEDIUM_OFFICE,
+        floors=[floor],
+        footprint=footprint,
+        total_area_sqft=1000,
+        seed=42,
+    )
+
+    profile = RadioProfile(
+        name="test_profile",
+        tx_power_dbm=10.0,
+        tx_antenna_gain_dbi=5.0,
+        rx_antenna_gain_dbi=5.0,
+        rx_sensitivity_dbm=-100.0,
+        supported_frequencies_hz=[900e6, 2.4e9],
+    )
+
+    devices = DevicePlacement(
+        building_seed=42,
+        devices=[
+            Device(
+                id="dev_001",
+                device_type=DeviceType.SENSOR,
+                position=Point3D(5.0, 5.0, 1.5),
+                room_id="room_001",
+                wall_id="",
+                radio_profile=profile,
+                metadata={"has_viable_controller_link": False},
+            ),
+        ],
+        placement_rules=PlacementRules(
+            main_controller_per_sqft=0.0,
+            main_controller_wall_height_m=2.5,
+            main_controller_prefer_center=True,
+            secondary_controller_per_sqft=0.0,
+            secondary_controller_wall_height_m=2.0,
+            sensor_min_per_room=1,
+            sensor_per_sqft=0.0,
+            sensor_wall_height_m=1.5,
+            sensor_min_spacing_m=3.0,
+        ),
+    )
+
+    fig = render_building_2d(building, devices=devices, save_path=None)
+    ax = fig.axes[0]
+    sensor_patch = next(patch for patch in ax.patches if isinstance(patch, Circle))
+    assert to_hex(sensor_patch.get_facecolor(), keep_alpha=False) == "#ef4444"
     plt.close(fig)
 
 
