@@ -7,6 +7,10 @@ Usage examples:
   buildingspacegen render --type medium_office --sqft 25000 --seed 42 --output output/floorplan.png
   buildingspacegen batch --type medium_office --sqft 25000 --runs 5 --output output/batch.json
   buildingspacegen visualize --type medium_office --sqft 25000 --seed 42 --port 8000
+  buildingspacegen visualize-scene --input "output/imported-buildings/Millrock Office.graph - Floor 1.json" --port 8000
+  buildingspacegen simulate-scene --input "output/imported-buildings/Millrock Office.graph - Floor 1.json" --port 8000
+  buildingspacegen visualize-imported --graph "Sample Buildings/Kajima 11th Floor/Kajima 11th Floor.graph.json" --floor "Floor 0" --port 8000
+  buildingspacegen simulate-imported --graph "Sample Buildings/Kajima 11th Floor/Kajima 11th Floor.graph.json" --floor "Floor 0" --port 8000
   buildingspacegen view --input output/building.json --port 8000
 """
 import argparse
@@ -16,18 +20,45 @@ import sys
 
 SIMULATION_RADIO_SETTINGS = {
     2400000000.0: {
-        "tx_power_dbm": 4.0,
+        "tx_power_dbm": 8.0,
         "sensor_tx_antenna_gain_dbi": -11.0,
         "controller_rx_antenna_gain_dbi": 0.0,
         "min_rssi_dbm": -75.0,
     },
     900000000.0: {
-        "tx_power_dbm": 4.0,
+        "tx_power_dbm": 10.0,
         "sensor_tx_antenna_gain_dbi": -5.0,
         "controller_rx_antenna_gain_dbi": 0.0,
         "min_rssi_dbm": -85.0,
     },
 }
+
+
+def _require_uvicorn():
+    try:
+        import uvicorn
+    except ImportError:
+        print("Error: uvicorn is required for browser commands. Install with: pip install uvicorn")
+        sys.exit(1)
+    return uvicorn
+
+
+def _serve_scene(scene: dict, port: int) -> None:
+    from buildingspacegen.buildingviz.server.app import app, set_scene
+
+    uvicorn = _require_uvicorn()
+    set_scene(scene)
+    print(f"Starting visualizer at http://localhost:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
+
+def _coerce_floor_selector(value):
+    if value is None:
+        return None
+    text = str(value).strip()
+    if text.lstrip("-").isdigit():
+        return int(text)
+    return text
 
 def cmd_generate(args):
     """Generate a building and save JSON."""
@@ -119,13 +150,6 @@ def cmd_visualize(args):
     """Generate a building and start the interactive visualizer."""
     from buildingspacegen.pipeline import PipelineConfig, run_pipeline
     from buildingspacegen.core.enums import BuildingType
-    from buildingspacegen.buildingviz.server.app import set_scene
-
-    try:
-        import uvicorn
-    except ImportError:
-        print("Error: uvicorn is required for visualize command. Install with: pip install uvicorn")
-        sys.exit(1)
 
     config = PipelineConfig(
         building_type=BuildingType(args.type),
@@ -134,14 +158,7 @@ def cmd_visualize(args):
         frequencies_hz=[900e6, 2.4e9],
     )
     result = run_pipeline(config)
-    scene = result.to_json()
-
-    # Inject scene into the server
-    set_scene(scene)
-
-    from buildingspacegen.buildingviz.server.app import app
-    print(f"Starting visualizer at http://localhost:{args.port}")
-    uvicorn.run(app, host="0.0.0.0", port=args.port)
+    _serve_scene(result.to_json(), args.port)
 
 from buildingspacegen.pipeline import PipelineResult
 from buildingspacegen.core.enums import DeviceType
@@ -238,13 +255,6 @@ def cmd_simulate(args):
     """Generate a building and start the interactive visualizer."""
     from buildingspacegen.pipeline import PipelineConfig, run_pipeline
     from buildingspacegen.core.enums import BuildingType
-    from buildingspacegen.buildingviz.server.app import set_scene
-
-    try:
-        import uvicorn
-    except ImportError:
-        print("Error: uvicorn is required for visualize command. Install with: pip install uvicorn")
-        sys.exit(1)
 
     config = PipelineConfig(
         building_type=BuildingType(args.type),
@@ -254,39 +264,80 @@ def cmd_simulate(args):
     )
     result = run_pipeline(config)
     result = run_single_simulation(result)
-    scene = build_simulation_scene(result)
+    _serve_scene(build_simulation_scene(result), args.port)
 
-    # Inject scene into the server
-    set_scene(scene)
 
-    from buildingspacegen.buildingviz.server.app import app
-    print(f"Starting visualizer at http://localhost:{args.port}")
-    uvicorn.run(app, host="0.0.0.0", port=args.port)
+def cmd_visualize_imported(args):
+    """Import a floor, place devices, and visualize the result."""
+    from buildingspacegen.pipeline import ImportedPipelineConfig, run_imported_pipeline
+
+    result = run_imported_pipeline(
+        ImportedPipelineConfig(
+            graph_path=args.graph,
+            floor_selector=_coerce_floor_selector(args.floor),
+            seed=args.seed,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+    _serve_scene(result.to_json(), args.port)
+
+
+def cmd_simulate_imported(args):
+    """Import a floor, place devices, run the single-run simulation, and visualize the result."""
+    from buildingspacegen.pipeline import ImportedPipelineConfig, run_imported_pipeline
+
+    result = run_imported_pipeline(
+        ImportedPipelineConfig(
+            graph_path=args.graph,
+            floor_selector=_coerce_floor_selector(args.floor),
+            seed=args.seed,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+    result = run_single_simulation(result)
+    _serve_scene(build_simulation_scene(result), args.port)
+
+
+def cmd_visualize_scene(args):
+    """Load a building-only scene JSON, place devices, and visualize the result."""
+    from buildingspacegen.pipeline import ExistingBuildingPipelineConfig, run_existing_building_pipeline
+
+    result = run_existing_building_pipeline(
+        ExistingBuildingPipelineConfig(
+            input_path=args.input,
+            seed=args.seed,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+    _serve_scene(result.to_json(), args.port)
+
+
+def cmd_simulate_scene(args):
+    """Load a building-only scene JSON, place devices, run the single-run simulation, and visualize the result."""
+    from buildingspacegen.pipeline import ExistingBuildingPipelineConfig, run_existing_building_pipeline
+
+    result = run_existing_building_pipeline(
+        ExistingBuildingPipelineConfig(
+            input_path=args.input,
+            seed=args.seed,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+    result = run_single_simulation(result)
+    _serve_scene(build_simulation_scene(result), args.port)
 
 
 def cmd_view(args):
     """Load an existing JSON file and start the visualizer."""
-    from buildingspacegen.buildingviz.server.app import set_scene
-
-    try:
-        import uvicorn
-    except ImportError:
-        print("Error: uvicorn is required for view command. Install with: pip install uvicorn")
-        sys.exit(1)
-
     with open(args.input) as f:
         scene = json.load(f)
-    set_scene(scene)
-
-    from buildingspacegen.buildingviz.server.app import app
-    print(f"Starting visualizer at http://localhost:{args.port}")
-    uvicorn.run(app, host="0.0.0.0", port=args.port)
+    _serve_scene(scene, args.port)
 
 
 def main():
     parser = argparse.ArgumentParser(
         prog='buildingspacegen',
-        description='BuildingSpaceGenerator — procedural floor plan generator for WSN simulation',
+        description='BuildingSpaceGenerator — building import, placement, RF simulation, and visualization',
     )
     subparsers = parser.add_subparsers(dest='command', required=True)
 
@@ -328,6 +379,19 @@ def main():
     p_viz.add_argument('--port', type=int, default=8000)
     p_viz.set_defaults(func=cmd_visualize)
 
+    p_viz_imported = subparsers.add_parser('visualize-imported', help='Import a floor and visualize with placed devices')
+    p_viz_imported.add_argument('--graph', required=True)
+    p_viz_imported.add_argument('--floor', required=False, default=None)
+    p_viz_imported.add_argument('--seed', type=int, default=42)
+    p_viz_imported.add_argument('--port', type=int, default=8000)
+    p_viz_imported.set_defaults(func=cmd_visualize_imported)
+
+    p_viz_scene = subparsers.add_parser('visualize-scene', help='Load a building-only scene, place devices, and visualize')
+    p_viz_scene.add_argument('--input', required=True)
+    p_viz_scene.add_argument('--seed', type=int, default=42)
+    p_viz_scene.add_argument('--port', type=int, default=8000)
+    p_viz_scene.set_defaults(func=cmd_visualize_scene)
+
     # simulate
     p_sim = subparsers.add_parser('simulate', help='Run Single Monte simulation')
     p_sim.add_argument('--type', required=True, choices=['medium_office', 'large_office', 'warehouse'])
@@ -335,6 +399,19 @@ def main():
     p_sim.add_argument('--seed', type=int, default=42)
     p_sim.add_argument('--port', type=int, default=8001)
     p_sim.set_defaults(func=cmd_simulate)
+
+    p_sim_imported = subparsers.add_parser('simulate-imported', help='Import a floor and run the single-run simulation')
+    p_sim_imported.add_argument('--graph', required=True)
+    p_sim_imported.add_argument('--floor', required=False, default=None)
+    p_sim_imported.add_argument('--seed', type=int, default=42)
+    p_sim_imported.add_argument('--port', type=int, default=8001)
+    p_sim_imported.set_defaults(func=cmd_simulate_imported)
+
+    p_sim_scene = subparsers.add_parser('simulate-scene', help='Load a building-only scene and run the single-run simulation')
+    p_sim_scene.add_argument('--input', required=True)
+    p_sim_scene.add_argument('--seed', type=int, default=42)
+    p_sim_scene.add_argument('--port', type=int, default=8001)
+    p_sim_scene.set_defaults(func=cmd_simulate_scene)
 
     # view
     p_view = subparsers.add_parser('view', help='View existing JSON in browser')

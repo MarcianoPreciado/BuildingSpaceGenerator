@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 """RF geometry computations for path loss."""
+from collections import defaultdict
+
 from buildingspacegen.core.geometry import Point2D, LineSegment2D
 from buildingspacegen.core.model import Building
 
@@ -27,13 +29,13 @@ def find_intersected_walls(
     tx_origin = _shift_mount_point(tx_pos, building, tx_wall_id, tx_mounted_side, tx_offset_from_wall_m)
     rx_origin = _shift_mount_point(rx_pos, building, rx_wall_id, rx_mounted_side, rx_offset_from_wall_m)
     ray = LineSegment2D(tx_origin, rx_origin)
-    results = []
+    hits = []
 
     # Build door lookup by wall_id for fast access
-    door_by_wall = {}
+    door_by_wall = defaultdict(list)
     for floor in building.floors:
         for door in floor.doors:
-            door_by_wall[door.wall_id] = door
+            door_by_wall[door.wall_id].append(door)
 
     for wall in building.all_walls():
         wall_seg = LineSegment2D(wall.start, wall.end)
@@ -46,21 +48,22 @@ def find_intersected_walls(
         if intersection is None:
             continue
 
-        # Determine material to use
         material_name = wall.materials[0].name if wall.materials else "gypsum_double"
-        is_door = False
+        wall_metadata = getattr(wall, "metadata", {}) or {}
+        opening_kind = wall_metadata.get("opening_kind")
+        is_door = opening_kind in {"door", "garage_door"}
 
-        # Check if there's a door on this wall and if the intersection is within door span
-        if wall.id in door_by_wall:
-            door = door_by_wall[wall.id]
-            wall_length = wall_seg.length()
-            if wall_length > 0:
-                # Door occupies [pos - half_width, pos + half_width] along the wall
+        # Legacy generated buildings represent doors separately; imported floors may split
+        # openings into dedicated wall segments and mark them in wall metadata.
+        if opening_kind is None:
+            for door in door_by_wall.get(wall.id, []):
+                wall_length = wall_seg.length()
+                if wall_length <= 0:
+                    continue
                 half_width_frac = (door.width / 2.0) / wall_length
                 door_start = door.position_along_wall - half_width_frac
                 door_end = door.position_along_wall + half_width_frac
 
-                # Find the t parameter of intersection along the wall
                 wall_start = wall.start
                 dx = wall.end.x - wall_start.x
                 dy = wall.end.y - wall_start.y
@@ -71,15 +74,40 @@ def find_intersected_walls(
 
                 if door_start <= t_on_wall <= door_end:
                     material_name = door.material.name
+                    opening_kind = "door"
                     is_door = True
+                    break
 
-        results.append({
-            'wall_id': wall.id,
-            'material': material_name,
-            'is_door': is_door,
+        hits.append({
+            "wall_id": wall.id,
+            "material": material_name,
+            "is_door": is_door,
+            "opening_kind": opening_kind,
+            "_intersection_xy": (round(intersection.x, 6), round(intersection.y, 6)),
         })
 
+    deduped: dict[tuple[float, float], dict] = {}
+    for hit in hits:
+        key = hit["_intersection_xy"]
+        current = deduped.get(key)
+        if current is None or _prefer_intersection_hit(hit, current):
+            deduped[key] = hit
+
+    results = []
+    for hit in deduped.values():
+        hit.pop("_intersection_xy", None)
+        results.append(hit)
+
     return results
+
+
+def _prefer_intersection_hit(candidate: dict, current: dict) -> bool:
+    """Prefer explicit openings over coincident solid-wall duplicates."""
+    candidate_priority = 1 if candidate.get("opening_kind") else 0
+    current_priority = 1 if current.get("opening_kind") else 0
+    if candidate_priority != current_priority:
+        return candidate_priority > current_priority
+    return False
 
 
 def _shift_mount_point(

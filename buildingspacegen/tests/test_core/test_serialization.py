@@ -28,6 +28,8 @@ def create_simple_building() -> Building:
         wall_ids=["wall_001"],
         door_ids=["door_001"],
         ceiling_height=3.0,
+        has_windows=True,
+        window_sides=["N", "E"],
     )
 
     # Create wall
@@ -89,6 +91,8 @@ class TestSerialization:
         assert data["seed"] == 42
         assert len(data["floors"]) == 1
         assert len(data["floors"][0]["rooms"]) == 1
+        assert data["floors"][0]["rooms"][0]["has_windows"] is True
+        assert data["floors"][0]["rooms"][0]["window_sides"] == ["N", "E"]
 
     def test_building_from_dict(self):
         building = create_simple_building()
@@ -98,6 +102,8 @@ class TestSerialization:
         assert restored.building_type == building.building_type
         assert restored.seed == building.seed
         assert len(restored.floors) == 1
+        assert restored.floors[0].rooms[0].has_windows is True
+        assert restored.floors[0].rooms[0].window_sides == ["N", "E"]
 
     def test_round_trip_building(self):
         building = create_simple_building()

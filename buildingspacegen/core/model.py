@@ -24,6 +24,7 @@ class WallSegment:
     materials: list[Material]
     is_exterior: bool
     room_ids: tuple[str, Optional[str]]  # (room_a, room_b) where room_b is None for exterior
+    metadata: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -48,6 +49,8 @@ class Room:
     door_ids: list[str]
     ceiling_height: float
     metadata: dict = field(default_factory=dict)
+    has_windows: bool = False
+    window_sides: list[str] = field(default_factory=list)
 
     @property
     def area_sqft(self) -> float:

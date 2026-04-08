@@ -1,0 +1,4715 @@
+{
+  "building": {
+    "building_type": "medium_office",
+    "total_area_sqft": 12442.106364160165,
+    "seed": 42,
+    "footprint": [
+      [
+        -36.300000000000004,
+        -9.3
+      ],
+      [
+        -33.91791847766275,
+        -39.54266143008321
+      ],
+      [
+        -24.399999629185103,
+        -39.54266190030083
+      ],
+      [
+        -9.650665321786953,
+        -39.54266190030083
+      ],
+      [
+        -9.65066465409397,
+        -26.150000728667465
+      ],
+      [
+        -9.650666012398514,
+        6.533656207474743
+      ],
+      [
+        -33.917918096024195,
+        6.533655750683468
+      ],
+      [
+        -36.300000000000004,
+        6.533655402469752
+      ]
+    ],
+    "metadata": {
+      "source_type": "quantum_graph",
+      "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+      "source_version": "0.24.0",
+      "source_root_type": "Site",
+      "source_site_id": "1BCD4825-3D29-46E4-82F3-481E6FE38B0F",
+      "source_building_id": "AE4F22C3-9F83-484E-8D2F-5D65A7B25623",
+      "source_building_name": "Building",
+      "source_floor_id": "B8CAE146-9EA6-4CBB-B394-344421A91BDF",
+      "source_floor_name": "Floor B1",
+      "source_floor_level": -1,
+      "relative_north_deg": 0.0,
+      "available_floors": [
+        {
+          "id": "B8CAE146-9EA6-4CBB-B394-344421A91BDF",
+          "name": "Floor B1",
+          "level": -1,
+          "elevation_m": 0.2,
+          "zone_count": 15,
+          "is_default_candidate": true
+        },
+        {
+          "id": "6E394FB6-F66F-4C2E-9BCB-FD34F2B1CADD",
+          "name": "Floor 0",
+          "level": 0,
+          "elevation_m": 3.4,
+          "zone_count": 97,
+          "is_default_candidate": true
+        },
+        {
+          "id": "02188C50-5E82-4312-B7A9-5E7E60814DC3",
+          "name": "Floor 1",
+          "level": 1,
+          "elevation_m": 6.6,
+          "zone_count": 100,
+          "is_default_candidate": true
+        },
+        {
+          "id": "8B6BEEDE-037B-4585-9A69-9DD5D4C72E52",
+          "name": "Floor 2",
+          "level": 2,
+          "elevation_m": 9.8,
+          "zone_count": 73,
+          "is_default_candidate": true
+        },
+        {
+          "id": "D7485C62-0149-4E42-87CD-68F933DB18BC",
+          "name": "Floor 3",
+          "level": 3,
+          "elevation_m": 13.0,
+          "zone_count": 62,
+          "is_default_candidate": true
+        },
+        {
+          "id": "0801C3A1-8FA7-4FDA-A5A5-53F266459B88",
+          "name": "Floor 4",
+          "level": 4,
+          "elevation_m": 16.2,
+          "zone_count": 43,
+          "is_default_candidate": true
+        },
+        {
+          "id": "2C20A639-9EFB-44CF-870C-E4DE752E0068",
+          "name": "Roof",
+          "level": null,
+          "elevation_m": 19.4,
+          "zone_count": 0,
+          "is_default_candidate": false
+        },
+        {
+          "id": "FBFC3FD7-8CF7-4E4C-980A-467B5F5A2B0A",
+          "name": "Mechanical",
+          "level": null,
+          "elevation_m": null,
+          "zone_count": 0,
+          "is_default_candidate": false
+        },
+        {
+          "id": "F357E1FA-50C1-48CA-9EF4-D44D772F0E06",
+          "name": "Outdoor",
+          "level": null,
+          "elevation_m": null,
+          "zone_count": 0,
+          "is_default_candidate": false
+        }
+      ],
+      "source_site_name": "Panasonic - Site 4",
+      "source_site_directory": "Panasonic",
+      "source_site_project_state": "Deployed",
+      "source_site_status": null,
+      "source_site_feature_access": "Standard",
+      "source_site_campus_id": null,
+      "source_site_image_id": "EA923A31-1C14-44D4-A715-28E813FE6A04",
+      "source_building_site_id": "1BCD4825-3D29-46E4-82F3-481E6FE38B0F",
+      "source_building_location_id": null,
+      "source_building_image_id": null,
+      "source_building_owner_name": null,
+      "source_building_owner_id": null,
+      "source_geometry_units": "Meter",
+      "source_floor_elevation_m": 0.2,
+      "source_floor_height_m": 3.0,
+      "source_floor_ceiling_height_m": 2.75,
+      "source_floor_slab_depth_m": 0.2,
+      "source_groundsmashMinX": null,
+      "source_groundsmashMaxX": null,
+      "source_groundsmashMinY": null,
+      "source_groundsmashMaxY": null,
+      "source_groundsmashElevation": null,
+      "source_groundsmashRotation": null,
+      "source_groundsmashAdjusted": null,
+      "source_location_id": "8C9D2DA9-9F90-4BBF-ACCB-2E6D638B659F",
+      "source_location_name": null,
+      "source_location_latitude": 40.76,
+      "source_location_longitude": -111.89,
+      "source_location_elevation": 4265.0,
+      "source_location_address": null,
+      "source_location_city": null,
+      "source_location_state": null,
+      "source_location_country": null,
+      "source_location_postal_code": null
+    },
+    "floors": [
+      {
+        "index": -1,
+        "elevation": 0.2,
+        "footprint": [
+          [
+            -36.300000000000004,
+            -9.3
+          ],
+          [
+            -33.91791847766275,
+            -39.54266143008321
+          ],
+          [
+            -24.399999629185103,
+            -39.54266190030083
+          ],
+          [
+            -9.650665321786953,
+            -39.54266190030083
+          ],
+          [
+            -9.65066465409397,
+            -26.150000728667465
+          ],
+          [
+            -9.650666012398514,
+            6.533656207474743
+          ],
+          [
+            -33.917918096024195,
+            6.533655750683468
+          ],
+          [
+            -36.300000000000004,
+            6.533655402469752
+          ]
+        ],
+        "rooms": [
+          {
+            "id": "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -24.39999963523495,
+                -34.207560004066536
+              ],
+              [
+                -21.0,
+                -34.207560004066536
+              ],
+              [
+                -21.0,
+                -32.6
+              ],
+              [
+                -24.39999963523495,
+                -32.6
+              ]
+            ],
+            "area_sqft": 58.8328316930127,
+            "area_sqm": 5.4657034274445095,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00001",
+              "wall_00003",
+              "wall_00005",
+              "wall_00007",
+              "wall_00008",
+              "wall_00009"
+            ],
+            "door_ids": [
+              "door_00001"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              "source_name": "Space 386",
+              "display_name": "Space 386",
+              "classification": "open_office",
+              "source_color": "rgb(187,229,222)",
+              "area_sqm_source": 5.465703427444523,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -33.91791855823967,
+                -20.150000000000002
+              ],
+              [
+                -28.1,
+                -20.150000000000002
+              ],
+              [
+                -28.1,
+                -9.3
+              ],
+              [
+                -33.91791855823967,
+                -9.3
+              ]
+            ],
+            "area_sqft": 679.4712176656762,
+            "area_sqm": 63.12441635690044,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00010",
+              "wall_00012",
+              "wall_00014",
+              "wall_00016",
+              "wall_00017",
+              "wall_00018",
+              "wall_00019"
+            ],
+            "door_ids": [
+              "door_00003",
+              "door_00005"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              "source_name": "Acoustic Basement 1",
+              "display_name": "Acoustic Basement 1",
+              "classification": "open_office",
+              "source_color": "rgb(203,227,200)",
+              "area_sqm_source": 63.12441635690039,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_34E60A15-34DC-4E41-BDA8-258BCA01D14A",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -36.300000000000004,
+                -9.3
+              ],
+              [
+                -33.91791855823967,
+                -9.3
+              ],
+              [
+                -33.91791855823967,
+                6.533655402469752
+              ],
+              [
+                -36.300000000000004,
+                6.533655402469752
+              ]
+            ],
+            "area_sqft": 405.98639820525574,
+            "area_sqm": 37.71705668945148,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00020",
+              "wall_00021",
+              "wall_00022",
+              "wall_00023"
+            ],
+            "door_ids": [],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "34E60A15-34DC-4E41-BDA8-258BCA01D14A",
+              "source_name": "Space 391",
+              "display_name": "Space 391",
+              "classification": "open_office",
+              "source_color": "rgb(216,224,194)",
+              "area_sqm_source": 37.717056689451475,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -33.35,
+                -28.75000030288286
+              ],
+              [
+                -30.009615768633488,
+                -26.321869068597557
+              ],
+              [
+                -28.423544244740214,
+                -26.727272884302085
+              ],
+              [
+                -28.41791738701832,
+                -25.750000600305757
+              ],
+              [
+                -33.917917387018285,
+                -25.750000000000128
+              ],
+              [
+                -33.917918134671595,
+                -32.59999936181083
+              ],
+              [
+                -31.6,
+                -32.59999961480343
+              ]
+            ],
+            "area_sqft": 155.60402252135245,
+            "area_sqm": 14.455966417814238,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00024",
+              "wall_00026",
+              "wall_00027",
+              "wall_00028",
+              "wall_00029",
+              "wall_00030",
+              "wall_00031"
+            ],
+            "door_ids": [],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              "source_name": "Space 390",
+              "display_name": "Space 390",
+              "classification": "open_office",
+              "source_color": "rgb(190,227,233)",
+              "area_sqm_source": 14.455966417814206,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -24.39999963523495,
+                -39.54266190030083
+              ],
+              [
+                -21.0,
+                -39.54266190030083
+              ],
+              [
+                -21.0,
+                -34.207560004066536
+              ],
+              [
+                -24.39999963523495,
+                -34.207560004066536
+              ]
+            ],
+            "area_sqft": 195.25190421024817,
+            "area_sqm": 18.139344501137884,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00002",
+              "wall_00004",
+              "wall_00006",
+              "wall_00033",
+              "wall_00034",
+              "wall_00035",
+              "wall_00036"
+            ],
+            "door_ids": [
+              "door_00002",
+              "door_00006"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              "source_name": "Space 387",
+              "display_name": "Space 387",
+              "classification": "open_office",
+              "source_color": "rgb(223,217,245)",
+              "area_sqm_source": 18.13934450113788,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+            "room_type": "mechanical",
+            "polygon": [
+              [
+                -22.050666012398512,
+                -6.966343792525257
+              ],
+              [
+                -9.650666012398514,
+                -6.966343792525257
+              ],
+              [
+                -9.650666012398514,
+                6.533656207474743
+              ],
+              [
+                -22.050666012398512,
+                6.533656207474743
+              ]
+            ],
+            "area_sqft": 1801.8935999999997,
+            "area_sqm": 167.39999999999998,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00037",
+              "wall_00038",
+              "wall_00039",
+              "wall_00040",
+              "wall_00041",
+              "wall_00042",
+              "wall_00043"
+            ],
+            "door_ids": [
+              "door_00007"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              "source_name": "Electrical Room",
+              "display_name": "Electrical Room",
+              "classification": "mechanical",
+              "source_color": "rgb(245,214,206)",
+              "area_sqm_source": 167.40000000000006,
+              "has_windows": true,
+              "window_sides": [
+                "N"
+              ]
+            },
+            "has_windows": true,
+            "window_sides": [
+              "N"
+            ]
+          },
+          {
+            "id": "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+            "room_type": "mechanical",
+            "polygon": [
+              [
+                -33.917918096024195,
+                -6.966343792525257
+              ],
+              [
+                -22.050666012398512,
+                -6.966343792525257
+              ],
+              [
+                -22.050666012398512,
+                6.533655750683468
+              ],
+              [
+                -33.917918096024195,
+                6.533655750683468
+              ]
+            ],
+            "area_sqft": 1724.4778109298752,
+            "area_sqm": 160.2078977080895,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00044",
+              "wall_00045",
+              "wall_00046",
+              "wall_00047",
+              "wall_00048",
+              "wall_00049",
+              "wall_00050",
+              "wall_00051",
+              "wall_00052"
+            ],
+            "door_ids": [
+              "door_00008",
+              "door_00009"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "43D10D06-2A61-434F-B003-BE12041C1DC6",
+              "source_name": "Mechanical Testing Room",
+              "display_name": "Mechanical Testing Room",
+              "classification": "mechanical",
+              "source_color": "rgb(195,225,238)",
+              "area_sqm_source": 160.20789770808943,
+              "has_windows": true,
+              "window_sides": [
+                "N"
+              ]
+            },
+            "has_windows": true,
+            "window_sides": [
+              "N"
+            ]
+          },
+          {
+            "id": "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+            "room_type": "mechanical",
+            "polygon": [
+              [
+                -11.650666012398533,
+                -9.300000583262893
+              ],
+              [
+                -22.050665944666438,
+                -9.300000214498173
+              ],
+              [
+                -22.050666329387308,
+                -20.14999963123526
+              ],
+              [
+                -9.650666012398517,
+                -20.150000070916285
+              ],
+              [
+                -9.650666012398514,
+                -6.966343792525257
+              ],
+              [
+                -11.650666012398514,
+                -6.966343792525257
+              ]
+            ],
+            "area_sqft": 1498.4274608594137,
+            "area_sqm": 139.2073077721492,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00053",
+              "wall_00054",
+              "wall_00055",
+              "wall_00057",
+              "wall_00059",
+              "wall_00060",
+              "wall_00061",
+              "wall_00062"
+            ],
+            "door_ids": [
+              "door_00010",
+              "door_00012"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "78276846-125E-46C9-86A4-9B7944EB5CFD",
+              "source_name": "Machine Room",
+              "display_name": "Machine Room",
+              "classification": "mechanical",
+              "source_color": "rgb(208,221,244)",
+              "area_sqm_source": 139.20730777214928,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -28.1,
+                -20.14999999999999
+              ],
+              [
+                -33.91791855823968,
+                -20.150000000000002
+              ],
+              [
+                -33.91791855823967,
+                -25.75
+              ],
+              [
+                -24.4,
+                -25.749999999999993
+              ],
+              [
+                -24.400000000000002,
+                -13.6
+              ],
+              [
+                -28.1,
+                -13.6
+              ]
+            ],
+            "area_sqft": 834.590442020995,
+            "area_sqm": 77.53534392614225,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00011",
+              "wall_00013",
+              "wall_00015",
+              "wall_00063",
+              "wall_00064",
+              "wall_00065",
+              "wall_00066",
+              "wall_00068"
+            ],
+            "door_ids": [
+              "door_00004"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              "source_name": "Space 382",
+              "display_name": "Space 382",
+              "classification": "open_office",
+              "source_color": "rgb(192,229,210)",
+              "area_sqm_source": 77.53534392614216,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -24.39999928619394,
+                -32.59999983202844
+              ],
+              [
+                -20.999999650958983,
+                -32.600000000000016
+              ],
+              [
+                -20.999999460755827,
+                -28.749999439304187
+              ],
+              [
+                -9.6506647825428,
+                -28.750000000000025
+              ],
+              [
+                -9.65066465409397,
+                -26.150000728667465
+              ],
+              [
+                -24.399998967541972,
+                -26.150000000000052
+              ],
+              [
+                -24.39999894778063,
+                -25.75000047021765
+              ],
+              [
+                -28.418090200416863,
+                -25.750000271710256
+              ],
+              [
+                -28.418090538830164,
+                -32.599999633521044
+              ],
+              [
+                -33.917918134671595,
+                -32.59999936181083
+              ],
+              [
+                -33.91791847766275,
+                -39.54266143008321
+              ],
+              [
+                -24.399999629185103,
+                -39.54266190030083
+              ]
+            ],
+            "area_sqft": 1561.230749433113,
+            "area_sqm": 145.04187564410194,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00069",
+              "wall_00070",
+              "wall_00071",
+              "wall_00072",
+              "wall_00073",
+              "wall_00074",
+              "wall_00075",
+              "wall_00076",
+              "wall_00077",
+              "wall_00078",
+              "wall_00079",
+              "wall_00080",
+              "wall_00081",
+              "wall_00082",
+              "wall_00083",
+              "wall_00084"
+            ],
+            "door_ids": [
+              "door_00013",
+              "door_00014"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "756AD5B9-621E-4FFE-84BA-6810111976F9",
+              "source_name": "Sound Workshop",
+              "display_name": "Sound Workshop",
+              "classification": "open_office",
+              "source_color": "rgb(247,212,213)",
+              "area_sqm_source": 145.04187564410188,
+              "has_windows": true,
+              "window_sides": [
+                "S"
+              ]
+            },
+            "has_windows": true,
+            "window_sides": [
+              "S"
+            ]
+          },
+          {
+            "id": "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+            "room_type": "corridor",
+            "polygon": [
+              [
+                -33.91791855823967,
+                -9.3
+              ],
+              [
+                -24.400000000000002,
+                -9.3
+              ],
+              [
+                -24.4,
+                -26.150000000000002
+              ],
+              [
+                -22.05066601239851,
+                -26.150000000000002
+              ],
+              [
+                -22.050666012398512,
+                -9.3
+              ],
+              [
+                -11.650666012398514,
+                -9.299999999999997
+              ],
+              [
+                -11.650666012398514,
+                -6.966343792525257
+              ],
+              [
+                -33.917918096024195,
+                -6.966343792525257
+              ]
+            ],
+            "area_sqft": 985.4483901966712,
+            "area_sqm": 91.55038927876916,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00085",
+              "wall_00086",
+              "wall_00087",
+              "wall_00088",
+              "wall_00089",
+              "wall_00090",
+              "wall_00091",
+              "wall_00092",
+              "wall_00093",
+              "wall_00094",
+              "wall_00095",
+              "wall_00096",
+              "wall_00097",
+              "wall_00098",
+              "wall_00099",
+              "wall_00100",
+              "wall_00101"
+            ],
+            "door_ids": [
+              "door_00015",
+              "door_00016",
+              "door_00017",
+              "door_00018",
+              "door_00019",
+              "door_00020",
+              "door_00021"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              "source_name": "Corridor",
+              "display_name": "Corridor",
+              "classification": "corridor",
+              "source_color": "rgb(236,217,197)",
+              "area_sqm_source": 91.55038927876905,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -28.418090200416867,
+                -26.678684809096534
+              ],
+              [
+                -30.009615768633488,
+                -26.321869068597557
+              ],
+              [
+                -33.35,
+                -28.75000030288286
+              ],
+              [
+                -31.6,
+                -32.59999961480343
+              ],
+              [
+                -28.418090258669654,
+                -32.59999964610646
+              ]
+            ],
+            "area_sqft": 250.3172259414285,
+            "area_sqm": 23.255037712878902,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00025",
+              "wall_00032",
+              "wall_00102",
+              "wall_00103",
+              "wall_00104"
+            ],
+            "door_ids": [],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+              "source_name": "Acoustic Basement 3",
+              "display_name": "Acoustic Basement 3",
+              "classification": "open_office",
+              "source_color": "rgb(211,225,196)",
+              "area_sqm_source": 23.255037712878927,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_5E7FB6DE-4B2C-456A-A84A-7677FA4A793F",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -28.1,
+                -13.6
+              ],
+              [
+                -24.400000000000002,
+                -13.6
+              ],
+              [
+                -24.400000000000002,
+                -9.3
+              ],
+              [
+                -28.1,
+                -9.3
+              ]
+            ],
+            "area_sqft": 171.25523999999965,
+            "area_sqm": 15.909999999999968,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00067",
+              "wall_00105",
+              "wall_00106",
+              "wall_00107"
+            ],
+            "door_ids": [],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "5E7FB6DE-4B2C-456A-A84A-7677FA4A793F",
+              "source_name": "Space 380",
+              "display_name": "Space 380",
+              "classification": "open_office",
+              "source_color": "rgb(242,211,235)",
+              "area_sqm_source": 15.909999999999991,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_0334DE88-76EF-43A3-9BE3-D925982970D1",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -22.050666329387308,
+                -26.150000487022105
+              ],
+              [
+                -9.650665801765914,
+                -26.150000487022105
+              ],
+              [
+                -9.650665801765914,
+                -20.14999963123526
+              ],
+              [
+                -22.050666329387308,
+                -20.14999963123526
+              ]
+            ],
+            "area_sqft": 800.8417483008551,
+            "area_sqm": 74.40001377748561,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00056",
+              "wall_00058",
+              "wall_00108",
+              "wall_00109",
+              "wall_00110"
+            ],
+            "door_ids": [
+              "door_00011"
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "0334DE88-76EF-43A3-9BE3-D925982970D1",
+              "source_name": "Front Room",
+              "display_name": "Front Room",
+              "classification": "open_office",
+              "source_color": "rgb(248,211,224)",
+              "area_sqm_source": 74.4000137774857,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          },
+          {
+            "id": "room_FD9B6CE6-5815-4BA8-A8C9-D9F5753DBB85",
+            "room_type": "open_office",
+            "polygon": [
+              [
+                -21.0,
+                -39.54266190030083
+              ],
+              [
+                -9.650665321786953,
+                -39.54266190030083
+              ],
+              [
+                -9.650665321786953,
+                -28.75
+              ],
+              [
+                -21.0,
+                -28.75
+              ]
+            ],
+            "area_sqft": 1318.477322182268,
+            "area_sqm": 122.4895319753129,
+            "ceiling_height": 3.0,
+            "wall_ids": [
+              "wall_00111",
+              "wall_00112",
+              "wall_00113",
+              "wall_00114"
+            ],
+            "door_ids": [],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_zone_id": "FD9B6CE6-5815-4BA8-A8C9-D9F5753DBB85",
+              "source_name": "Anechoic Chamber",
+              "display_name": "Anechoic Chamber",
+              "classification": "open_office",
+              "source_color": "rgb(225,221,193)",
+              "area_sqm_source": 122.48953197531294,
+              "has_windows": false,
+              "window_sides": []
+            },
+            "has_windows": false,
+            "window_sides": []
+          }
+        ],
+        "walls": [
+          {
+            "id": "wall_00001",
+            "start": [
+              -24.39999963523495,
+              -34.207560004066536
+            ],
+            "end": [
+              -22.89999963523495,
+              -34.207560004066536
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "source_wall_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00002",
+            "start": [
+              -22.89999963523495,
+              -34.207560004066536
+            ],
+            "end": [
+              -24.39999963523495,
+              -34.207560004066536
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "source_wall_surface_id": "DD9ECB85-B5AD-4A6C-B487-539D13F126BA",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00003",
+            "start": [
+              -22.89999963523495,
+              -34.207560004066536
+            ],
+            "end": [
+              -21.99999963523495,
+              -34.207560004066536
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "58F8F346-4205-4FB6-AD53-B8DDE014112A",
+              "source_wall_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00004",
+            "start": [
+              -21.99999963523495,
+              -34.207560004066536
+            ],
+            "end": [
+              -22.89999963523495,
+              -34.207560004066536
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "58F8F346-4205-4FB6-AD53-B8DDE014112A",
+              "source_wall_surface_id": "DD9ECB85-B5AD-4A6C-B487-539D13F126BA",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00005",
+            "start": [
+              -21.99999963523495,
+              -34.207560004066536
+            ],
+            "end": [
+              -21.0,
+              -34.207560004066536
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "source_wall_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00006",
+            "start": [
+              -21.0,
+              -34.207560004066536
+            ],
+            "end": [
+              -21.99999963523495,
+              -34.207560004066536
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1565A43B-0255-4417-9DAD-3DDA5826ED89",
+              "source_wall_surface_id": "DD9ECB85-B5AD-4A6C-B487-539D13F126BA",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00007",
+            "start": [
+              -21.0,
+              -34.207560004066536
+            ],
+            "end": [
+              -21.0,
+              -32.6
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "516C967C-4549-48FE-887E-8A4716FE7E5D",
+              "source_wall_surface_id": "516C967C-4549-48FE-887E-8A4716FE7E5D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00008",
+            "start": [
+              -21.0,
+              -32.6
+            ],
+            "end": [
+              -24.39999963523495,
+              -32.6
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1272FE99-B674-4D60-B779-718D16589B99",
+              "source_wall_surface_id": "1272FE99-B674-4D60-B779-718D16589B99",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00009",
+            "start": [
+              -24.39999963523495,
+              -32.6
+            ],
+            "end": [
+              -24.39999963523495,
+              -34.207560004066536
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_90B8568A-BEBA-4180-A111-CD1ABCDEA2BC",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "5E3D70B9-B21C-42FA-8D9A-68E417045202",
+              "source_wall_surface_id": "5E3D70B9-B21C-42FA-8D9A-68E417045202",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00010",
+            "start": [
+              -33.91791855823967,
+              -20.150000000000002
+            ],
+            "end": [
+              -30.91791855823967,
+              -20.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "source_wall_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00011",
+            "start": [
+              -30.91791855823967,
+              -20.149999999999995
+            ],
+            "end": [
+              -33.91791855823967,
+              -20.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "source_wall_surface_id": "CAB3AF95-CB3C-433A-9282-2E7E2B48E7FC",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00012",
+            "start": [
+              -30.91791855823967,
+              -20.150000000000002
+            ],
+            "end": [
+              -30.01791855823967,
+              -20.150000000000002
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9594E540-60D5-4EF7-9231-A97CB59704D4",
+              "source_wall_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00013",
+            "start": [
+              -30.01791855823967,
+              -20.149999999999995
+            ],
+            "end": [
+              -30.91791855823967,
+              -20.149999999999995
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9594E540-60D5-4EF7-9231-A97CB59704D4",
+              "source_wall_surface_id": "CAB3AF95-CB3C-433A-9282-2E7E2B48E7FC",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00014",
+            "start": [
+              -30.01791855823967,
+              -20.150000000000002
+            ],
+            "end": [
+              -28.1,
+              -20.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "source_wall_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00015",
+            "start": [
+              -28.1,
+              -20.14999999999999
+            ],
+            "end": [
+              -30.01791855823967,
+              -20.149999999999995
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F6810A33-F250-4126-A26A-3CC3181F1D31",
+              "source_wall_surface_id": "CAB3AF95-CB3C-433A-9282-2E7E2B48E7FC",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00016",
+            "start": [
+              -28.1,
+              -20.150000000000002
+            ],
+            "end": [
+              -28.1,
+              -18.3
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E647F7A6-1FCB-40D8-95DA-B734E42E7008",
+              "source_wall_surface_id": "92472F2C-E5CB-48C6-ABC1-272D7813179A",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00017",
+            "start": [
+              -28.1,
+              -18.3
+            ],
+            "end": [
+              -28.1,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "92472F2C-E5CB-48C6-ABC1-272D7813179A",
+              "source_wall_surface_id": "92472F2C-E5CB-48C6-ABC1-272D7813179A",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00018",
+            "start": [
+              -28.1,
+              -9.3
+            ],
+            "end": [
+              -33.91791855823967,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "3282385C-5F5E-4DF6-B4DE-66FB14E21BDE",
+              "source_wall_surface_id": "3282385C-5F5E-4DF6-B4DE-66FB14E21BDE",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00019",
+            "start": [
+              -33.91791855823967,
+              -9.3
+            ],
+            "end": [
+              -33.91791855823967,
+              -20.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_2CAD93D0-8DEE-4898-8C9C-24C84BBB5419",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "995E938A-9570-4476-8EE9-95E906CF0E66",
+              "source_wall_surface_id": "995E938A-9570-4476-8EE9-95E906CF0E66",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00020",
+            "start": [
+              -36.300000000000004,
+              -9.3
+            ],
+            "end": [
+              -33.91791855823967,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_34E60A15-34DC-4E41-BDA8-258BCA01D14A",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "807C453C-BDAA-4F81-BFFC-80284798612F",
+              "source_wall_surface_id": "807C453C-BDAA-4F81-BFFC-80284798612F",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00021",
+            "start": [
+              -33.91791855823967,
+              -9.3
+            ],
+            "end": [
+              -33.91791855823967,
+              6.533655402469751
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_34E60A15-34DC-4E41-BDA8-258BCA01D14A",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1FCBCC72-6C3D-4C54-9D4F-59A02267BBF8",
+              "source_wall_surface_id": "1FCBCC72-6C3D-4C54-9D4F-59A02267BBF8",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00022",
+            "start": [
+              -33.91791855823967,
+              6.533655402469752
+            ],
+            "end": [
+              -36.300000000000004,
+              6.533655402469752
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_34E60A15-34DC-4E41-BDA8-258BCA01D14A",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "94B350BB-7377-4626-979F-01B20F07C6BE",
+              "source_wall_surface_id": "94B350BB-7377-4626-979F-01B20F07C6BE",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00023",
+            "start": [
+              -36.300000000000004,
+              6.533655402469752
+            ],
+            "end": [
+              -36.300000000000004,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_34E60A15-34DC-4E41-BDA8-258BCA01D14A",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "3FCB2C7E-D499-4AD8-90B5-899429A597D3",
+              "source_wall_surface_id": "3FCB2C7E-D499-4AD8-90B5-899429A597D3",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00024",
+            "start": [
+              -33.35,
+              -28.75000030288286
+            ],
+            "end": [
+              -30.009615768633488,
+              -26.321869068597557
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "8ECE5EC9-3EEA-4AA2-BF08-95B1BD037322",
+              "source_wall_surface_id": "8ECE5EC9-3EEA-4AA2-BF08-95B1BD037322",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00025",
+            "start": [
+              -30.009615768633488,
+              -26.321869068597557
+            ],
+            "end": [
+              -33.35,
+              -28.75000030288286
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "8ECE5EC9-3EEA-4AA2-BF08-95B1BD037322",
+              "source_wall_surface_id": "3A4A2AFB-C42D-4FD4-9183-A05627C96512",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00026",
+            "start": [
+              -30.009615768633488,
+              -26.321869068597557
+            ],
+            "end": [
+              -28.423544244740214,
+              -26.727272884302085
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F77F2BDF-5774-480D-991D-B1C051598EC4",
+              "source_wall_surface_id": "F77F2BDF-5774-480D-991D-B1C051598EC4",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00027",
+            "start": [
+              -28.423544244740214,
+              -26.727272884302085
+            ],
+            "end": [
+              -28.41791738701832,
+              -25.750000600305757
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9118F1DA-DFA2-4AF5-9D8A-D7DBF042C93A",
+              "source_wall_surface_id": "9118F1DA-DFA2-4AF5-9D8A-D7DBF042C93A",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00028",
+            "start": [
+              -28.41791738701832,
+              -25.750000600305757
+            ],
+            "end": [
+              -33.917917387018285,
+              -25.750000000000128
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F7CD726B-D06F-44BF-84CE-DF66FDA46B01",
+              "source_wall_surface_id": "F7CD726B-D06F-44BF-84CE-DF66FDA46B01",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00029",
+            "start": [
+              -33.917917387018285,
+              -25.750000000000128
+            ],
+            "end": [
+              -33.917918134671595,
+              -32.59999936181083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "775CCEBF-25ED-4764-867B-1854D491D98C",
+              "source_wall_surface_id": "775CCEBF-25ED-4764-867B-1854D491D98C",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00030",
+            "start": [
+              -33.917918134671595,
+              -32.59999936181083
+            ],
+            "end": [
+              -31.6,
+              -32.59999961480343
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "DEF3DF2C-C1DE-47C2-862E-97D90484B1D2",
+              "source_wall_surface_id": "DEF3DF2C-C1DE-47C2-862E-97D90484B1D2",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00031",
+            "start": [
+              -31.6,
+              -32.59999961480343
+            ],
+            "end": [
+              -33.35,
+              -28.75000030288286
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "gypsum_double",
+                "thickness_m": 0.026
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_DEAF7BED-552C-407D-B2D0-4064291AF6EB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "91DD7ECA-460F-4F04-B643-01C0B7EE46CB",
+              "source_wall_surface_id": "91DD7ECA-460F-4F04-B643-01C0B7EE46CB",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00032",
+            "start": [
+              -33.35,
+              -28.75000030288286
+            ],
+            "end": [
+              -31.6,
+              -32.59999961480343
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "gypsum_double",
+                "thickness_m": 0.026
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "91DD7ECA-460F-4F04-B643-01C0B7EE46CB",
+              "source_wall_surface_id": "AC11024A-C490-4107-BB48-1E9D4A4C2886",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00033",
+            "start": [
+              -24.39999963523495,
+              -39.54266190030083
+            ],
+            "end": [
+              -21.0,
+              -39.54266190030083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "02033D61-759F-475F-B08B-49AA3703D28F",
+              "source_wall_surface_id": "02033D61-759F-475F-B08B-49AA3703D28F",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00034",
+            "start": [
+              -21.0,
+              -39.54266190030083
+            ],
+            "end": [
+              -21.0,
+              -34.207560004066536
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "8CDB0C75-0A81-48C3-94C6-4F58AA53E9C1",
+              "source_wall_surface_id": "8CDB0C75-0A81-48C3-94C6-4F58AA53E9C1",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00035",
+            "start": [
+              -24.39999963523495,
+              -35.107560004066535
+            ],
+            "end": [
+              -24.39999963523495,
+              -39.54266190030083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "D9753B15-6CB9-4636-8BB5-4F5DC97CB519",
+              "source_wall_surface_id": "D9753B15-6CB9-4636-8BB5-4F5DC97CB519",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00036",
+            "start": [
+              -24.39999963523495,
+              -34.207560004066536
+            ],
+            "end": [
+              -24.39999963523495,
+              -35.107560004066535
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0DA3A2F1-02E5-4108-BB29-CD45AC623B54",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "970E75E8-12BE-4439-B88C-28220FC01FD4",
+              "source_wall_surface_id": "D9753B15-6CB9-4636-8BB5-4F5DC97CB519",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00037",
+            "start": [
+              -22.050666012398512,
+              -6.966343792525257
+            ],
+            "end": [
+              -19.75066601239851,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F9717863-AE52-4739-AEBF-A78814AF4E3F",
+              "source_wall_surface_id": "F9717863-AE52-4739-AEBF-A78814AF4E3F",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00038",
+            "start": [
+              -19.75066601239851,
+              -6.966343792525257
+            ],
+            "end": [
+              -17.90066601239851,
+              -6.966343792525257
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "metal_fire_door",
+                "thickness_m": 0.05
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "24AA48F7-87F8-4C36-95F1-C714287F01B5",
+              "source_wall_surface_id": "F9717863-AE52-4739-AEBF-A78814AF4E3F",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00039",
+            "start": [
+              -17.90066601239851,
+              -6.966343792525257
+            ],
+            "end": [
+              -9.650666012398514,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F9717863-AE52-4739-AEBF-A78814AF4E3F",
+              "source_wall_surface_id": "F9717863-AE52-4739-AEBF-A78814AF4E3F",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00040",
+            "start": [
+              -9.650666012398514,
+              -6.966343792525257
+            ],
+            "end": [
+              -9.650666012398514,
+              6.533656207474743
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "440DF1DE-AF41-452D-B4FF-84F3B8F4FAE1",
+              "source_wall_surface_id": "440DF1DE-AF41-452D-B4FF-84F3B8F4FAE1",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00041",
+            "start": [
+              -14.900666012398514,
+              6.533656207474743
+            ],
+            "end": [
+              -22.050666012398512,
+              6.533656207474743
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "AC2883CA-ED64-4621-A7BF-756FBD453D53",
+              "source_wall_surface_id": "AC2883CA-ED64-4621-A7BF-756FBD453D53",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00042",
+            "start": [
+              -9.650666012398514,
+              6.533656207474743
+            ],
+            "end": [
+              -14.900666012398514,
+              6.533656207474743
+            ],
+            "height": 0.6,
+            "materials": [
+              {
+                "name": "glass_standard",
+                "thickness_m": 0.006
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "7CB96D6C-97DB-40BE-AF35-39EDF69D6905",
+              "source_wall_surface_id": "AC2883CA-ED64-4621-A7BF-756FBD453D53",
+              "opening_kind": "glazing"
+            }
+          },
+          {
+            "id": "wall_00043",
+            "start": [
+              -22.050666012398512,
+              6.533656207474743
+            ],
+            "end": [
+              -22.050666012398512,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_10F80FE6-0C8B-4117-9225-10E9ECC8E57B",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A413B035-228D-4587-A352-0D5A785B65BB",
+              "source_wall_surface_id": "A413B035-228D-4587-A352-0D5A785B65BB",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00044",
+            "start": [
+              -22.050666012398512,
+              -6.966343792525257
+            ],
+            "end": [
+              -22.050666012398512,
+              6.533655750683468
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A413B035-228D-4587-A352-0D5A785B65BB",
+              "source_wall_surface_id": "3969D09D-0D60-490B-BCE3-F1854DAFA7FE",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00045",
+            "start": [
+              -33.917918096024195,
+              -6.966343792525257
+            ],
+            "end": [
+              -33.2679180960242,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "source_wall_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00046",
+            "start": [
+              -33.2679180960242,
+              -6.966343792525257
+            ],
+            "end": [
+              -32.3679180960242,
+              -6.966343792525257
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "metal_fire_door",
+                "thickness_m": 0.05
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1251BA19-2A4A-4FD6-A600-D238DBBA2C49",
+              "source_wall_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00047",
+            "start": [
+              -32.3679180960242,
+              -6.966343792525257
+            ],
+            "end": [
+              -24.067918096024194,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "source_wall_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00048",
+            "start": [
+              -24.067918096024194,
+              -6.966343792525257
+            ],
+            "end": [
+              -22.217918096024196,
+              -6.966343792525257
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "metal_fire_door",
+                "thickness_m": 0.05
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "B4825A49-048B-49BD-BC33-E3028F416B5B",
+              "source_wall_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00049",
+            "start": [
+              -22.217918096024196,
+              -6.966343792525257
+            ],
+            "end": [
+              -22.050666012398512,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "source_wall_surface_id": "9680A38A-6A6B-4ACB-878D-A310266B819D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00050",
+            "start": [
+              -27.300666012398512,
+              6.533655750683468
+            ],
+            "end": [
+              -33.917918096024195,
+              6.533655750683468
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E96BC0E3-6CA8-4B3C-B010-DDB3E28752BA",
+              "source_wall_surface_id": "E96BC0E3-6CA8-4B3C-B010-DDB3E28752BA",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00051",
+            "start": [
+              -22.050666012398512,
+              6.533655750683468
+            ],
+            "end": [
+              -27.300666012398512,
+              6.533655750683468
+            ],
+            "height": 0.6,
+            "materials": [
+              {
+                "name": "glass_standard",
+                "thickness_m": 0.006
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9343DE71-FDB7-4A93-9C92-E9A4C95ACF74",
+              "source_wall_surface_id": "E96BC0E3-6CA8-4B3C-B010-DDB3E28752BA",
+              "opening_kind": "glazing"
+            }
+          },
+          {
+            "id": "wall_00052",
+            "start": [
+              -33.917918096024195,
+              6.533655750683468
+            ],
+            "end": [
+              -33.917918096024195,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_43D10D06-2A61-434F-B003-BE12041C1DC6",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "6C3A778E-99EF-4F8C-AF8B-244A465AE25A",
+              "source_wall_surface_id": "6C3A778E-99EF-4F8C-AF8B-244A465AE25A",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00053",
+            "start": [
+              -11.650666012398533,
+              -9.300000583262893
+            ],
+            "end": [
+              -22.050665944666438,
+              -9.300000214498173
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "C1697D18-6040-49EC-8F43-409488C747AB",
+              "source_wall_surface_id": "C1697D18-6040-49EC-8F43-409488C747AB",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00054",
+            "start": [
+              -22.050665944666438,
+              -9.300000214498173
+            ],
+            "end": [
+              -22.050666329387308,
+              -20.14999963123526
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1935578F-E122-4AFF-8AE5-35A636A842E4",
+              "source_wall_surface_id": "1935578F-E122-4AFF-8AE5-35A636A842E4",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00055",
+            "start": [
+              -22.050666329387308,
+              -20.14999963123526
+            ],
+            "end": [
+              -10.550666012398517,
+              -20.150000039003952
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "66C37079-FB0E-4A54-A8B4-12CD6B91C94D",
+              "source_wall_surface_id": "66C37079-FB0E-4A54-A8B4-12CD6B91C94D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00056",
+            "start": [
+              -10.550665801765915,
+              -20.14999963123526
+            ],
+            "end": [
+              -22.050666118754712,
+              -20.14999963123526
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_0334DE88-76EF-43A3-9BE3-D925982970D1",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "66C37079-FB0E-4A54-A8B4-12CD6B91C94D",
+              "source_wall_surface_id": "FEA1A0DA-9BD4-4C04-8602-857E1A8C5CB6",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00057",
+            "start": [
+              -10.550666012398517,
+              -20.150000039003952
+            ],
+            "end": [
+              -9.650666012398517,
+              -20.150000070916285
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "66C412B7-9CD1-420E-BDA6-C814FEAE2609",
+              "source_wall_surface_id": "66C37079-FB0E-4A54-A8B4-12CD6B91C94D",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00058",
+            "start": [
+              -9.650665801765914,
+              -20.14999963123526
+            ],
+            "end": [
+              -10.550665801765915,
+              -20.14999963123526
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_0334DE88-76EF-43A3-9BE3-D925982970D1",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "66C412B7-9CD1-420E-BDA6-C814FEAE2609",
+              "source_wall_surface_id": "FEA1A0DA-9BD4-4C04-8602-857E1A8C5CB6",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00059",
+            "start": [
+              -9.650666012398517,
+              -20.150000070916285
+            ],
+            "end": [
+              -9.650666012398514,
+              -6.966343792525258
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "93DCC06B-F882-4E96-8BF1-14E97F07BCBB",
+              "source_wall_surface_id": "93DCC06B-F882-4E96-8BF1-14E97F07BCBB",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00060",
+            "start": [
+              -9.650666012398514,
+              -6.966343792525257
+            ],
+            "end": [
+              -11.650666012398514,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "21D33F4A-6821-49CF-BE34-6F7D9C6B4CE9",
+              "source_wall_surface_id": "21D33F4A-6821-49CF-BE34-6F7D9C6B4CE9",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00061",
+            "start": [
+              -11.650666012398524,
+              -8.166343792525257
+            ],
+            "end": [
+              -11.650666012398533,
+              -9.300000583262893
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "06D7617F-2B46-4078-B8A3-913E46531456",
+              "source_wall_surface_id": "06D7617F-2B46-4078-B8A3-913E46531456",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00062",
+            "start": [
+              -11.650666012398514,
+              -6.966343792525257
+            ],
+            "end": [
+              -11.650666012398524,
+              -8.166343792525257
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "metal_fire_door",
+                "thickness_m": 0.05
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_78276846-125E-46C9-86A4-9B7944EB5CFD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "DABF40BB-D0D7-43FF-BC69-00DE0AC247E4",
+              "source_wall_surface_id": "06D7617F-2B46-4078-B8A3-913E46531456",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00063",
+            "start": [
+              -33.91791855823968,
+              -20.150000000000002
+            ],
+            "end": [
+              -33.91791855823967,
+              -25.75
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "153A7218-8A93-4084-8397-5150CE1F5A9D",
+              "source_wall_surface_id": "153A7218-8A93-4084-8397-5150CE1F5A9D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00064",
+            "start": [
+              -33.91791855823967,
+              -25.75
+            ],
+            "end": [
+              -24.4,
+              -25.749999999999993
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "72DB29EE-7A87-4F63-A50E-A69C1D4ED082",
+              "source_wall_surface_id": "72DB29EE-7A87-4F63-A50E-A69C1D4ED082",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00065",
+            "start": [
+              -24.4,
+              -25.749999999999993
+            ],
+            "end": [
+              -24.400000000000002,
+              -13.6
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "76EC1721-4128-4B39-AE6C-234539AEABDA",
+              "source_wall_surface_id": "76EC1721-4128-4B39-AE6C-234539AEABDA",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00066",
+            "start": [
+              -24.400000000000002,
+              -13.6
+            ],
+            "end": [
+              -28.1,
+              -13.6
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "gypsum_double",
+                "thickness_m": 0.026
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "6447E810-91F3-45FF-9520-B19EA60A8ABA",
+              "source_wall_surface_id": "6447E810-91F3-45FF-9520-B19EA60A8ABA",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00067",
+            "start": [
+              -28.1,
+              -13.6
+            ],
+            "end": [
+              -24.400000000000002,
+              -13.6
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "gypsum_double",
+                "thickness_m": 0.026
+              }
+            ],
+            "is_exterior": false,
+            "room_ids": [
+              "room_5E7FB6DE-4B2C-456A-A84A-7677FA4A793F",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "6447E810-91F3-45FF-9520-B19EA60A8ABA",
+              "source_wall_surface_id": "164C93DA-9DD7-46AC-8A3C-2DAB88C6DF70",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00068",
+            "start": [
+              -28.1,
+              -13.6
+            ],
+            "end": [
+              -28.1,
+              -20.14999999999999
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_AEB3B000-4855-4CC2-876B-C4C9A9D24CDD",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "81EDB202-AED2-4B87-B35E-E4CD049A4DFA",
+              "source_wall_surface_id": "81EDB202-AED2-4B87-B35E-E4CD049A4DFA",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00069",
+            "start": [
+              -24.39999928619394,
+              -32.59999983202844
+            ],
+            "end": [
+              -20.999999650958983,
+              -32.600000000000016
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A14E7755-D6A3-432B-9956-5CA168680F1E",
+              "source_wall_surface_id": "A14E7755-D6A3-432B-9956-5CA168680F1E",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00070",
+            "start": [
+              -20.999999650958983,
+              -32.600000000000016
+            ],
+            "end": [
+              -20.999999460755827,
+              -28.749999439304187
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "515953FD-08A1-48D5-83BB-E71CF74FF4C6",
+              "source_wall_surface_id": "515953FD-08A1-48D5-83BB-E71CF74FF4C6",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00071",
+            "start": [
+              -20.999999460755827,
+              -28.749999439304187
+            ],
+            "end": [
+              -9.6506647825428,
+              -28.750000000000025
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "BF21245C-0D23-407C-96BF-378DEFF67C8D",
+              "source_wall_surface_id": "BF21245C-0D23-407C-96BF-378DEFF67C8D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00072",
+            "start": [
+              -9.6506647825428,
+              -28.750000000000025
+            ],
+            "end": [
+              -9.65066465409397,
+              -26.150000728667465
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "166CEF20-57BB-4C84-ACDF-9673C8FA2208",
+              "source_wall_surface_id": "166CEF20-57BB-4C84-ACDF-9673C8FA2208",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00073",
+            "start": [
+              -9.65066465409397,
+              -26.150000728667465
+            ],
+            "end": [
+              -24.399998967541972,
+              -26.150000000000052
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A8D03714-8AEE-499F-8D60-83A801C1C416",
+              "source_wall_surface_id": "A8D03714-8AEE-499F-8D60-83A801C1C416",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00074",
+            "start": [
+              -24.399998967541972,
+              -26.150000000000052
+            ],
+            "end": [
+              -24.39999894778063,
+              -25.75000047021765
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "5AA17FEC-AC7F-4886-AC8D-ED1FC2242A2B",
+              "source_wall_surface_id": "5AA17FEC-AC7F-4886-AC8D-ED1FC2242A2B",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00075",
+            "start": [
+              -24.39999894778063,
+              -25.75000047021765
+            ],
+            "end": [
+              -28.418090200416863,
+              -25.750000271710256
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "229D254E-26C8-4FE7-98B2-D4BB8110B674",
+              "source_wall_surface_id": "229D254E-26C8-4FE7-98B2-D4BB8110B674",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00076",
+            "start": [
+              -28.418090244879927,
+              -26.650000271710255
+            ],
+            "end": [
+              -28.418090538830164,
+              -32.599999633521044
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "F5014642-61C7-491C-A47E-11A2EEC4168E",
+              "source_wall_surface_id": "F5014642-61C7-491C-A47E-11A2EEC4168E",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00077",
+            "start": [
+              -28.418090200416863,
+              -25.750000271710256
+            ],
+            "end": [
+              -28.418090244879927,
+              -26.650000271710255
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "FB51721D-BCB4-48FB-9522-E579BAD61D16",
+              "source_wall_surface_id": "F5014642-61C7-491C-A47E-11A2EEC4168E",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00078",
+            "start": [
+              -29.318090538830162,
+              -32.59999958905798
+            ],
+            "end": [
+              -33.917918134671595,
+              -32.59999936181083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "0CE40F01-AAEB-49F6-BACD-17A1D4ED520D",
+              "source_wall_surface_id": "0CE40F01-AAEB-49F6-BACD-17A1D4ED520D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00079",
+            "start": [
+              -28.418090538830164,
+              -32.599999633521044
+            ],
+            "end": [
+              -29.318090538830162,
+              -32.59999958905798
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "7ADA9949-6211-472D-B04F-6FE061CC217D",
+              "source_wall_surface_id": "0CE40F01-AAEB-49F6-BACD-17A1D4ED520D",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00080",
+            "start": [
+              -33.917918134671595,
+              -32.59999936181083
+            ],
+            "end": [
+              -33.91791847766275,
+              -39.54266143008321
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "521535D1-0602-47AE-A8A3-4B0335142AE6",
+              "source_wall_surface_id": "521535D1-0602-47AE-A8A3-4B0335142AE6",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00081",
+            "start": [
+              -33.91791847766275,
+              -39.54266143008321
+            ],
+            "end": [
+              -33.36791858140991,
+              -39.54266145725508
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A16A58FF-3903-4C17-A62B-1B89F538934B",
+              "source_wall_surface_id": "A16A58FF-3903-4C17-A62B-1B89F538934B",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00082",
+            "start": [
+              -33.36791858140991,
+              -39.54266145725508
+            ],
+            "end": [
+              -28.117918581409917,
+              -39.542661716622966
+            ],
+            "height": 0.6,
+            "materials": [
+              {
+                "name": "glass_standard",
+                "thickness_m": 0.006
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E04B9390-6EEA-4BC8-B5A1-1C122D2AE153",
+              "source_wall_surface_id": "A16A58FF-3903-4C17-A62B-1B89F538934B",
+              "opening_kind": "glazing"
+            }
+          },
+          {
+            "id": "wall_00083",
+            "start": [
+              -28.117918581409917,
+              -39.542661716622966
+            ],
+            "end": [
+              -24.399999629185103,
+              -39.54266190030083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A16A58FF-3903-4C17-A62B-1B89F538934B",
+              "source_wall_surface_id": "A16A58FF-3903-4C17-A62B-1B89F538934B",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00084",
+            "start": [
+              -24.399999629185103,
+              -39.54266190030083
+            ],
+            "end": [
+              -24.39999928619394,
+              -32.59999983202844
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_756AD5B9-621E-4FFE-84BA-6810111976F9",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "276F047F-C934-4873-87FF-D592AD797689",
+              "source_wall_surface_id": "276F047F-C934-4873-87FF-D592AD797689",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00085",
+            "start": [
+              -33.91791855823967,
+              -9.3
+            ],
+            "end": [
+              -30.86791855823967,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E0A8A259-3D20-4C7B-B720-90DE3BB93552",
+              "source_wall_surface_id": "E0A8A259-3D20-4C7B-B720-90DE3BB93552",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00086",
+            "start": [
+              -30.86791855823967,
+              -9.3
+            ],
+            "end": [
+              -29.017918558239668,
+              -9.3
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "B3580E68-B836-4EC2-A0AA-FDC6D275D89D",
+              "source_wall_surface_id": "E0A8A259-3D20-4C7B-B720-90DE3BB93552",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00087",
+            "start": [
+              -29.017918558239668,
+              -9.3
+            ],
+            "end": [
+              -24.400000000000002,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E0A8A259-3D20-4C7B-B720-90DE3BB93552",
+              "source_wall_surface_id": "E0A8A259-3D20-4C7B-B720-90DE3BB93552",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00088",
+            "start": [
+              -24.400000000000002,
+              -11.150000000000002
+            ],
+            "end": [
+              -24.4,
+              -26.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "800F024C-6E46-4D8F-97C6-016309A473AC",
+              "source_wall_surface_id": "800F024C-6E46-4D8F-97C6-016309A473AC",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00089",
+            "start": [
+              -24.400000000000002,
+              -9.3
+            ],
+            "end": [
+              -24.400000000000002,
+              -11.150000000000002
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "787705DA-ECCD-4062-B156-5C57AAC14C47",
+              "source_wall_surface_id": "800F024C-6E46-4D8F-97C6-016309A473AC",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00090",
+            "start": [
+              -24.4,
+              -26.150000000000002
+            ],
+            "end": [
+              -24.2,
+              -26.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A07DFB73-194B-4DC2-A199-A8109FEC23C1",
+              "source_wall_surface_id": "A07DFB73-194B-4DC2-A199-A8109FEC23C1",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00091",
+            "start": [
+              -24.2,
+              -26.150000000000002
+            ],
+            "end": [
+              -22.349999999999998,
+              -26.150000000000002
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "3407A77B-5982-4A7E-8390-54E0CE2A492A",
+              "source_wall_surface_id": "A07DFB73-194B-4DC2-A199-A8109FEC23C1",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00092",
+            "start": [
+              -22.349999999999998,
+              -26.150000000000002
+            ],
+            "end": [
+              -22.05066601239851,
+              -26.150000000000002
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A07DFB73-194B-4DC2-A199-A8109FEC23C1",
+              "source_wall_surface_id": "A07DFB73-194B-4DC2-A199-A8109FEC23C1",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00093",
+            "start": [
+              -22.05066601239851,
+              -26.150000000000002
+            ],
+            "end": [
+              -22.05066601239851,
+              -25.250000000000004
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "7862602A-5529-452B-80A9-83E20A075CF6",
+              "source_wall_surface_id": "6073618A-7F4C-487E-8CA7-3BC18EC03296",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00094",
+            "start": [
+              -22.05066601239851,
+              -25.250000000000004
+            ],
+            "end": [
+              -22.05066601239851,
+              -24.3
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E76C3961-5B92-4890-A0DC-FCEDE10B77E9",
+              "source_wall_surface_id": "6073618A-7F4C-487E-8CA7-3BC18EC03296",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00095",
+            "start": [
+              -22.05066601239851,
+              -24.3
+            ],
+            "end": [
+              -22.050666012398512,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "6073618A-7F4C-487E-8CA7-3BC18EC03296",
+              "source_wall_surface_id": "6073618A-7F4C-487E-8CA7-3BC18EC03296",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00096",
+            "start": [
+              -22.050666012398512,
+              -9.3
+            ],
+            "end": [
+              -11.650666012398514,
+              -9.299999999999997
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "B2975AAF-3BB2-461B-9741-070E8730D18D",
+              "source_wall_surface_id": "B2975AAF-3BB2-461B-9741-070E8730D18D",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00097",
+            "start": [
+              -11.650666012398514,
+              -9.299999999999997
+            ],
+            "end": [
+              -11.650666012398514,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "B3A049C7-A4D9-45DD-A9D7-073E3F230F63",
+              "source_wall_surface_id": "B3A049C7-A4D9-45DD-A9D7-073E3F230F63",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00098",
+            "start": [
+              -13.500666012398515,
+              -6.966343792525257
+            ],
+            "end": [
+              -33.917918096024195,
+              -6.966343792525257
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E1A3867C-70CA-46E8-ABBE-C81E3256A51B",
+              "source_wall_surface_id": "E1A3867C-70CA-46E8-ABBE-C81E3256A51B",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00099",
+            "start": [
+              -11.650666012398514,
+              -6.966343792525257
+            ],
+            "end": [
+              -13.500666012398515,
+              -6.966343792525257
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "65386FAB-0687-4616-8A57-EB06C222A7F9",
+              "source_wall_surface_id": "E1A3867C-70CA-46E8-ABBE-C81E3256A51B",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00100",
+            "start": [
+              -33.91791827428264,
+              -7.86634379252524
+            ],
+            "end": [
+              -33.91791855823967,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "9942CD9A-B520-435B-BCBD-C8B71790B3B8",
+              "source_wall_surface_id": "9942CD9A-B520-435B-BCBD-C8B71790B3B8",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00101",
+            "start": [
+              -33.917918096024195,
+              -6.966343792525257
+            ],
+            "end": [
+              -33.91791827428264,
+              -7.86634379252524
+            ],
+            "height": 2.1,
+            "materials": [
+              {
+                "name": "wood_door",
+                "thickness_m": 0.045
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_ABB79477-B86D-4C1C-9269-B4FCDCB0D2B5",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "BBE3EC91-31E4-43E8-81FD-8B326ECE8055",
+              "source_wall_surface_id": "9942CD9A-B520-435B-BCBD-C8B71790B3B8",
+              "opening_kind": "door"
+            }
+          },
+          {
+            "id": "wall_00102",
+            "start": [
+              -28.418090200416867,
+              -26.678684809096534
+            ],
+            "end": [
+              -30.009615768633488,
+              -26.321869068597557
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1D6429B1-912A-41EC-8686-A8C078470523",
+              "source_wall_surface_id": "1D6429B1-912A-41EC-8686-A8C078470523",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00103",
+            "start": [
+              -31.6,
+              -32.59999961480343
+            ],
+            "end": [
+              -28.418090258669654,
+              -32.59999964610646
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "41F51E1F-121C-4DA1-BC6C-1CC4C46B9985",
+              "source_wall_surface_id": "41F51E1F-121C-4DA1-BC6C-1CC4C46B9985",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00104",
+            "start": [
+              -28.418090258669654,
+              -32.59999964610646
+            ],
+            "end": [
+              -28.418090200416867,
+              -26.678684809096534
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_B5151A3D-70EA-443E-9E22-E31D0BBC28DB",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "C89618D9-FE7C-4BF9-91F4-9A983C404895",
+              "source_wall_surface_id": "C89618D9-FE7C-4BF9-91F4-9A983C404895",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00105",
+            "start": [
+              -24.400000000000002,
+              -13.6
+            ],
+            "end": [
+              -24.400000000000002,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_5E7FB6DE-4B2C-456A-A84A-7677FA4A793F",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "B3D56875-625C-4712-8329-9DFD48510BBC",
+              "source_wall_surface_id": "B3D56875-625C-4712-8329-9DFD48510BBC",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00106",
+            "start": [
+              -24.400000000000002,
+              -9.3
+            ],
+            "end": [
+              -28.1,
+              -9.3
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_5E7FB6DE-4B2C-456A-A84A-7677FA4A793F",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "1A73DBD7-684B-4132-B75B-0CAE60C69E97",
+              "source_wall_surface_id": "1A73DBD7-684B-4132-B75B-0CAE60C69E97",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00107",
+            "start": [
+              -28.1,
+              -9.3
+            ],
+            "end": [
+              -28.1,
+              -13.6
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_5E7FB6DE-4B2C-456A-A84A-7677FA4A793F",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "451745ED-6534-4C72-9DA0-86D9E07AB3EC",
+              "source_wall_surface_id": "451745ED-6534-4C72-9DA0-86D9E07AB3EC",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00108",
+            "start": [
+              -22.050666329387308,
+              -26.150000487022105
+            ],
+            "end": [
+              -9.650665801765914,
+              -26.150000487022105
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0334DE88-76EF-43A3-9BE3-D925982970D1",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "33EF81C8-93A7-4C8E-AA8B-BCA2BEEBB24A",
+              "source_wall_surface_id": "33EF81C8-93A7-4C8E-AA8B-BCA2BEEBB24A",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00109",
+            "start": [
+              -9.650665801765914,
+              -26.150000487022105
+            ],
+            "end": [
+              -9.650665801765914,
+              -20.14999963123526
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0334DE88-76EF-43A3-9BE3-D925982970D1",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "61BFA4BF-C121-4118-A020-B5645197BDE3",
+              "source_wall_surface_id": "61BFA4BF-C121-4118-A020-B5645197BDE3",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00110",
+            "start": [
+              -22.050666329387308,
+              -20.14999963123526
+            ],
+            "end": [
+              -22.050666329387308,
+              -26.150000487022105
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_0334DE88-76EF-43A3-9BE3-D925982970D1",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "D66165CF-9BBF-486E-957F-2350AA5B4510",
+              "source_wall_surface_id": "D66165CF-9BBF-486E-957F-2350AA5B4510",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00111",
+            "start": [
+              -21.0,
+              -39.54266190030083
+            ],
+            "end": [
+              -9.650665321786953,
+              -39.54266190030083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_FD9B6CE6-5815-4BA8-A8C9-D9F5753DBB85",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "C716FE72-AB55-497C-A5B7-1C7E84D674FF",
+              "source_wall_surface_id": "C716FE72-AB55-497C-A5B7-1C7E84D674FF",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00112",
+            "start": [
+              -9.650665321786953,
+              -39.54266190030083
+            ],
+            "end": [
+              -9.650665321786953,
+              -28.75
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_FD9B6CE6-5815-4BA8-A8C9-D9F5753DBB85",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "A8C11E7C-7352-47FA-B5F7-8B6D6F1C2526",
+              "source_wall_surface_id": "A8C11E7C-7352-47FA-B5F7-8B6D6F1C2526",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00113",
+            "start": [
+              -9.650665321786953,
+              -28.75
+            ],
+            "end": [
+              -21.0,
+              -28.75
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_FD9B6CE6-5815-4BA8-A8C9-D9F5753DBB85",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "E7278F3C-F4B5-4363-AC5A-3E399D877F60",
+              "source_wall_surface_id": "E7278F3C-F4B5-4363-AC5A-3E399D877F60",
+              "opening_kind": null
+            }
+          },
+          {
+            "id": "wall_00114",
+            "start": [
+              -21.0,
+              -28.75
+            ],
+            "end": [
+              -21.0,
+              -39.54266190030083
+            ],
+            "height": 3.0,
+            "materials": [
+              {
+                "name": "concrete_block",
+                "thickness_m": 0.2
+              }
+            ],
+            "is_exterior": true,
+            "room_ids": [
+              "room_FD9B6CE6-5815-4BA8-A8C9-D9F5753DBB85",
+              null
+            ],
+            "metadata": {
+              "source_type": "quantum_graph",
+              "source_path": "Sample Buildings/Panasonic - Site 4/Panasonic - Site 4.graph.json",
+              "source_surface_id": "8823BFB0-68F8-4BB8-B40A-C072EEEB96E9",
+              "source_wall_surface_id": "8823BFB0-68F8-4BB8-B40A-C072EEEB96E9",
+              "opening_kind": null
+            }
+          }
+        ],
+        "doors": [
+          {
+            "id": "door_00001",
+            "wall_id": "wall_00003",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00002",
+            "wall_id": "wall_00004",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00003",
+            "wall_id": "wall_00012",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00004",
+            "wall_id": "wall_00013",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00005",
+            "wall_id": "wall_00016",
+            "position_along_wall": 0.5,
+            "width": 1.8500000000000014,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00006",
+            "wall_id": "wall_00036",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00007",
+            "wall_id": "wall_00038",
+            "position_along_wall": 0.5,
+            "width": 1.8500000000000014,
+            "height": 2.1,
+            "material": {
+              "name": "metal_fire_door",
+              "thickness_m": 0.05
+            }
+          },
+          {
+            "id": "door_00008",
+            "wall_id": "wall_00046",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "metal_fire_door",
+              "thickness_m": 0.05
+            }
+          },
+          {
+            "id": "door_00009",
+            "wall_id": "wall_00048",
+            "position_along_wall": 0.5,
+            "width": 1.8499999999999979,
+            "height": 2.1,
+            "material": {
+              "name": "metal_fire_door",
+              "thickness_m": 0.05
+            }
+          },
+          {
+            "id": "door_00010",
+            "wall_id": "wall_00057",
+            "position_along_wall": 0.5,
+            "width": 0.9000000000000009,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00011",
+            "wall_id": "wall_00058",
+            "position_along_wall": 0.5,
+            "width": 0.9000000000000004,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00012",
+            "wall_id": "wall_00062",
+            "position_along_wall": 0.5,
+            "width": 1.2000000000000002,
+            "height": 2.1,
+            "material": {
+              "name": "metal_fire_door",
+              "thickness_m": 0.05
+            }
+          },
+          {
+            "id": "door_00013",
+            "wall_id": "wall_00077",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999997,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00014",
+            "wall_id": "wall_00079",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999997,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00015",
+            "wall_id": "wall_00086",
+            "position_along_wall": 0.5,
+            "width": 1.8500000000000014,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00016",
+            "wall_id": "wall_00089",
+            "position_along_wall": 0.5,
+            "width": 1.8500000000000014,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00017",
+            "wall_id": "wall_00091",
+            "position_along_wall": 0.5,
+            "width": 1.8500000000000014,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00018",
+            "wall_id": "wall_00093",
+            "position_along_wall": 0.5,
+            "width": 0.8999999999999986,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00019",
+            "wall_id": "wall_00094",
+            "position_along_wall": 0.5,
+            "width": 0.9500000000000028,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00020",
+            "wall_id": "wall_00099",
+            "position_along_wall": 0.5,
+            "width": 1.8500000000000014,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          },
+          {
+            "id": "door_00021",
+            "wall_id": "wall_00101",
+            "position_along_wall": 0.5,
+            "width": 0.9000000000000002,
+            "height": 2.1,
+            "material": {
+              "name": "wood_door",
+              "thickness_m": 0.045
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "devices": null,
+  "radio_profiles": null,
+  "links": null,
+  "simulation": null
+}

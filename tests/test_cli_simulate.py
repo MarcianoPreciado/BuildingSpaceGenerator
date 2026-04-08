@@ -1,7 +1,16 @@
 """Regression tests for the simulate command data flow."""
+import json
+
 from buildingspacegen.cli.main import SIMULATION_RADIO_SETTINGS, build_simulation_scene, run_single_simulation
 from buildingspacegen.core.enums import BuildingType, DeviceType
-from buildingspacegen.pipeline import PipelineConfig, run_pipeline
+from buildingspacegen.pipeline import (
+    ExistingBuildingPipelineConfig,
+    ImportedPipelineConfig,
+    PipelineConfig,
+    run_existing_building_pipeline,
+    run_imported_pipeline,
+    run_pipeline,
+)
 
 
 def test_run_single_simulation_keeps_both_frequency_bands():
@@ -119,3 +128,49 @@ def test_build_simulation_scene_includes_band_settings():
         str(int(freq_hz)): settings
         for freq_hz, settings in SIMULATION_RADIO_SETTINGS.items()
     }
+
+
+def test_imported_run_single_simulation_emits_devices_and_band_links():
+    result = run_imported_pipeline(
+        ImportedPipelineConfig(
+            graph_path="Sample Buildings/Millrock Office.graph.json",
+            floor_selector="Floor 1",
+            seed=42,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+
+    simulated = run_single_simulation(result)
+    scene = build_simulation_scene(simulated)
+
+    assert len(scene["devices"]) > 0
+    assert scene["simulation"]["mode"] == "single_run"
+    frequencies = {link["frequency_hz"] for link in scene["links"]}
+    assert frequencies == {900000000.0, 2400000000.0}
+
+
+def test_existing_building_pipeline_rehydrates_building_only_scene(tmp_path):
+    imported = run_imported_pipeline(
+        ImportedPipelineConfig(
+            graph_path="Sample Buildings/Millrock Office.graph.json",
+            floor_selector="Floor 1",
+            seed=42,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+    building_only_scene = {"building": imported.to_json()["building"], "devices": None, "radio_profiles": None, "links": None, "simulation": None}
+    input_path = tmp_path / "millrock-building-only.json"
+    input_path.write_text(json.dumps(building_only_scene))
+
+    result = run_existing_building_pipeline(
+        ExistingBuildingPipelineConfig(
+            input_path=str(input_path),
+            seed=42,
+            frequencies_hz=[900e6, 2.4e9],
+        )
+    )
+
+    simulated = build_simulation_scene(run_single_simulation(result))
+    assert len(simulated["devices"]) > 0
+    frequencies = {link["frequency_hz"] for link in simulated["links"]}
+    assert frequencies == {900000000.0, 2400000000.0}

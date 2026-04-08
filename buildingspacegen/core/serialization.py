@@ -47,6 +47,7 @@ def _wall_segment_to_dict(w: WallSegment) -> dict[str, Any]:
         "materials": [_material_to_dict(m) for m in w.materials],
         "is_exterior": w.is_exterior,
         "room_ids": [w.room_ids[0], w.room_ids[1]],
+        "metadata": w.metadata,
     }
 
 
@@ -60,6 +61,7 @@ def _wall_segment_from_dict(d: dict) -> WallSegment:
         materials=[_material_from_dict(m) for m in d["materials"]],
         is_exterior=d["is_exterior"],
         room_ids=(d["room_ids"][0], d["room_ids"][1]),
+        metadata=d.get("metadata", {}),
     )
 
 
@@ -99,6 +101,8 @@ def _room_to_dict(room: Room) -> dict[str, Any]:
         "wall_ids": room.wall_ids,
         "door_ids": room.door_ids,
         "metadata": room.metadata,
+        "has_windows": room.has_windows,
+        "window_sides": room.window_sides,
     }
 
 
@@ -115,6 +119,8 @@ def _room_from_dict(d: dict) -> Room:
         door_ids=d.get("door_ids", []),
         ceiling_height=d["ceiling_height"],
         metadata=d.get("metadata", {}),
+        has_windows=d.get("has_windows", False),
+        window_sides=d.get("window_sides", []),
     )
 
 

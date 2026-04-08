@@ -30,6 +30,30 @@ class PipelineConfig:
 
 
 @dataclass
+class ImportedPipelineConfig:
+    graph_path: str
+    floor_selector: str | int | None = None
+    seed: int = 42
+    building_type: Optional[BuildingType] = None       # Optional compatibility override
+    placement_rules: Optional[PlacementRules] = None
+    radio_profiles: Optional[dict] = None
+    frequencies_hz: list = field(default_factory=lambda: [900e6, 2.4e9])
+    materials_yaml: Optional[str] = None
+    radio_profiles_dir: Optional[str] = None
+
+
+@dataclass
+class ExistingBuildingPipelineConfig:
+    input_path: str
+    seed: int = 42
+    placement_rules: Optional[PlacementRules] = None
+    radio_profiles: Optional[dict] = None
+    frequencies_hz: list = field(default_factory=lambda: [900e6, 2.4e9])
+    materials_yaml: Optional[str] = None
+    radio_profiles_dir: Optional[str] = None
+
+
+@dataclass
 class PipelineResult:
     building: Building
     placement: DevicePlacement
@@ -103,6 +127,60 @@ class PipelineResult:
             json.dump(self.to_json(), f, indent=2)
 
 
+def _build_pipeline_result(
+    building: Building,
+    config,
+) -> PipelineResult:
+    from buildingspacegen.sensorplacer.api import place_sensors
+    from buildingspacegen.pathloss.graph import build_path_loss_graphs
+    from buildingspacegen.pathloss.materials import MaterialRFDatabase
+    from buildingspacegen.pathloss.radio import RadioProfileRegistry
+    from buildingspacegen.pathloss.models.multiwall import MultiWallPathLossModel
+    from buildingspacegen.sensorplacer.rules import DEFAULT_RULES
+
+    data_dir = _find_data_dir()
+    materials_path = config.materials_yaml or os.path.join(data_dir, 'materials', 'rf_materials.yaml')
+    material_db = MaterialRFDatabase.from_yaml(materials_path)
+
+    profiles_dir = config.radio_profiles_dir or os.path.join(data_dir, 'radio_profiles')
+    registry = RadioProfileRegistry.from_directory(profiles_dir)
+
+    if config.radio_profiles is None:
+        radio_profiles = {
+            DeviceType.MAIN_CONTROLLER: registry.get('main_controller'),
+            DeviceType.SECONDARY_CONTROLLER: registry.get('gen1_sensor'),
+            DeviceType.SENSOR: registry.get('gen1_sensor'),
+        }
+    else:
+        radio_profiles = config.radio_profiles
+
+    rules = config.placement_rules or DEFAULT_RULES
+    placement = place_sensors(
+        building=building,
+        rules=rules,
+        radio_profiles=radio_profiles,
+    )
+
+    model = MultiWallPathLossModel(material_db)
+    path_loss_graphs = build_path_loss_graphs(
+        building=building,
+        placement=placement,
+        model=model,
+        material_db=material_db,
+        frequencies_hz=config.frequencies_hz,
+        seed=config.seed,
+    )
+
+    result = PipelineResult(
+        building=building,
+        placement=placement,
+        path_loss_graphs=path_loss_graphs,
+        config=config,
+    )
+    result.annotate_sensor_connectivity()
+    return result
+
+
 def _find_data_dir() -> str:
     """Find the data/ directory with materials subdirectory (for materials and radio profiles)."""
     here = os.path.dirname(os.path.abspath(__file__))
@@ -142,12 +220,6 @@ def run_pipeline(config: PipelineConfig) -> PipelineResult:
     4. Return bundled PipelineResult
     """
     from buildingspacegen.buildinggen.api import generate_building, load_archetype_directory
-    from buildingspacegen.sensorplacer.api import place_sensors
-    from buildingspacegen.pathloss.graph import build_path_loss_graphs
-    from buildingspacegen.pathloss.materials import MaterialRFDatabase
-    from buildingspacegen.pathloss.radio import RadioProfileRegistry
-    from buildingspacegen.pathloss.models.multiwall import MultiWallPathLossModel
-    from buildingspacegen.sensorplacer.rules import DEFAULT_RULES
 
     # Find and load archetypes
     archetype_dir = _find_archetype_dir()
@@ -162,53 +234,42 @@ def run_pipeline(config: PipelineConfig) -> PipelineResult:
         generator=config.generator,
         archetype_overrides=config.archetype_overrides,
     )
+    return _build_pipeline_result(building, config)
 
-    # 2. Load materials DB
-    data_dir = _find_data_dir()
-    materials_path = config.materials_yaml or os.path.join(data_dir, 'materials', 'rf_materials.yaml')
-    material_db = MaterialRFDatabase.from_yaml(materials_path)
 
-    # 3. Load radio profiles
-    profiles_dir = config.radio_profiles_dir or os.path.join(data_dir, 'radio_profiles')
-    registry = RadioProfileRegistry.from_directory(profiles_dir)
-
-    # Build radio profiles dict for placer
-    if config.radio_profiles is None:
-        radio_profiles = {
-            DeviceType.MAIN_CONTROLLER: registry.get('main_controller'),
-            DeviceType.SECONDARY_CONTROLLER: registry.get('gen1_sensor'),
-            DeviceType.SENSOR: registry.get('gen1_sensor'),
-        }
-    else:
-        radio_profiles = config.radio_profiles
-
-    # 4. Place devices
-    rules = config.placement_rules or DEFAULT_RULES
-    placement = place_sensors(
-        building=building,
-        rules=rules,
-        radio_profiles=radio_profiles,
-    )
-
-    # 5. Compute path loss graphs for each frequency
-    model = MultiWallPathLossModel(material_db)
-    path_loss_graphs = build_path_loss_graphs(
-        building=building,
-        placement=placement,
-        model=model,
-        material_db=material_db,
-        frequencies_hz=config.frequencies_hz,
+def run_imported_pipeline(config: ImportedPipelineConfig) -> PipelineResult:
+    """
+    Execute the imported-floor pipeline:
+    1. Load selected floor from a Quantum graph export
+    2. Place devices
+    3. Compute path loss graphs for each frequency
+    """
+    from buildingspacegen.sources.quantum.importer import load_quantum_floor
+    building = load_quantum_floor(
+        path=config.graph_path,
+        floor_selector=config.floor_selector,
+        building_type=config.building_type,
         seed=config.seed,
     )
+    return _build_pipeline_result(building, config)
 
-    result = PipelineResult(
-        building=building,
-        placement=placement,
-        path_loss_graphs=path_loss_graphs,
-        config=config,
-    )
-    result.annotate_sensor_connectivity()
-    return result
+
+def run_existing_building_pipeline(config: ExistingBuildingPipelineConfig) -> PipelineResult:
+    """
+    Execute the post-import pipeline from a building-only scene JSON:
+    1. Load an existing serialized building scene
+    2. Ignore any saved devices/links in that input
+    3. Place devices procedurally
+    4. Compute path loss graphs for each frequency
+    """
+    from buildingspacegen.core.serialization import deserialize_building_scene
+
+    with open(config.input_path) as f:
+        scene = json.load(f)
+
+    building, _, _ = deserialize_building_scene(scene)
+    building.seed = config.seed
+    return _build_pipeline_result(building, config)
 
 
 # ============================================================================

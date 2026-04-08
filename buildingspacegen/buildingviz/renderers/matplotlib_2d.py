@@ -92,7 +92,9 @@ def render_building_2d(
             # Draw room labels
             if show_room_labels:
                 centroid = room.polygon.centroid()
-                label = f"{room.room_type.value.replace('_', ' ').title()}\n{room.area_sqft:.0f} sqft"
+                room_name = room.metadata.get("display_name") or room.metadata.get("source_name")
+                primary_label = room_name or room.room_type.value.replace('_', ' ').title()
+                label = f"{primary_label}\n{room.area_sqft:.0f} sqft"
                 ax.text(
                     centroid.x, centroid.y, label,
                     ha='center', va='center',
@@ -189,10 +191,13 @@ def render_building_2d(
         fontsize=8, ncol=2, framealpha=0.95
     )
 
-    ax.set_title(
-        f"Building: {building.building_type.value} | {building.total_area_sqft:.0f} sqft | Seed: {building.seed}",
-        fontsize=12, fontweight='bold'
-    )
+    title_parts = [f"Building: {building.building_type.value}"]
+    floor_name = building.metadata.get("source_floor_name")
+    if floor_name:
+        title_parts.append(f"Floor: {floor_name}")
+    title_parts.append(f"{building.total_area_sqft:.0f} sqft")
+    title_parts.append(f"Seed: {building.seed}")
+    ax.set_title(" | ".join(title_parts), fontsize=12, fontweight='bold')
     ax.set_xlabel('X (meters)', fontsize=10)
     ax.set_ylabel('Y (meters)', fontsize=10)
     ax.grid(True, alpha=0.2, linestyle='--')

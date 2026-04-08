@@ -11,6 +11,8 @@ from .buildinggen import (
     generate_building, load_archetype_directory,
     Archetype, ArchetypeRegistry,
 )
+from .pipeline import ExistingBuildingPipelineConfig, ImportedPipelineConfig, run_existing_building_pipeline, run_imported_pipeline
+from .sources.quantum import QuantumFloorSummary, list_quantum_floors, load_quantum_floor
 
 __version__ = "0.1.0"
 
@@ -23,4 +25,7 @@ __all__ = [
     "serialize_building_scene", "deserialize_building_scene",
     "generate_building", "load_archetype_directory",
     "Archetype", "ArchetypeRegistry",
+    "ExistingBuildingPipelineConfig", "ImportedPipelineConfig",
+    "run_existing_building_pipeline", "run_imported_pipeline",
+    "QuantumFloorSummary", "list_quantum_floors", "load_quantum_floor",
 ]
